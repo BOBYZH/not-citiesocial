@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {})
   Payment.associate = function (models) {
     // associations can be defined here
+    Payment.belongsTo(models.Order)
   }
   return Payment
 }
