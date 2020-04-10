@@ -11,7 +11,7 @@ module.exports = {
           name: faker.commerce.productName(),
           description: faker.commerce.product() + '/' + faker.commerce.productName(),
           price: faker.commerce.price(),
-          image: faker.image.imageUrl(),
+          image: 'https://picsum.photos/640/480', // lorempixel is too unstable to use, so i use picsum instead
           createdAt: new Date(),
           updatedAt: new Date()
         })
