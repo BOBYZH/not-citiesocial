@@ -1,11 +1,10 @@
-
 const db = require('../models')
 const Product = db.Product
 const PAGE_LIMIT = 3
 const PAGE_OFFSET = 0
 
 const productController = {
-  redirectInvalidUrl: (req, res) => { // 防止亂打網址404
+  redirectInvalidUrl: (req, res) => { // 防止亂打網址出現404錯誤
     res.redirect('/')
   },
 

@@ -26,7 +26,7 @@ passport.serializeUser((user, cb) => {
 })
 passport.deserializeUser((id, cb) => {
   User.findByPk(id).then((user) => {
-    cb(null, user)
+    return cb(null, user.get()) // 使物件內容能夠顯示
   })
 })
 
