@@ -8,10 +8,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      first_name: {
+      firstName: {
         type: Sequelize.STRING
       },
-      last_name: {
+      lastName: {
         type: Sequelize.STRING
       },
       email: {
@@ -20,22 +20,22 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
-      date_of_birth: {
+      dateOfBirth: {
         type: Sequelize.DATE
       },
       gender: {
         type: Sequelize.BOOLEAN
       },
-      default_phone: {
+      defaultPhone: {
         type: Sequelize.STRING
       },
-      default_address: {
+      defaultAddress: {
         type: Sequelize.STRING
       },
       subscription: {
         type: Sequelize.BOOLEAN
       },
-      is_admin: {
+      isAdmin: {
         type: Sequelize.BOOLEAN
       },
       createdAt: {

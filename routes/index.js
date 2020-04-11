@@ -18,7 +18,7 @@ const unAuthenticated = (req, res, next) => {
 
 const authenticatedAdmin = (req, res, next) => {
   if (req.isAuthenticated()) {
-    if (req.user.is_admin) { return next() }
+    if (req.user.isAdmin) { return next() }
     return res.redirect('/')
   }
   res.redirect('/signin')

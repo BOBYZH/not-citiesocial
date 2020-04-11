@@ -3,8 +3,8 @@ module.exports = (sequelize, DataTypes) => {
   const Payment = sequelize.define('Payment', {
     amount: DataTypes.INTEGER,
     sn: DataTypes.INTEGER,
-    payment_method: DataTypes.STRING,
-    paid_at: DataTypes.DATE,
+    paymentMethod: DataTypes.STRING,
+    paidAt: DataTypes.DATE,
     params: DataTypes.TEXT,
     OrderId: DataTypes.INTEGER
   }, {})

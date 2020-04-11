@@ -17,10 +17,10 @@ module.exports = {
       sn: {
         type: Sequelize.INTEGER
       },
-      shipping_status: {
+      shippingStatus: {
         type: Sequelize.STRING
       },
-      payment_status: {
+      paymentStatus: {
         type: Sequelize.STRING
       },
       UserId: {

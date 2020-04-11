@@ -14,10 +14,10 @@ module.exports = {
       sn: {
         type: Sequelize.INTEGER
       },
-      payment_method: {
+      paymentMethod: {
         type: Sequelize.STRING
       },
-      paid_at: {
+      paidAt: {
         type: Sequelize.DATE
       },
       params: {

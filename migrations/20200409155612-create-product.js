@@ -23,7 +23,7 @@ module.exports = {
       discount: {
         type: Sequelize.FLOAT
       },
-      sale_deadline: {
+      deadlineOfSale: {
         type: Sequelize.DATE
       },
       createdAt: {
