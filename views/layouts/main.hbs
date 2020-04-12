@@ -5,32 +5,62 @@
   <title>AC Shop</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  <style type="text/css">
-    .table td,
-    .table th {
-      vertical-align: middle;
-    }
-  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
 </head>
 
 <body>
 
-  <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-    <h5 class="my-0 mr-md-auto font-weight-normal">
-      <a href="/">Not citiesocial 也能找 好東西</a>
-    </h5>
-    <nav class="my-2 my-md-0 mr-md-3">
+  <nav class="navbar border-bottom pt-0 row" role="navigation">
+
+    <a href="#" class="bg-info text-white text-center mx-0 py-1 col-12">
+      (特定產品促銷)
+      </a>
+
+    <div id="brand-logo" class="col-7 mx-0 border border-left-0 border-right-0" style="height:  7vh;">
+      <a class="navbar-item " href="/">
+        <h4 id="icon" class="font-weight-light pt-2">
+          <span class="h3 text-danger">Not </span>
+          <span class="d-inline-flex justify-content-center">
+            <span class="h3 text-info">citie</span>
+            <span class="font-weight-lighter h3 text-info">social</span>
+          </span>
+          <span class="text-dark">&nbsp;也能找&nbsp;&nbsp;好東西</span>
+          </h2>
+      </a>
+    </div>
+
+    <div id="search-bar" class="input-group col-1 border border-right-0" style="height:  7vh;">
+      <div class="input-group-append pt-2">
+        <button class="input-group-text bg-white form-control  border-0" id="search-button">
+          <i class="fas fa-search text-dark h3"></i>
+        </button>
+      </div>
+      {{!-- <input type="text" class="form-control  border-0" placeholder="請輸入關鍵字"> --}}
+    </div>
+
+    <div id="products-list" class="col-2 pt-3 border border-right-0" style="height:  7vh;">
       {{#if user.isAdmin}}
-      <a class="p-2 text-dark" href="/products">商品列表</a>
+      <a href=" /products">商品列表</a>
       {{/if}}
-      <a class="p-2 text-dark" href="/cart">購物車</a>
+    </div>
+
+    <div id="account-info" class="col-1 pt-1 border border-right-0" style="height:  7vh;">
       {{#if user}}
-      <a class="p-2 text-dark" href="/logout">{{user.firstName}}，登出</a>
+      <a href="/logout">{{user.firstName}}，登出</a>
       {{else}}
-      <a class="p-2 text-dark" href="/signin">訪客，登入</a>
+      <a href="/signin">訪客，登入</a>
       {{/if}}
-    </nav>
-  </div>
+    </div>
+
+    <div id="cart-items" class="col-1 pt-3 border border-right-0" style="height:  7vh;">
+      <a href="/cart">購物車</a>
+    </div>
+
+    <ul class="col-12 text-center mb-0 mx-0" style="line-height: 50px;">
+      （分類清單）
+      </ul>
+
+  </nav>
 
   <div class="container-fluid">
     {{#if success_messages}}
@@ -55,7 +85,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
     integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
     crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/3285f63162.js" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/3285f63162.js" crossorigin="anonymous"></script>
 </body>
 
 </html>
