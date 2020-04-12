@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>AC Shop</title>
+  <title>not citiesocial</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
@@ -10,13 +10,13 @@
 
 <body>
 
-  <nav class="navbar border-bottom pt-0 row" role="navigation">
+  <nav class="navbar border-bottom pt-0 px-0" role="navigation">
 
-    <a href="#" class="bg-info text-white text-center mx-0 py-1 col-12">
+    <a href="#" class="bg-info text-white text-center py-1 col-12">
       (特定產品促銷)
-      </a>
+    </a>
 
-    <div id="brand-logo" class="col-7 mx-0 border border-left-0 border-right-0" style="height:  7vh;">
+    <div id="brand-logo" class="col-4 border border-left-0 border-right-0" style="height:  7vh;">
       <a class="navbar-item " href="/">
         <h4 id="icon" class="font-weight-light pt-2">
           <span class="h3 text-danger">Not </span>
@@ -24,18 +24,18 @@
             <span class="h3 text-info">citie</span>
             <span class="font-weight-lighter h3 text-info">social</span>
           </span>
-          <span class="text-dark">&nbsp;也能找&nbsp;&nbsp;好東西</span>
+          <span class="text-dark d-none d-xl-inline">&nbsp;也能找&nbsp;&nbsp;好東西</span>
           </h2>
       </a>
     </div>
 
-    <div id="search-bar" class="input-group col-1 border border-right-0" style="height:  7vh;">
-      <div class="input-group-append pt-2">
+    <div id="search-bar" class="input-group col-4  border border-right-0" style="height:  7vh;">
+      <div class="input-group-append mt-1 pt-2">
         <button class="input-group-text bg-white form-control  border-0" id="search-button">
           <i class="fas fa-search text-dark h3"></i>
         </button>
       </div>
-      {{!-- <input type="text" class="form-control  border-0" placeholder="請輸入關鍵字"> --}}
+      <input type="text" class="mt-2 pt-2 form-control  border-0" placeholder="請輸入關鍵字">
     </div>
 
     <div id="products-list" class="col-2 pt-3 border border-right-0" style="height:  7vh;">
@@ -44,7 +44,7 @@
       {{/if}}
     </div>
 
-    <div id="account-info" class="col-1 pt-1 border border-right-0" style="height:  7vh;">
+    <div id="account-info" class="col-1 pt-1 pt-xl-3 border border-right-0" style="height:  7vh;">
       {{#if user}}
       <a href="/logout">{{user.firstName}}，登出</a>
       {{else}}
@@ -56,9 +56,11 @@
       <a href="/cart">購物車</a>
     </div>
 
-    <ul class="col-12 text-center mb-0 mx-0" style="line-height: 50px;">
-      （分類清單）
-      </ul>
+    <ul class="col-12 text-center mb-0 mx-0 row list-unstyled" style="line-height: 50px;">
+      <li class="px-3 active"><a>分類</a></li>
+      <li class="px-3"><a>分類</a></li>
+      <li class="px-3"><a>分類</a></li>
+    </ul>
 
   </nav>
 
@@ -75,6 +77,55 @@
     {{/if}}
     {{{body}}}
   </div>
+
+  <footer id="about-company">
+    <section class="container">
+
+      <div class="row">
+
+        <div class="col-3">
+          <h6 class="mb-3">關於我們</h6>
+          <ul class="list-unstyled font-weight-light">
+            <li class="py-1"><a>關於 not citiesocial</a></li>
+            <li class="py-1"><a>隱私權保護政策</a></li>
+            <li class="py-1"><a>服務條款</a></li>
+          </ul>
+        </div>
+
+        <div class="col-3">
+          <h6 class="mb-3">聯絡我們</h6>
+          <ul class="list-unstyled font-weight-light">
+            <li class="py-1"><a>業務合作洽談</a></li>
+            <li class="py-1"><a>Sell with not citiesocial</a></li>
+          </ul>
+        </div>
+
+        <div class="col-3">
+          <h6 class="mb-3">自助查詢</h6>
+          <ul class="list-unstyled font-weight-light">
+            <li class="py-1"><a>銀行優惠說明</a></li>
+            <li class="py-1"><a>LINE Points 回饋說明</a></li>
+            <li class="py-1"><a>預購商品查詢</a></li>
+            <li class="py-1"><a>訂單出貨查詢</a></li>
+            <li class="py-1"><a>配送進度查詢</a></li>
+          </ul>
+        </div>
+
+        <div class="col-3">
+          <h6 class="mb-3">顧客服務</h6>
+          <ul class="list-unstyled font-weight-light">
+            <li class="py-1"><a>VIEWS生活誌</a></li>
+            <li class="py-1"><a>會員回饋計畫</a></li>
+            <li class="py-1"><a>早鳥首映會</a></li>
+            <li class="py-1"><a>退換貨說明</a></li>
+            <li class="py-1"><a>發票說明</a></li>
+            <li class="py-1"><a>客服中心</a></li>
+          </ul>
+        </div>
+      </div>
+
+    </section>
+  </footer>
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
