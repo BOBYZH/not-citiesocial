@@ -25,11 +25,17 @@ const authenticatedAdmin = (req, res, next) => {
 }
 
 module.exports = (app, passport) => {
+  // 訪客
   // 首頁
   app.get('/', function (req, res, next) {
     res.render('index', { title: 'Not citiesocial' })
   })
+  // 個別商品
+  app.get('/products/:id', productController.getProduct)
+  // 購物車（測試）
+  app.get('/cart', cartController.getCart)
 
+  // 顧客
   // 登入頁面
   app.get('/signin', unAuthenticated, userController.signInPage)
   // 登入
@@ -44,10 +50,9 @@ module.exports = (app, passport) => {
   // 登出
   app.get('/logout', userController.logOut)
 
+  // 店家管理
   // 所有商品（測試）
-  app.get('/products', authenticatedAdmin, productController.getProducts)
-  // 購物車（測試）
-  app.get('/cart', cartController.getCart)
+  app.get('/admin/products', authenticatedAdmin, productController.getProducts)
 
   // 避免404當掉
   app.all('*', productController.redirectInvalidUrl)

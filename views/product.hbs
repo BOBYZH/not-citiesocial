@@ -1,0 +1,74 @@
+<section class="container mb-5">
+
+  <ul class="nav mt-4">
+    <li class="nav-item">
+      <a class="text-muted">分類1</a>
+    </li>
+    <span class="mx-1">></span>
+    <li class="nav-item">
+      <a class="text-muted" href="#">分類A</a>
+    </li>
+    <span class="mx-1">></span>
+    <li class="nav-item active">
+      <a class="text-muted" href="#">分類a</a>
+    </li>
+  </ul>
+
+  <div class="row">
+    <div class="col-7">
+      <div class="border-bottom pb-2">
+        <figure class="figure">
+          <img class="figure-img img-fluid w-75 mt-5 ml-5 border" src="{{product.image}}">
+        </figure>
+      </div>
+
+      <article id="multimedia-contents" class="mt-5">
+        <h6>產品特色</h6>
+        {{!-- 備用 --}}
+        <ul>
+          {{!-- <li></li> --}}
+        </ul>
+        {{!-- 備用 --}}
+        <h6>產品介紹</h6>
+        <p>
+          {{product.description}}
+        </p>
+        <h6>使用說明</h6>
+        <p></p>
+        <h6>注意事項</h6>
+        <p></p>
+        <h6>商品規格</h6>
+        {{!-- 備用 --}}
+        <ul class="list-unstyled">
+          <li></li>
+        </ul>
+        {{!-- 備用 --}}
+      </article>
+    </div>
+
+    <div class="col-5 mt-5">
+      <h7><u><a href="#" class="text-black-50">(品牌/店家名稱)</a></u></h7>
+      <h3 class="my-2">{{product.name}}</h3>
+      <p id="price" class="mt-4">
+        <span class="font-weight-bold h5">NTD {{product.price}}</span>
+        {{#if product.discount}}
+        <span>{{product.discount}}</span>
+        {{/if}}
+        <span class="ml-3 h7"> (免運費)</span>
+      </p>
+      <div class="row my-4">
+        <div class="col-3 mt-3 pl-1 text-center text-black-50">
+          數量
+        </div>
+        <a href="#" class="col-3 btn btn-light border-0 text-muted" style="background-color: white;">
+          <h2>-</h2>
+        </a>
+        <input type="number" name="quantity" class="col-3 pl-4 text-center" value="1">
+        <a href="#" class="col-2 btn btn-light border-0 text-info" style="background-color: white;">
+          <h2>+</h2>
+        </a>
+      </div>
+      <a href="#" class="btn btn-info col-12 py-3 mt-1">加入購物車</a>
+    </div>
+  </div>
+</section>
