@@ -12,23 +12,32 @@
 <body>
   <style>
     .btn-round {
-      width: 40px; 
-            height: 40px; 
-            padding: 7px 10px; 
-            border-radius: 25px; 
-            background-color: white;
-            font-size: 10px; 
-            text-align: center;
+      width: 40px;
+      height: 40px;
+      padding: 7px 10px;
+      border-radius: 25px;
+      background-color: white;
+      font-size: 10px;
+      text-align: center;
+    }
+
+    .navbar-show {
+      transition: top 0.5s ease;
+    }
+
+    .navbar-hide {
+      top: -56px;
+      height: 0;
+      padding: 0;
+      margin: 0;
     }
   </style>
-
-  <nav class="navbar border-bottom pt-0 px-0" role="navigation">
-
-    <a href="#" class="bg-info text-white text-center py-1 col-12">
+  
+  <nav class="navbar border-bottom p-0 fixed-top bg-white" role="navigation">
+    <a href="#" class="bg-info text-white text-center py-1 col-12 navbar-show">
       (特定產品促銷)
     </a>
-
-    <div id="brand-logo" class="col-4 border border-left-0 border-right-0" style="height:  7vh;">
+    <div id="brand-logo" class="col-4 border border-left-0 border-right-0 mt-0" style="height:  7vh;">
       <a class="navbar-item " href="/">
         <h4 id="icon" class="font-weight-light pt-2">
           <span class="h3 text-danger">Not </span>
@@ -149,6 +158,27 @@
     integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
     crossorigin="anonymous"></script>
   <script src="https://kit.fontawesome.com/3285f63162.js" crossorigin="anonymous"></script>
+  <script>
+    // 修改自：https://www.codeply.com/go/7Fab8Thufl
+    // document ready
+    (function hideSaleNavbar($) {
+      let previousScroll = 20      
+      // scroll functions
+      $(window).scroll(function (e) {
+        // add/remove classes to navbar when scrolling to hide/show
+        let scroll = $(window).scrollTop()
+        if (scroll >= previousScroll) {
+          $('.navbar-show').addClass("navbar-hide")
+          $('.navbar-show').addClass("d-none")
+        } else {
+          $('.navbar-show').removeClass("navbar-hide")
+          $('.navbar-show').removeClass("d-none")
+        }
+        previousScroll = scroll
+      })
+
+    })(jQuery)
+  </script>
 </body>
 
 </html>
