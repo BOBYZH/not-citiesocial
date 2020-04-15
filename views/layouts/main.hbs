@@ -32,7 +32,7 @@
       margin: 0;
     }
   </style>
-  
+
   <nav class="navbar border-bottom p-0 fixed-top bg-white" role="navigation">
     <a href="#" class="bg-info text-white text-center py-1 col-12 navbar-show">
       (特定產品促銷)
@@ -61,20 +61,23 @@
 
     <div id="products-list" class="col-2 pt-3 border border-right-0" style="height:  7vh;">
       {{#if user.isAdmin}}
-      <a href=" /admin/products">商品列表</a>
+      <a href=" /admin/products" class="d-flex justify-content-center text-center">商品列表</a>
       {{/if}}
     </div>
 
     <div id="account-info" class="col-1 pt-1 pt-xl-3 border border-right-0" style="height:  7vh;">
       {{#if user}}
-      <a href="/logout">{{user.firstName}}，登出</a>
+      <a href="/logout" class="d-flex justify-content-center text-center">{{user.firstName}}，登出</a>
       {{else}}
-      <a href="/signin">訪客，登入</a>
+      <a href="/signin" class="d-flex justify-content-center text-center">訪客，登入</a>
       {{/if}}
     </div>
 
-    <div id="cart-items" class="col-1 pt-3 border border-right-0" style="height:  7vh;">
-      <a href="/cart">購物車</a>
+    <div id="cart-icon" class="col-1 pt-3 border border-right-0" style="height:  7vh;">
+      <a href="/cart" class="d-flex justify-content-center">
+        <i class="fas fa-shopping-bag text-white h3" style="-webkit-text-stroke-width: 4px;
+  -webkit-text-stroke-color: black;"></i>
+      </a>
     </div>
 
     <ul class="col-12 text-center mb-0 mx-0 row list-unstyled" style="line-height: 50px;">
@@ -87,12 +90,12 @@
 
   <div class="container-fluid mt-5 pt-5">
     {{#if success_messages}}
-    <div class="alert alert-success" role="alert" style="margin: 30px 0 ;">
+    <div class="alert alert-success my-5" role="alert">
       {{success_messages}}
     </div>
     {{/if}}
     {{#if error_messages}}
-    <div class="alert alert-danger" role="alert" style="margin: 30px 0 ;">
+    <div class="alert alert-danger my-5" role="alert">
       {{error_messages}}
     </div>
     {{/if}}
@@ -102,13 +105,13 @@
   <section id="subscription" class="bg-light text-center">
     <h5 class="text-center pt-4">訂閱電子報</h5>
     <div class="input-group mb-3 pt-4 pb-5 d-flex justify-content-center">
-      <form action="#">        
+      <form action="#">
         <div class="input-group-append d-inline-flex">
-          <input type="email" class="border border-dark rounded-left pl-3" placeholder="YOUR@EMAIL.COM" name="email" style="width: 30vw; height: 5.5vh;" aria-label="Recipient's username"
-            aria-describedby="basic-addon2">
+          <input type="email" class="border border-dark rounded-left pl-3" placeholder="YOUR@EMAIL.COM" name="email"
+            style="width: 30vw; height: 5.5vh;" aria-label="Recipient's username" aria-describedby="basic-addon2">
           <button type="submit" class="btn-secondary  px-4 rounded-right float-right">訂閱電子報</button>
         </div>
-      </form>      
+      </form>
     </div>
   </section>
 
@@ -175,7 +178,7 @@
     // 修改自：https://www.codeply.com/go/7Fab8Thufl
     // document ready
     (function hideSaleNavbar($) {
-      let previousScroll = 20      
+      let previousScroll = 20
       // scroll functions
       $(window).scroll(function (e) {
         // add/remove classes to navbar when scrolling to hide/show
