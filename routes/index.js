@@ -27,9 +27,7 @@ const authenticatedAdmin = (req, res, next) => {
 module.exports = (app, passport) => {
   // 訪客
   // 首頁
-  app.get('/', function (req, res, next) {
-    res.render('index', { title: 'Not citiesocial' })
-  })
+  app.get('/', productController.getIndex)
   // 個別商品
   app.get('/products/:id', productController.getProduct)
   // 購物車（測試）
