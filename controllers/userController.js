@@ -27,11 +27,11 @@ const userController = {
         return res.redirect('back')
       } else {
         User.create({
-          first_name: req.body.first_name,
-          last_name: req.body.last_name,
+          firstName: req.body.firstName,
+          lastName: req.body.lastName,
           email: req.body.email,
           password: bcrypt.hashSync(req.body.password, 10),
-          is_admin: 0
+          isAdmin: 0
         }).then(user => {
           req.flash('success_messages', '成功註冊')
           return res.redirect('/signin')
