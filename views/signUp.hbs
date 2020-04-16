@@ -1,37 +1,53 @@
-<div class="row">
-  <div class="card col-10 col-sm-8 col-md-5 mx-auto my-5">
+<div class="row px-3 pb-0 pt-5">
+  <div class="border-right-0 col-5 mt-5 pt-5"
+    style="background-image: url('https://p1.pxfuel.com/preview/924/783/618/alcohol-drink-marble-table-fun-new-year.jpg'); background-size: auto 100%;  height: 78vh;">
+    <h3 class="text-center text-muted font-weight-normal">Welcome</h3>
+    <p class="text-center text-muted">
+      歡迎來到not citiesocial，很高興認識你。</br>
+      我們精選超過?個歐美日與人氣募資商品，</br>
+      期待你來發現好東西！
+    </p>
+  </div>
+  <div class=" border rounded-right border-left-0 col-7 mt-5 shadow-sm">
     <div class="card-body">
-      <h1 class="text-center">SIGN UP</h1>
-      <form action="/signup" method="POST">
-        <div class="form-group">
-          <label for="first-name">First Name:</label>
-          <input type="text" class='form-control' id="first-name" name="first_name" required>
-        </div>
-        <div class="form-group">
-          <label for="last-name">Last Name:</label>
-          <input type="text" class='form-control' id="last-name" name="last_name" required>
-        </div>
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="email" class='form-control' id="email" name="email" required>
-        </div>
-        <div class="form-group">
-          <label for="password">Password:</label>
-          <input type="password" class='form-control' id="password" name="password" required>
-        </div>
-        <div class="form-group">
-          <label for="password2">Confirm Password:</label>
-          <input type="password" class='form-control' id="password2" name="password2" required>
-        </div>
-        <button type="submit" class="btn btn-primary form-control">submit</button>
-      </form>
-
-
-
-      <div class="mt-2 text-center">
-        <a href="/signin">sign in</a>
+      <div class="pb-5 px-5 row">
+        <a class="mt-2 col-6 text-muted text-decoration-none text-left" href="/signin">
+          <span class="pb-1 ml-2">登入</span>
+        </a>
+        <label class="mt-2 col-6 text-info text-decoration-none text-right">
+          <span class="pb-1 px-1 mr-2" style="border-bottom: 3px green solid;">註冊</span>
+        </label>
       </div>
-
+      <div class="pt-5">
+        <form action="/signup" method="POST">
+          <div class="row pl-3 pr-2">
+            <div class="form-group  border-bottom col-5 mr-3 p-0">
+              <input type="text" class='form-control border-0' id="last-name" name="lastName" placeholder="姓" required>
+            </div>
+            <div class="form-group  border-bottom col-6 ml-3 p-0">
+              <input type="text" class='form-control border-0' id="first-name" name="firstName" placeholder="名" required>
+            </div>
+          </div>
+          <div class="form-group border-bottom">
+            <input type="email" class='form-control border-0' id="email" name="email" placeholder="電子郵件" required>
+          </div>
+          <div class="form-group border-bottom">
+            <input type="password" class='form-control border-0' id="password" name="password" placeholder="密碼"
+              required>
+          </div>
+          <div class="form-group border-bottom">
+            <input type="password" class='form-control border-0' id="password2" name="password2" placeholder="請再次輸入密碼" required>
+          </div>
+          <button type="submit" class="btn btn-info text-white w-100 mt-4 py-3">註冊</button>
+          <button type="submit" class="btn btn-primary text-white w-100 mt-4 py-3" disabled>使用 FACEBOOK 註冊</button>
+        </form>
+      </div>
     </div>
   </div>
+  <footer class="col-12 mt-2 mb-5">
+    <p class="text-muted text-center">
+      登入等同您同意
+      <u>not citiesocial服務條款</u>
+    </p>
+  </footer>
 </div>
