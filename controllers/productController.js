@@ -15,8 +15,9 @@ const productController = {
   // 後台管理
   getProducts: (req, res) => {
     Product.findAndCountAll().then(products => {
+      const inAdmin = 1
       return res.render('admin/products', JSON.parse(JSON.stringify({
-        products
+        products, inAdmin
       })))
     })
   },
