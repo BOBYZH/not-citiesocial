@@ -1,6 +1,7 @@
 const userController = require('../controllers/userController')
 const productController = require('../controllers/productController.js')
 const cartController = require('../controllers/cartController.js')
+// const passport = require('passport')
 
 const unAuthenticated = (req, res, next) => {
   if (!req.isAuthenticated()) {
@@ -33,7 +34,7 @@ module.exports = (app, passport) => {
   // 購物車（測試）
   app.get('/cart', cartController.getCart)
 
-  // 顧客
+  // 帳戶
   // 登入頁面
   app.get('/signin', unAuthenticated, userController.signInPage)
   // 登入
@@ -47,8 +48,24 @@ module.exports = (app, passport) => {
   app.post('/signup', userController.signUp)
   // 登出
   app.get('/logout', userController.logOut)
+  // OAuth
+  // Facebook
+  app.get(
+    '/auth/facebook',
+    passport.authenticate('facebook', { scope: ['email', 'public_profile'] })
+  )
+  // callback
+  app.get(
+    '/auth/facebook/callback',
+    passport.authenticate('facebook', {
+      successRedirect: '/',
+      failureRedirect: '/signin'
+    })
+  )
 
-  // 店家管理
+  // 顧客
+
+  // 店家
   // 所有商品（測試）
   app.get('/admin/products', authenticatedAdmin, productController.getProducts)
 

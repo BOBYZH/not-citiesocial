@@ -1,5 +1,10 @@
 // const createError = require('http-errors')
 const express = require('express')
+// 判別開發環境，這行放最前面才能運作
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
+
 const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
