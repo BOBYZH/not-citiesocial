@@ -1,4 +1,5 @@
 const userController = require('../controllers/userController')
+const adminController = require('../controllers/adminController.js')
 const productController = require('../controllers/productController.js')
 const cartController = require('../controllers/cartController.js')
 // const passport = require('passport')
@@ -71,7 +72,7 @@ module.exports = (app, passport) => {
     res.redirect('/admin/products')
   })
   // 商品管理
-  app.get('/admin/products', authenticatedAdmin, productController.getProducts)
+  app.get('/admin/products', authenticatedAdmin, adminController.getProducts)
 
   // 避免404當掉
   app.all('*', productController.redirectInvalidUrl)
