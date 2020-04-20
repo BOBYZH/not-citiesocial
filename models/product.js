@@ -6,7 +6,8 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.INTEGER,
     image: DataTypes.STRING,
     discount: DataTypes.FLOAT,
-    deadlineOfSale: DataTypes.DATE
+    deadlineOfSale: DataTypes.DATE,
+    UserId: DataTypes.INTEGER,
   }, {})
   Product.associate = function (models) {
     // associations can be defined here
@@ -24,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       foreignKey: 'ProductId'
     })
+    Product.belongsTo(models.User)
   }
   return Product
 }
