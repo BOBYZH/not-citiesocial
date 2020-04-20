@@ -9,7 +9,7 @@ const inAdmin = true
 const adminController = {
   // 後台管理
   getProducts: (req, res) => {
-    Product.findAndCountAll().then(products => {
+    Product.findAndCountAll({ where: { UserId: req.user.id } }).then(products => {
       const inProducts = true
       return res.render('admin/products', JSON.parse(JSON.stringify({
         products, inAdmin, inProducts
