@@ -1,22 +1,21 @@
-<div class="row">
-  <div class="col-md-9">
+<div class="row mt-5">
+  <div class="col-md-9 mx-auto">
     <div class="row">
       {{#each products.rows}}
-      <div class="col-md-4">
+      <div class="col-12 col-sm-6 col-lg-4">
         <div class="card mb-4 shadow-sm">
-          <img class="bd-placeholder-img card-img-top" width="100%" height="225" src={{this.image}}></img>
+          <a href="/products/{{this.id}}">
+            <img class="bd-placeholder-img card-img-top" src={{this.image}}></img>
+          </a>
           <div class="card-body">
             <p class="card-text">
               <h4><a href="/products/{{this.id}}">{{this.id}} {{this.name}}</a></h4>
-              <span>{{this.description}}</span>
             </p>
             <div class="d-flex justify-content-between align-items-center">
               <small class="text-muted">$ {{this.price}}</small>
               <div class="btn-group">
-                <form action="/cart" method="POST">
-                  <input type="hidden" name="productId" value="{{this.id}}">
-                  <button type="submit" class="btn btn-sm btn-outline-secondary">Add to Cart</button>
-                </form>
+                <a href="#" class="btn btn-sm btn-outline-secondary">編輯</a>
+                <a href="#" class="btn btn-sm btn-outline-danger">刪除</a>
               </div>
             </div>
           </div>
