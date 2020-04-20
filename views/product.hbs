@@ -15,38 +15,53 @@
   </ul>
 
   <div class="row">
-    <div class="col-7">
+    <div class=" col-12 col-md-7">
       <div class="border-bottom pb-2">
         <figure class="figure">
           <img class="figure-img img-fluid w-75 mt-5 ml-5 border" src="{{product.image}}">
         </figure>
       </div>
 
-      <article id="multimedia-contents" class="mt-5">
+      <article id="multimedia-contents" class="mt-5 d-none d-md-block">
+        {{#if product.features}}
         <h6>產品特色</h6>
-        {{!-- 備用 --}}
         <ul>
-          {{!-- <li></li> --}}
+          {{product.features}}
         </ul>
-        {{!-- 備用 --}}
+        {{/if}}
+
+        {{#if product.description}}
         <h6>產品介紹</h6>
         <p>
           {{product.description}}
         </p>
+        {{/if}}
+
+        {{#if product.instruction}}
         <h6>使用說明</h6>
-        <p></p>
+        <p>
+          {{product.instruction}}
+        </p>
+        {{/if}}
+
+        {{#if product.announcement}}
         <h6>注意事項</h6>
-        <p></p>
+        <p>
+          {{product.announcement}}
+        </p>
+        {{/if}}
+
+        {{#if product.specification}}
         <h6>商品規格</h6>
-        {{!-- 備用 --}}
         <ul class="list-unstyled">
-          <li></li>
+          {{product.specification}}
         </ul>
-        {{!-- 備用 --}}
+        {{/if}}
+
       </article>
     </div>
 
-    <div class="col-5 mt-5">
+    <div class="col-12 col-md-5 mt-5">
       <h7><u><a href="#" class="text-black-50">(品牌/店家名稱)</a></u></h7>
       <h3 class="my-2">{{product.name}}</h3>
       <p id="price" class="mt-4">
@@ -68,7 +83,12 @@
           <h2>+</h2>
         </a>
       </div>
-      <a href="#" class="btn btn-info col-12 py-3 mt-1">加入購物車</a>
+      <form action="/cart" method="POST" class="col-12 px-0">
+        <input type="hidden" name="productId" value="{{this.id}}">
+        <button type="submit" class="btn btn-info py-3 mt-1 col-12">
+          加入購物車
+        </button>
+      </form>
     </div>
   </div>
 </section>
