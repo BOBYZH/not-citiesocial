@@ -106,37 +106,39 @@
       </a>
     </div>
 
-    
-      {{#if inAdmin}}
-      <div class="w-100 d-flex justify-content-around align-items-center">
-        <ul class="text-center mb-0 mx-0 row list-unstyled" style="line-height: 50px;">
-          {{#if inProducts}}
-          <li class="px-3 bg-dark">
-            {{else}}
-          <li class="px-3"></li>
-          {{/if}}
-          <a href="/admin/products">商品管理</a>
-          </li>
-          <li class="px-3">
-            <a href="#">分類管理</a>
-          </li>
-          <li class="px-3">
-            <a href="#">訂單管理</a>
-          </li>
-        </ul>
-        <div class="d-flex justify-content-end">
-          <a href="#" class="btn btn-primary">新增商品</a>
-        </div>
+
+    {{#if inAdmin}}
+    <div class="w-100 d-flex justify-content-around align-items-center">
+      <ul class="text-center mb-0 mx-0 row list-unstyled" style="line-height: 50px;">
+        {{#if inProducts}}
+        <li class="px-3 bg-dark">
+          {{else}}
+        <li class="px-3"></li>
+        {{/if}}
+        <a href="/admin/products">商品管理</a>
+        </li>
+        <li class="px-3">
+          <a href="#">分類管理</a>
+        </li>
+        <li class="px-3">
+          <a href="#">訂單管理</a>
+        </li>
+      </ul>
+      <div class="d-flex justify-content-end">
+        {{#if inProducts}}
+        <a href="/admin/products/create" class="btn btn-primary">新增商品</a>
+        {{/if}}
       </div>
-      {{else}}
-      <div class="mx-auto">
-        <ul class="col-12 text-center mb-0 mx-0 row list-unstyled" style="line-height: 50px;">
-          <li class="px-3 active"><a>分類1</a></li>
-          <li class="px-3"><a>分類2</a></li>
-          <li class="px-3"><a>分類3</a></li>
-        </ul>
-      </div>
-      {{/if}}
+    </div>
+    {{else}}
+    <div class="mx-auto">
+      <ul class="col-12 text-center mb-0 mx-0 row list-unstyled" style="line-height: 50px;">
+        <li class="px-3 active"><a>分類1</a></li>
+        <li class="px-3"><a>分類2</a></li>
+        <li class="px-3"><a>分類3</a></li>
+      </ul>
+    </div>
+    {{/if}}
 
   </nav>
 
@@ -154,6 +156,9 @@
     {{{body}}}
   </div>
 
+  {{#if inAdmin}}
+  {{!-- display: none --}}
+  {{else}}
   <section id="subscription" class="bg-light text-center">
     <h5 class="text-center pt-4">訂閱電子報</h5>
     <div class="input-group mb-3 pt-4 pb-5 d-flex justify-content-center">
@@ -167,6 +172,7 @@
       </form>
     </div>
   </section>
+  {{/if}}
 
   <footer id="about-company">
     <section class="container">
@@ -176,40 +182,40 @@
         <div class="col-3">
           <h6 class="mb-3">關於我們</h6>
           <ul class="list-unstyled font-weight-light">
-            <li class="py-1"><a>關於 not citiesocial</a></li>
-            <li class="py-1"><a>隱私權保護政策</a></li>
-            <li class="py-1"><a>服務條款</a></li>
+            <li class="py-1"><a href="#" class="text-dark">關於 not citiesocial</a></li>
+            <li class="py-1"><a href="#" class="text-dark">隱私權保護政策</a></li>
+            <li class="py-1"><a href="#" class="text-dark">服務條款</a></li>
           </ul>
         </div>
 
         <div class="col-3">
           <h6 class="mb-3">聯絡我們</h6>
           <ul class="list-unstyled font-weight-light">
-            <li class="py-1"><a>業務合作洽談</a></li>
-            <li class="py-1"><a>Sell with not citiesocial</a></li>
+            <li class="py-1"><a href="#" class="text-dark">業務合作洽談</a></li>
+            <li class="py-1"><a href="#" class="text-dark">Sell with not citiesocial</a></li>
           </ul>
         </div>
 
         <div class="col-3">
           <h6 class="mb-3">自助查詢</h6>
           <ul class="list-unstyled font-weight-light">
-            <li class="py-1"><a>銀行優惠說明</a></li>
-            <li class="py-1"><a>LINE Points 回饋說明</a></li>
-            <li class="py-1"><a>預購商品查詢</a></li>
-            <li class="py-1"><a>訂單出貨查詢</a></li>
-            <li class="py-1"><a>配送進度查詢</a></li>
+            <li class="py-1"><a href="#" class="text-dark">銀行優惠說明</a></li>
+            <li class="py-1"><a href="#" class="text-dark">LINE Points 回饋說明</a></li>
+            <li class="py-1"><a href="#" class="text-dark">預購商品查詢</a></li>
+            <li class="py-1"><a href="#" class="text-dark">訂單出貨查詢</a></li>
+            <li class="py-1"><a href="#" class="text-dark">配送進度查詢</a></li>
           </ul>
         </div>
 
         <div class="col-3">
           <h6 class="mb-3">顧客服務</h6>
           <ul class="list-unstyled font-weight-light">
-            <li class="py-1"><a>VIEWS生活誌</a></li>
-            <li class="py-1"><a>會員回饋計畫</a></li>
-            <li class="py-1"><a>早鳥首映會</a></li>
-            <li class="py-1"><a>退換貨說明</a></li>
-            <li class="py-1"><a>發票說明</a></li>
-            <li class="py-1"><a>客服中心</a></li>
+            <li class="py-1"><a href="#" class="text-dark">VIEWS生活誌</a></li>
+            <li class="py-1"><a href="#" class="text-dark">會員回饋計畫</a></li>
+            <li class="py-1"><a href="#" class="text-dark">早鳥首映會</a></li>
+            <li class="py-1"><a href="#" class="text-dark">退換貨說明</a></li>
+            <li class="py-1"><a href="#" class="text-dark">發票說明</a></li>
+            <li class="py-1"><a href="#" class="text-dark">客服中心</a></li>
           </ul>
         </div>
       </div>
