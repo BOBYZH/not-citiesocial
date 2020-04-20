@@ -12,17 +12,6 @@ const productController = {
     res.redirect('/')
   },
 
-  // 後台管理
-  getProducts: (req, res) => {
-    Product.findAndCountAll().then(products => {
-      const inAdmin = true
-      const inProducts = true
-      return res.render('admin/products', JSON.parse(JSON.stringify({
-        products, inAdmin, inProducts
-      })))
-    })
-  },
-
   // 前台瀏覽
   getIndex: (req, res) => {
     PAGE_LIMIT = 5
