@@ -12,6 +12,7 @@ module.exports = {
           description: faker.commerce.product() + '/' + faker.commerce.productName(),
           price: faker.commerce.price(),
           image: 'https://picsum.photos/640/480', // lorempixel is too unstable to use, so i use picsum instead
+          UserId: Math.floor(Math.random() * 3) + 1,
           createdAt: new Date(),
           updatedAt: new Date()
         })
@@ -19,6 +20,7 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
+    return queryInterface.bulkDelete('Products', null, {})
     /*
       Add reverting commands here.
       Return a promise to correctly handle asynchronicity.
