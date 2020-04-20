@@ -55,8 +55,9 @@
           </h2>
       </a>
     </div>
-    
-    <div id="search-bar" class="input-group col-3  border border-right-0 d-flex align-items-center" style="height:  7vh;">
+
+    <div id="search-bar" class="input-group col-3  border border-right-0 d-flex align-items-center"
+      style="height:  7vh;">
       {{#if inAdmin}}
       <h4 class="text-dark w-100 text-center pt-1">
         管理系統
@@ -71,9 +72,14 @@
       {{/if}}
     </div>
 
-    <div id="products-list" class="col-2 border border-right-0 d-flex justify-content-center align-items-center" style="height:  7vh;">
+    <div id="products-list" class="col-2 border border-right-0 d-flex justify-content-center align-items-center"
+      style="height:  7vh;">
       {{#if user.isAdmin}}
-      <a href=" /admin/products" class="text-center">店家管理</a>
+      {{#if inAdmin}}
+      <a href="/" class="text-center">回到首頁</a>
+      {{else}}
+      <a href="/admin/" class="text-center">商店管理</a>
+      {{/if}}
       {{else}}
       <select class="form-control border-0 bg-white" disabled>
         　<option>台灣</option>
@@ -84,7 +90,8 @@
       {{/if}}
     </div>
 
-    <div id="account-info" class="col-1 border border-right-0 d-flex justify-content-center align-items-center" style="height:  7vh;">
+    <div id="account-info" class="col-1 border border-right-0 d-flex justify-content-center align-items-center"
+      style="height:  7vh;">
       {{#if user}}
       <a href="/logout" class="text-center" style="line-height: 20px;">{{user.firstName}}，登出</a>
       {{else}}
@@ -99,15 +106,37 @@
       </a>
     </div>
 
-    {{#if inAdmin}}
-    {{!-- display: none --}}
-    {{else}}
-    <ul class="col-12 text-center mb-0 mx-0 row list-unstyled" style="line-height: 50px;">
-      <li class="px-3 active"><a>分類1</a></li>
-      <li class="px-3"><a>分類2</a></li>
-      <li class="px-3"><a>分類3</a></li>
-    </ul>
-    {{/if}}
+    
+      {{#if inAdmin}}
+      <div class="w-100 d-flex justify-content-around align-items-center">
+        <ul class="text-center mb-0 mx-0 row list-unstyled" style="line-height: 50px;">
+          {{#if inProducts}}
+          <li class="px-3 bg-dark">
+            {{else}}
+          <li class="px-3"></li>
+          {{/if}}
+          <a href="/admin/products">商品管理</a>
+          </li>
+          <li class="px-3">
+            <a href="#">分類管理</a>
+          </li>
+          <li class="px-3">
+            <a href="#">訂單管理</a>
+          </li>
+        </ul>
+        <div class="d-flex justify-content-end">
+          <a href="#" class="btn btn-primary">新增商品</a>
+        </div>
+      </div>
+      {{else}}
+      <div class="mx-auto">
+        <ul class="col-12 text-center mb-0 mx-0 row list-unstyled" style="line-height: 50px;">
+          <li class="px-3 active"><a>分類1</a></li>
+          <li class="px-3"><a>分類2</a></li>
+          <li class="px-3"><a>分類3</a></li>
+        </ul>
+      </div>
+      {{/if}}
 
   </nav>
 
@@ -131,7 +160,8 @@
       <form action="#">
         <div class="input-group-append d-inline-flex">
           <input type="email" class="border border-dark rounded-left pl-3" placeholder="YOUR@EMAIL.COM" name="email"
-            style="width: 30vw; height: 5vh;" aria-label="Recipient's username" aria-describedby="basic-addon2" disabled>
+            style="width: 30vw; height: 5vh;" aria-label="Recipient's username" aria-describedby="basic-addon2"
+            disabled>
           <button type="submit" class="btn-secondary  px-4 rounded-right float-right" disabled>訂閱電子報</button>
         </div>
       </form>
