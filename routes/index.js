@@ -3,6 +3,8 @@ const adminController = require('../controllers/adminController.js')
 const productController = require('../controllers/productController.js')
 const cartController = require('../controllers/cartController.js')
 // const passport = require('passport')
+const multer = require('multer')
+const upload = multer({ dest: 'temp/' })
 
 const unAuthenticated = (req, res, next) => {
   if (!req.isAuthenticated()) {
@@ -73,7 +75,9 @@ module.exports = (app, passport) => {
   })
   // 商品管理
   app.get('/admin/products', authenticatedAdmin, adminController.getProducts)
-
+  // 新增商品
+  app.get('/admin/products/create', authenticatedAdmin, adminController.createProduct)
+  app.post('/admin/products', authenticatedAdmin, upload.single('image'), adminController.postProduct)
   // 避免404當掉
   app.all('*', productController.redirectInvalidUrl)
 }

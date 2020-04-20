@@ -1,0 +1,54 @@
+<div class="row my-5">
+  <div class="col-md-9 mx-auto">
+    {{#if product}}
+    <form action="/admin/products/{{product.id}}?_method=PUT" method="POST">
+    {{else}}
+    <form action="/admin/products" method="POST" enctype="multipart/form-data">
+    {{/if}}
+        <div class="form-group">
+          <label for="name">產品名稱</label>
+          <input type="text" class="form-control" name="name" id="name"
+            value="{{product.name}}" required>
+        </div>
+
+        <div class="row">
+          <div class="form-group col-8">
+            <label for="categoryId">產品類型</label>
+            <select class="form-control" id="categoryId" name="categoryId"  required disabled>
+              {{#each categories}}
+              <option value="{{this.id}}" {{#ifCond this.id ../product.CategoryId}} selected {{/ifCond}}>{{this.name}}
+              </option>
+              {{/each}}
+            </select>
+          </div>
+          
+          <div class="form-group col-4">
+            <label for="price">產品價格</label>
+            <input type="number" class="form-control" name="price" id="price"  value="{{product.price}}" min="0" step="1" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="description">產品介紹</label>
+          <textarea class="form-control" id="description" name="description" rows="3" required>{{product.description}}</textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="image">產品圖片</label>
+          <input type="file" class="form-control-file" id="image" name="image">
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <button type="submit" class="btn btn-primary">確認新增</button>
+          <a class="btn btn-secondary" href=" javascript:history.back()">回上一頁</a>
+        </div>
+      </form>
+  </div>
+</div>
+
+{{!-- <script>
+  // 避免意外失去或提交編輯中的資料，增加額外確認是否離開
+    window.onbeforeunload = () => {
+      return 'Are you sure you want to leave?'
+    }
+</script> --}}
