@@ -66,7 +66,11 @@ module.exports = (app, passport) => {
   // 顧客
 
   // 店家
-  // 所有商品（測試）
+  // 管理首頁（指向商品管理）
+  app.get('/admin', (req, res) => {
+    res.redirect('/admin/products')
+  })
+  // 商品管理
   app.get('/admin/products', authenticatedAdmin, productController.getProducts)
 
   // 避免404當掉
