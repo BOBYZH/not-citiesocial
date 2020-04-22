@@ -1,9 +1,9 @@
 const db = require('../models')
 const Product = db.Product
+const User = db.User
 // const Category = db.Category
-// const User = db.User
 
-// 設定顯示數量
+// 設定顯示數量，來自購物車教案
 let PAGE_LIMIT, PAGE_OFFSET
 
 const productController = {
@@ -16,7 +16,10 @@ const productController = {
   getIndex: (req, res) => {
     PAGE_LIMIT = 5
     PAGE_OFFSET = 0
-    Product.findAndCountAll({ offset: PAGE_OFFSET, limit: PAGE_LIMIT }).then(products => {
+    Product.findAndCountAll(
+      { include: User, offset: PAGE_OFFSET, limit: PAGE_LIMIT }
+    ).then(products => {
+      console.log(products.rows[1].User.shopName)
       const Products = products.rows
         .map(product => (
           {
@@ -24,7 +27,6 @@ const productController = {
             name: product.dataValues.name !== null ? (product.dataValues.name.length > 18 ? (product.dataValues.name.substring(0, 18) + '...') : product.dataValues.name) : ''
           }
         ))
-      console.log(products.rows[0].name)
       return res.render('index', JSON.parse(JSON.stringify({
         products: Products
       })))
@@ -34,6 +36,7 @@ const productController = {
   getProduct: (req, res) => {
     Product.findByPk(req.params.id, {
       include: [
+        User
         // Category
       ]
     }).then(product => {
