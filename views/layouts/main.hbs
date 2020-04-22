@@ -59,10 +59,16 @@
     <div id="search-bar" class="input-group col-3  border border-right-0 d-flex align-items-center"
       style="height:  7vh;">
       {{#if inAdmin}}
-      <h4 class="text-dark w-100 text-center pt-1">
+      <h4 class="w-100 text-center">
         管理系統
+        <br>
+        <span class="h5">店家名稱：{{user.shopName}}</span>
       </h4>
+      {{!-- <h5 class="w-100 text-center"></h5> --}}
       {{else}}
+        {{#if inAdmin}}
+        <h5 class="mr-2">店家名稱：{{user.shopName}}</h5>
+        {{/if}}
       <div class="input-group-append">
         <button class="input-group-text bg-white form-control  border-0" id="search-button">
           <i class="fas fa-search text-dark h3"></i>
@@ -124,7 +130,7 @@
           <a href="#">訂單管理</a>
         </li>
       </ul>
-      <div class="d-flex justify-content-end">
+      <div class="d-flex justify-content-end align-items-center">
         {{#if inProducts}}
         <a href="/admin/products/create" class="btn btn-primary">新增商品</a>
         {{/if}}
