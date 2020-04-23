@@ -12,12 +12,29 @@
               <h4><a href="/products/{{this.id}}">{{this.name}}</a></h4>
             </p>
             <div class="d-flex justify-content-between align-items-center">
-              <small class="text-muted">$ {{this.price}}</small>
               <div class="btn-group">
-                <a href="/admin/products/{{this.id}}/edit" class="btn btn-sm btn-outline-secondary">編輯</a>
-                <form action="/admin/products/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
-                  <button type="submit" class="btn btn-sm btn-outline-danger"onclick="if(confirm('確認刪除？')) return true; else return false">刪除</button>
+                {{#ifTrue this.forSale}}
+                <form action="/admin/products/{{this.id}}/cancel?_method=PUT" method="POST" style="display: inline;">
+                  <button type="submit" class="btn btn-sm btn-success"
+                    onclick="if(confirm('確認下架？')) return true; else return false">
+                    已上架
+                  </button>
                 </form>
+                {{else}}
+                <form action="/admin/products/{{this.id}}/sell?_method=PUT" method="POST" style="display: inline;">
+                  <button type="submit" class="btn btn-sm btn-warning"
+                    onclick="if(confirm('確認上架？')) return true; else return false">
+                    未上架
+                  </button>
+                </form>
+                {{/ifTrue}}
+                <div class="mx-1">
+                  <a href="/admin/products/{{this.id}}/edit" class="btn btn-sm btn-outline-secondary">編輯</a>
+                  <form action="/admin/products/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
+                    <button type="submit" class="btn btn-sm btn-outline-danger"
+                      onclick="if(confirm('確認刪除？')) return true; else return false">刪除</button>
+                  </form>
+                </div>
               </div>
             </div>
           </div>

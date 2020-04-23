@@ -144,6 +144,42 @@ const adminController = {
             })
         }
       })
+  },
+
+  sellProduct: (req, res) => {
+    return Product.findByPk(req.params.id)
+      .then((product) => {
+        if (product.UserId !== req.user.id) { // 防止偷刪非自己店家商品資料
+          req.flash('error_messages', '只能上架自己的商品！')
+          res.redirect('/admin/products')
+        } else {
+          product.update({
+            forSale: true
+          })
+            .then((product) => {
+              req.flash('success_messages', '已成功上架商品')
+              return res.redirect('/admin/products')
+            })
+        }
+      })
+  },
+
+  cancelProduct: (req, res) => {
+    return Product.findByPk(req.params.id)
+      .then((product) => {
+        if (product.UserId !== req.user.id) { // 防止偷刪非自己店家商品資料
+          req.flash('error_messages', '只能下架自己的商品！')
+          res.redirect('/admin/products')
+        } else {
+          product.update({
+            forSale: false
+          })
+            .then((product) => {
+              req.flash('success_messages', '已成功下架商品')
+              return res.redirect('/admin/products')
+            })
+        }
+      })
   }
 }
 
