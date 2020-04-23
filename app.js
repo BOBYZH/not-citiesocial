@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const exphbs = require('express-handlebars')
 const flash = require('connect-flash')
+const methodOverride = require('method-override')
 const session = require('express-session')
 const passport = require('./config/passport')
 const app = express()
@@ -36,6 +37,9 @@ app.use(flash())
 // 設定 passport
 app.use(passport.initialize())
 app.use(passport.session())
+
+// 使用完整RESTful 動詞
+app.use(methodOverride('_method'))
 
 // 把 req.flash 放到 res.locals 裡面
 app.use((req, res, next) => {
