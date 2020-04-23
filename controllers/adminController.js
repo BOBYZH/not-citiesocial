@@ -79,60 +79,55 @@ const adminController = {
 
   putProduct: (req, res) => {
     // console.log(req.body, 'body')
-    if (!req.body.name) {
-      req.flash('error_messages', '沒填入產品名稱！')
-      return res.redirect('back')
-    }
-
-    const { file } = req
-    if (file) {
-      imgur.setClientID(IMGUR_CLIENT_ID)
-      imgur.upload(file.path, (_err, img) => {
-        return Product.findByPk(req.params.id)
-          .then((product) => {
-            product.update({
-              name: req.body.name,
-              price: req.body.price,
-              description: req.body.description,
-              image: file ? img.data.link : product.image,
-              // CategoryId: req.body.categoryId,
-              UserId: req.user.id
-            }).then((product) => {
-              if (product.UserId !== req.user.id) { // 防止進入非自己店家商品頁面偷改資料
-                req.flash('error_messages', '只能改自己的商品！')
-                res.redirect('/admin/products')
-              } else {
+    Product.findByPk(req.params.id).then(product => {
+      if (product.UserId !== req.user.id) { // 防止進入非自己店家商品頁面偷改資料
+        req.flash('error_messages', '只能改自己的商品！')
+        res.redirect('/admin/products')
+      } else if (!req.body.name) {
+        req.flash('error_messages', '沒填入產品名稱！')
+        return res.redirect('back')
+      } else {
+        const { file } = req
+        if (file) {
+          imgur.setClientID(IMGUR_CLIENT_ID)
+          imgur.upload(file.path, (_err, img) => {
+            return Product.findByPk(req.params.id)
+              .then((product) => {
+                product.update({
+                  name: req.body.name,
+                  price: req.body.price,
+                  description: req.body.description,
+                  image: file ? img.data.link : product.image,
+                  // CategoryId: req.body.categoryId,
+                  UserId: req.user.id
+                }).then((product) => {
+                  req.flash('success_messages', '已成功修改商品')
+                  return res.redirect('/admin/products')
+                }).catch((product) => {
+                  req.flash('error_messages', '發生錯誤，請稍後再試……')
+                })
+              })
+          })
+        } else {
+          return Product.findByPk(req.params.id)
+            .then((product) => {
+              product.update({
+                name: req.body.name,
+                price: req.body.price,
+                description: req.body.description,
+                image: product.image,
+                // CategoryId: req.body.categoryId,
+                UserId: req.user.id
+              }).then((product) => {
                 req.flash('success_messages', '已成功修改商品')
                 return res.redirect('/admin/products')
-              }
-            }).catch((product) => {
-              req.flash('error_messages', '發生錯誤，請稍後再試……')
+              }).catch((product) => {
+                req.flash('error_messages', '發生錯誤，請稍後再試……')
+              })
             })
-          })
-      })
-    } else {
-      return Product.findByPk(req.params.id)
-        .then((product) => {
-          product.update({
-            name: req.body.name,
-            price: req.body.price,
-            description: req.body.description,
-            image: product.image,
-            // CategoryId: req.body.categoryId,
-            UserId: req.user.id
-          }).then((product) => {
-            if (product.UserId !== req.user.id) { // 防止進入非自己店家商品頁面偷改資料
-              req.flash('error_messages', '只能改自己的商品！')
-              res.redirect('/admin/products')
-            } else {
-              req.flash('success_messages', '已成功修改商品')
-              return res.redirect('/admin/products')
-            }
-          }).catch((product) => {
-            req.flash('error_messages', '發生錯誤，請稍後再試……')
-          })
-        })
-    }
+        }
+      }
+    })
   }
 }
 
