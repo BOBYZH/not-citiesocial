@@ -128,6 +128,22 @@ const adminController = {
         }
       }
     })
+  },
+
+  deleteProduct: (req, res) => {
+    return Product.findByPk(req.params.id)
+      .then((product) => {
+        if (product.UserId !== req.user.id) { // 防止偷刪非自己店家商品資料
+          req.flash('error_messages', '只能刪除自己的商品！')
+          res.redirect('/admin/products')
+        } else {
+          product.destroy()
+            .then((product) => {
+              req.flash('success_messages', '已成功刪除商品')
+              return res.redirect('/admin/products')
+            })
+        }
+      })
   }
 }
 

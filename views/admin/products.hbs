@@ -15,7 +15,9 @@
               <small class="text-muted">$ {{this.price}}</small>
               <div class="btn-group">
                 <a href="/admin/products/{{this.id}}/edit" class="btn btn-sm btn-outline-secondary">編輯</a>
-                <a href="#" class="btn btn-sm btn-outline-danger">刪除</a>
+                <form action="/admin/products/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
+                  <button type="submit" class="btn btn-sm btn-outline-danger"onclick="if(confirm('確認刪除？')) return true; else return false">刪除</button>
+                </form>
               </div>
             </div>
           </div>

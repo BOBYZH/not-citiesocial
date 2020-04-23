@@ -81,6 +81,8 @@ module.exports = (app, passport) => {
   // 編輯商品
   app.get('/admin/products/:id/edit', authenticatedAdmin, adminController.editProduct)
   app.put('/admin/products/:id', authenticatedAdmin, upload.single('image'), adminController.putProduct)
+  // 刪除商品
+  app.delete('/admin/products/:id', authenticatedAdmin, adminController.deleteProduct)
   // 避免404當掉
   app.all('*', productController.redirectInvalidUrl)
 }
