@@ -1,7 +1,7 @@
 <div class="row my-5">
   <div class="col-md-9 mx-auto">
     {{#if product}}
-    <form action="/admin/products/{{product.id}}?_method=PUT" method="POST">
+    <form action="/admin/products/{{product.id}}?_method=PUT" method="POST" enctype="multipart/form-data">
     {{else}}
     <form action="/admin/products" method="POST" enctype="multipart/form-data">
     {{/if}}
@@ -39,7 +39,13 @@
         </div>
 
         <div class="d-flex justify-content-between">
-          <button type="submit" class="btn btn-primary">確認新增</button>
+          <button type="submit" class="btn btn-primary">
+          {{#if product}}
+          確認修改
+          {{else}}
+          確認新增
+          {{/if}}            
+          </button>
           <a class="btn btn-secondary" href=" javascript:history.back()">回上一頁</a>
         </div>
       </form>
