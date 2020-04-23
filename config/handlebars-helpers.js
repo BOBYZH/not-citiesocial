@@ -4,5 +4,11 @@ module.exports = {
       return options.fn(this)
     }
     return options.inverse(this)
+  },
+  ifTrue: function (a, options) {
+    if (a === true) {
+      return options.fn(this)
+    }
+    return options.inverse(this)
   }
 }
