@@ -78,6 +78,9 @@ module.exports = (app, passport) => {
   // 新增商品
   app.get('/admin/products/create', authenticatedAdmin, adminController.createProduct)
   app.post('/admin/products', authenticatedAdmin, upload.single('image'), adminController.postProduct)
+  // 編輯商品
+  app.get('/admin/products/:id/edit', authenticatedAdmin, adminController.editProduct)
+  app.put('/admin/products/:id', authenticatedAdmin, upload.single('image'), adminController.putProduct)
   // 避免404當掉
   app.all('*', productController.redirectInvalidUrl)
 }
