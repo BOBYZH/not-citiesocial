@@ -9,7 +9,6 @@ module.exports = (sequelize, DataTypes) => {
     gender: DataTypes.BOOLEAN,
     defaultPhone: DataTypes.STRING,
     defaultAddress: DataTypes.STRING,
-    subscription: DataTypes.BOOLEAN,
     isAdmin: DataTypes.BOOLEAN,
     shopName: DataTypes.STRING
   }, {})
