@@ -17,9 +17,9 @@ const productController = {
     PAGE_LIMIT = 5
     PAGE_OFFSET = 0
     Product.findAndCountAll(
-      { include: User, offset: PAGE_OFFSET, limit: PAGE_LIMIT }
+      { include: User, offset: PAGE_OFFSET, limit: PAGE_LIMIT, where: { forSale: true } }
     ).then(products => {
-      console.log(products.rows[1].User.shopName)
+      // console.log(products.rows[1].User.shopName)
       const Products = products.rows
         .map(product => (
           {
@@ -40,9 +40,13 @@ const productController = {
         // Category
       ]
     }).then(product => {
+      // console.log(product.forSale)
       if (product === null) {
         req.flash('error_messages', '無此商品！')
         res.redirect('/')
+      } else if (product.forSale === false || product.forSale === null) {
+        req.flash('error_messages', '該商品尚未上架！')
+        res.redirect('back')
       } else {
         return res.render('product', JSON.parse(JSON.stringify({
           product
