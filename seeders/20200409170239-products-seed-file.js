@@ -13,6 +13,7 @@ module.exports = {
           price: faker.commerce.price(),
           image: 'https://picsum.photos/640/480', // lorempixel is too unstable to use, so i use picsum instead
           UserId: Math.floor(Math.random() * 3) + 1,
+          forSale: Math.round(Math.random()),
           createdAt: new Date(),
           updatedAt: new Date()
         })
