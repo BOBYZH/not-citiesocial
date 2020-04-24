@@ -41,7 +41,7 @@
       (特定產品促銷)
     </a>
     {{/if}}
-    <div id="brand-logo" class="col-5 border border-left-0 border-right-0 mt-0" style="height:  7vh;">
+    <div id="brand-logo" class="col-12 col-sm-4 col-md-5 border border-left-0 border-right-0 mt-0" style="height:  7vh;">
       <a class="navbar-item " href="/">
         <h4 id="icon" class="font-weight-light pt-3">
           <span class="h3 text-danger">Not </span>
@@ -56,7 +56,7 @@
       </a>
     </div>
 
-    <div id="search-bar" class="input-group col-3  border border-right-0 d-flex align-items-center"
+    <div id="search-bar" class="input-group col-sm-4 col-md-3  border border-right-0 d-flex align-items-center"
       style="height:  7vh;">
       {{#if inAdmin}}
       <h4 class="w-100 text-center">
@@ -99,9 +99,9 @@
     <div id="account-info" class="col-1 border border-right-0 d-flex justify-content-center align-items-center"
       style="height:  7vh;">
       {{#if user}}
-      <a href="/logout" class="text-center" style="line-height: 20px;">{{user.firstName}}，登出</a>
+      <a href="/logout" class="text-center" style="line-height: 20px;">{{user.firstName}}，<br>登出</a>
       {{else}}
-      <a href="/signin" class="text-center">訪客，登入</a>
+      <a href="/signin" class="text-center">訪客，<br>登入</a>
       {{/if}}
     </div>
 
@@ -137,7 +137,7 @@
       </div>
     </div>
     {{else}}
-    <div class="mx-auto">
+    <div class="mx-auto d-none d-md-flex">
       <ul class="col-12 text-center mb-0 mx-0 row list-unstyled" style="line-height: 50px;">
         <li class="px-3 active"><a>分類1</a></li>
         <li class="px-3"><a>分類2</a></li>
