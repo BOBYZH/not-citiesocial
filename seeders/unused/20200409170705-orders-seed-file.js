@@ -1,3 +1,4 @@
+// 因amount與orderItems的加總在seed對不上故不使用
 'use strict'
 
 const faker = require('faker')
