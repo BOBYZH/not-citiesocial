@@ -4,7 +4,7 @@ const User = db.User
 // const Category = db.Category
 
 // 設定顯示數量，來自購物車教案
-let PAGE_LIMIT, PAGE_OFFSET
+let PAGE_LIMIT, PAGE_OFFSET // 前者：最多顯示幾個商品, 後者：從id幾開始顯示
 
 const productController = {
   // 防止亂打網址出現404錯誤
@@ -14,10 +14,10 @@ const productController = {
 
   // 前台瀏覽
   getIndex: (req, res) => {
-    PAGE_LIMIT = 5
+    PAGE_LIMIT = 20 // 數值大於等於總上架商品數量即可全部顯示
     PAGE_OFFSET = 0
     Product.findAndCountAll(
-      { include: User, offset: PAGE_OFFSET, limit: PAGE_LIMIT, where: { forSale: true } }
+      { include: User, offset: PAGE_OFFSET, limit: PAGE_LIMIT, where: { forSale: true } } // forSale限制只能看到上架的商品
     ).then(products => {
       // console.log(products.rows[1].User.shopName)
       const Products = products.rows
