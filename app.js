@@ -31,7 +31,12 @@ app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
 // 設定 session
-app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }))
+app.use(session({
+  secret: 'secret',
+  cookie: { maxAge: 80000 },
+  resave: false,
+  saveUninitialized: false
+}))
 app.use(flash())
 
 // 設定 passport
