@@ -34,8 +34,9 @@ module.exports = (app, passport) => {
   app.get('/', productController.getIndex)
   // 個別商品
   app.get('/products/:id', productController.getProduct)
-  // 購物車（測試）
+  // 購物車
   app.get('/cart', cartController.getCart)
+  app.post('/cart', cartController.postCart)
 
   // 帳戶
   // 登入頁面
