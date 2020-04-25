@@ -34,9 +34,16 @@ module.exports = (app, passport) => {
   app.get('/', productController.getIndex)
   // 個別商品
   app.get('/products/:id', productController.getProduct)
-  // 購物車
+  // 購物車內容
   app.get('/cart', cartController.getCart)
+  // 新增商品
   app.post('/cart', cartController.postCart)
+  // 增加數量
+  app.post('/cartItem/:id/add', cartController.addCartItem)
+  // 減少數量
+  app.post('/cartItem/:id/sub', cartController.subCartItem)
+  // 移除商品
+  app.delete('/cartItem/:id', cartController.deleteCartItem)
 
   // 帳戶
   // 登入頁面
