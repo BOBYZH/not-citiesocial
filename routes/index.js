@@ -2,6 +2,7 @@ const userController = require('../controllers/userController')
 const adminController = require('../controllers/adminController.js')
 const productController = require('../controllers/productController.js')
 const cartController = require('../controllers/cartController.js')
+const orderController = require('../controllers/orderController.js')
 // const passport = require('passport')
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
@@ -44,6 +45,12 @@ module.exports = (app, passport) => {
   app.post('/cartItem/:id/sub', cartController.subCartItem)
   // 移除商品
   app.delete('/cartItem/:id', cartController.deleteCartItem)
+  // 訂單內容
+  app.get('/orders', orderController.getOrders)
+  // 新增訂單
+  app.post('/order', orderController.postOrder)
+  // 取消訂單
+  app.post('/order/:id/cancel', orderController.cancelOrder)
 
   // 帳戶
   // 登入頁面
