@@ -75,20 +75,28 @@
         <div class="col-3 mt-3 pl-1 text-center text-black-50">
           數量
         </div>
-        <a href="#" class="col-3 btn btn-light border-0 text-muted" style="background-color: white;">
+        <button class="col-3 btn btn-light border-0 text-muted bg-white" disabled>
           <h2>-</h2>
-        </a>
-        <input type="number" name="quantity" class="col-3 pl-4 text-center" value="1">
-        <a href="#" class="col-2 btn btn-light border-0 text-info" style="background-color: white;">
+        </button>
+        <input type="number" name="quantity" class="col-3 pl-4 text-center" value="1" disabled>
+        <button class="col-2 btn btn-light border-0 text-info bg-white" disabled>
           <h2>+</h2>
-        </a>
+        </button>
       </div>
       <form action="/cart" method="POST" class="col-12 px-0">
-        <input type="hidden" name="productId" value="{{this.id}}">
-        <button type="submit" class="btn btn-info py-3 mt-1 col-12">
+        <input type="hidden" name="productId" value="{{product.id}}">
+        <button type="submit" class="btn btn-info py-3 mt-1 col-12" id="add-to-cart">
           加入購物車
         </button>
       </form>
     </div>
   </div>
 </section>
+
+<script>
+    const addToCart = document.querySelector('#add-to-cart')
+    
+    addToCart.addEventListener('click', (event) => {
+      addToCart.textContent = '加入中…'
+    })
+</script>
