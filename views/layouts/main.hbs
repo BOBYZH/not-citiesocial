@@ -33,7 +33,7 @@
     }
   </style>
 
-  <nav class="navbar border-bottom p-0 fixed-top bg-white" role="navigation">
+  <nav class="navbar border-bottom p-0 fixed-top bg-white d-flex align-items-stretch" role="navigation">
     {{#if inAdmin}}
     {{!-- display: none --}}
     {{else}}
@@ -41,9 +41,10 @@
       (特定產品促銷)
     </a>
     {{/if}}
-    <div id="brand-logo" class="col-12 col-sm-4 col-md-5 border border-left-0 border-right-0 mt-0" style="height:  7vh;">
-      <a class="navbar-item " href="/">
-        <h4 id="icon" class="font-weight-light pt-3">
+    <div id="brand-logo" class="col-12 col-sm-4 col-md-5 border border-left-0 border-right-0 d-flex align-items-center py-2"
+      >
+      <a class="navbar-item" href="/">
+        <h4 id="icon" class="font-weight-light my-auto">
           <span class="h3 text-danger">Not </span>
           <span class="d-inline-flex justify-content-center">
             <span class="h3 text-info">citie</span>
@@ -52,12 +53,12 @@
           <span class="text-dark d-none d-lg-inline">
             &nbsp;也能找&nbsp;&nbsp;好東西
           </span>
-          </h2>
+        </h4>
       </a>
     </div>
 
-    <div id="search-bar" class="input-group col-sm-4 col-md-3  border border-right-0 d-flex align-items-center"
-      style="height:  7vh;">
+    <div id="search-bar" class="input-group col-sm-4 col-md-3 border border-right-0 d-flex align-items-center py-2"
+      >
       {{#if inAdmin}}
       <h4 class="w-100 text-center">
         管理系統
@@ -66,9 +67,9 @@
       </h4>
       {{!-- <h5 class="w-100 text-center"></h5> --}}
       {{else}}
-        {{#if inAdmin}}
-        <h5 class="mr-2">店家名稱：{{user.shopName}}</h5>
-        {{/if}}
+      {{#if inAdmin}}
+      <h5 class="mr-2">店家名稱：{{user.shopName}}</h5>
+      {{/if}}
       <div class="input-group-append">
         <button class="input-group-text bg-white form-control  border-0" id="search-button">
           <i class="fas fa-search text-dark h3"></i>
@@ -78,8 +79,8 @@
       {{/if}}
     </div>
 
-    <div id="products-list" class="col-2 border border-right-0 d-flex justify-content-center align-items-center"
-      style="height:  7vh;">
+    <div id="products-list" class="col-2 border border-right-0 d-flex justify-content-center align-items-center py-2"
+      >
       {{#if user.isAdmin}}
       {{#if inAdmin}}
       <a href="/" class="text-center">回到首頁</a>
@@ -96,8 +97,8 @@
       {{/if}}
     </div>
 
-    <div id="account-info" class="col-1 border border-right-0 d-flex justify-content-center align-items-center"
-      style="height:  7vh;">
+    <div id="account-info" class="col-1 border border-right-0 d-flex justify-content-center align-items-center py-2"
+      >
       {{#if user}}
       <a href="/logout" class="text-center" style="line-height: 20px;">{{user.firstName}}，<br>登出</a>
       {{else}}
@@ -105,8 +106,8 @@
       {{/if}}
     </div>
 
-    <div id="cart-icon" class="col-1 pt-3 border border-right-0" style="height:  7vh;">
-      <a href="/cart" class="d-flex justify-content-center align-items-center">
+    <div id="cart-icon" class="col-1 border border-right-0 d-flex justify-content-center align-items-center py-2" >
+      <a href="/cart">
         <i class="fas fa-shopping-bag text-white h3" style="-webkit-text-stroke-width: 4px;
   -webkit-text-stroke-color: black;"></i>
       </a>
