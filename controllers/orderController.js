@@ -18,6 +18,85 @@ const transporter = nodemailer.createTransport({
 })
 // console.log('processTest', process.env.GMAIL_ACCOUNT, process.env.GMAIL_PASSWORD)
 
+// 設定交易資料的加密與雜湊
+const crypto = require('crypto')
+// 本地測試時使用ngork產生的domain，並用來替換瀏覽器網址列的'http://localhost:3000'
+const URL = 'https://23c49a92.ngrok.io'
+const MerchantID = process.env.MERCHANT_ID
+const HashKey = process.env.HASHKEY
+const HashIV = process.env.HASHIV
+const PayGateWay = 'https://ccore.newebpay.com/MPG/mpg_gateway'
+const ReturnURL = URL + '/newebpay/callback?from=ReturnURL'
+const NotifyURL = URL + '/newebpay/callback?from=NotifyURL'
+const ClientBackURL = URL + '/orders'
+
+function genDataChain (TradeInfo) {
+  const results = []
+  for (const kv of Object.entries(TradeInfo)) {
+    results.push(`${kv[0]}=${kv[1]}`)
+  }
+  return results.join('&')
+}
+
+function createMpgAesEncrypt (TradeInfo) {
+  const encrypt = crypto.createCipheriv('aes256', HashKey, HashIV)
+  const enc = encrypt.update(genDataChain(TradeInfo), 'utf8', 'hex')
+  return enc + encrypt.final('hex')
+}
+
+function createMpgShaEncrypt (TradeInfo) {
+  const sha = crypto.createHash('sha256')
+  const plainText = `HashKey=${HashKey}&${TradeInfo}&HashIV=${HashIV}`
+
+  return sha.update(plainText).digest('hex').toUpperCase()
+}
+
+function getTradeInfo (Amt, Desc, email) {
+  console.log('===== getTradeInfo =====')
+  console.log(Amt, Desc, email)
+  console.log('==========')
+
+  const data = {
+    MerchantID: MerchantID, // 商店代號
+    RespondType: 'JSON', // 回傳格式
+    TimeStamp: Date.now(), // 時間戳記
+    Version: 1.5, // 串接程式版本
+    MerchantOrderNo: Date.now(), // 商店訂單編號
+    LoginType: 0, // 智付通會員
+    OrderComment: 'OrderComment', // 商店備註
+    Amt: Amt, // 訂單金額
+    ItemDesc: Desc, // 產品名稱
+    Email: email, // 付款人電子信箱
+    ReturnURL: ReturnURL, // 支付完成返回商店網址
+    NotifyURL: NotifyURL, // 支付通知網址/每期授權結果通知
+    ClientBackURL: ClientBackURL // 支付取消返回商店網址
+  }
+
+  console.log('===== getTradeInfo: data =====')
+  console.log(data)
+
+  const mpgAesEncrypt = createMpgAesEncrypt(data)
+  const mpgShaEncrypt = createMpgShaEncrypt(mpgAesEncrypt)
+
+  console.log('===== getTradeInfo: mpgAesEncrypt, mpgShaEncrypt =====')
+  console.log(mpgAesEncrypt)
+  console.log(mpgShaEncrypt)
+
+  const tradeInfo = {
+    MerchantID: MerchantID, // 商店代號
+    TradeInfo: mpgAesEncrypt, // 加密後參數
+    TradeSha: mpgShaEncrypt,
+    Version: 1.5, // 串接程式版本
+    PayGateWay: PayGateWay,
+    MerchantOrderNo: data.MerchantOrderNo
+  }
+
+  console.log('===== getTradeInfo: tradeInfo =====')
+  console.log(tradeInfo)
+
+  return tradeInfo
+}
+
 const orderController = {
   getOrders: (req, res) => {
     Order.findAll({ include: 'items' }).then(orders => {
@@ -68,7 +147,7 @@ const orderController = {
                 </div>
                 `
         }
-        console.log('Mail, from ', process.env.ADDRESS, ' to ', req.body.email)
+        console.log('Mail, from ', process.env.ADDRESS, ' to ', order.email)
 
         // 確認所有商品加入訂單後才轉址
         return Promise.all(results).then(() => {
@@ -98,6 +177,27 @@ const orderController = {
         return res.redirect('back')
       })
     })
+  },
+
+  getPayment: (req, res) => {
+    console.log('===== getPayment =====')
+    console.log(req.params.id)
+    console.log('==========')
+
+    return Order.findByPk(req.params.id, {}).then(order => {
+      const tradeInfo = getTradeInfo(order.amount, '產品名稱', order.email)
+      return res.render('payment', JSON.parse(JSON.stringify({ order, tradeInfo })))
+    })
+  },
+
+  newebpayCallback: (req, res) => {
+    console.log('===== newebpayCallback =====')
+    console.log(req.method)
+    console.log(req.query)
+    console.log(req.body)
+    console.log('==========')
+
+    return res.redirect('/orders')
   }
 }
 
