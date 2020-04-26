@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     paymentStatus: DataTypes.STRING,
     UserId: DataTypes.INTEGER,
     phone: DataTypes.STRING,
+    email: DataTypes.STRING,
     address: DataTypes.STRING
   }, {})
   Order.associate = function (models) {
