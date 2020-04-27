@@ -14,8 +14,20 @@ REFRESHTOKEN = ***************
 ADDRESS = ***************@gmail.com
 
 # url
-# 需在環境變數設置，本地測試時使用ngork產生的domain，並在瀏覽器替換網址列的'http://localhost:3000'，否則無法進入金流頁面
-WEBSITE_URL = http://localhost:3000/
+/*
+需在環境變數設置，本地測試時使用ngork產生的domain，
+並在瀏覽器替換網址列的'http://localhost:3000'，
+否則無法進入金流頁面！
+
+ngork使用方法：
+0. 依照作業系統到官網下載對應版本：https://ngrok.com/download
+1. 將下載的ngork檔案放至專案根目錄
+2. 在終端機執行"./ngrok http 3000"(Linux或Mac)或"ngrok http 3000"(Windows)
+3. 把終端機中"Forwarding"的連結( http://********.ngrok.io)貼到底下的"WEBSITE_URL"變數
+*/
+WEBSITE_URL = 'Forwarding"的ngrok.io連結'
+#  範例 
+WEBSITE_URL = https://bf3fa4c6.ngrok.io
 
 ＃ newebpay
 MERCHANT_ID = ***************
