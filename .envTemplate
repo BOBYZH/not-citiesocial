@@ -25,9 +25,9 @@ ngork使用方法：
 2. 在終端機執行"./ngrok http 3000"(Linux或Mac)或"ngrok http 3000"(Windows)
 3. 把終端機中"Forwarding"的連結( https://********.ngrok.io)貼到底下的"WEBSITE_URL"變數
 */
+
 WEBSITE_URL = 'Forwarding"的ngrok.io連結'
-#  範例 
-WEBSITE_URL = https://bf3fa4c6.ngrok.io
+#  範例 WEBSITE_URL = https://9159979f.ngrok.io
 
 ＃ newebpay
 /*
