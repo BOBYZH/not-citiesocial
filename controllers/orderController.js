@@ -26,8 +26,12 @@ const MerchantID = process.env.MERCHANT_ID
 const HashKey = process.env.HASH_KEY
 const HashIV = process.env.HASH_IV
 const PayGateWay = 'https://ccore.newebpay.com/MPG/mpg_gateway' // 使用的是藍新金流測試平台
+
+// 交易後導向的URL，但用途看不出來，因與newebpayCallback最後的'/orders'衝突？
 const ReturnURL = URL + '/newebpay/callback?from=ReturnURL'
-// const NotifyURL = URL + '/newebpay/callback?from=NotifyURL' // 無法導向先取消掉，用途與最後的'/orders'衝突？
+// 底下變數會導致店家信箱收到「API 串接 Notify URL 觸發失敗通知信」，故註解掉
+// const NotifyURL = URL + '/newebpay/callback?from=NotifyURL'
+
 const ClientBackURL = URL + '/orders'
 
 function genDataChain (TradeInfo) {
