@@ -20,11 +20,11 @@ const transporter = nodemailer.createTransport({
 
 // 設定交易資料的加密與雜湊
 const crypto = require('crypto')
-// 本地測試時使用ngork產生的domain，並用來替換瀏覽器網址列的'http://localhost:3000'
-const URL = 'https://23c49a92.ngrok.io'
+// 需在環境變數設置，本地測試時使用ngork產生的domain，並在瀏覽器替換網址列的'http://localhost:3000'，否則無法進入金流頁面
+const URL = process.env.WEBSITE_URL
 const MerchantID = process.env.MERCHANT_ID
-const HashKey = process.env.HASHKEY
-const HashIV = process.env.HASHIV
+const HashKey = process.env.HASH_KEY
+const HashIV = process.env.HASH_IV
 const PayGateWay = 'https://ccore.newebpay.com/MPG/mpg_gateway'
 const ReturnURL = URL + '/newebpay/callback?from=ReturnURL'
 const NotifyURL = URL + '/newebpay/callback?from=NotifyURL'

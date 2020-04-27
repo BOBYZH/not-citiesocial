@@ -14,9 +14,10 @@ REFRESHTOKEN = ***************
 ADDRESS = ***************@gmail.com
 
 # url
+# 需在環境變數設置，本地測試時使用ngork產生的domain，並在瀏覽器替換網址列的'http://localhost:3000'，否則無法進入金流頁面
 WEBSITE_URL = http://localhost:3000/
 
 ＃ newebpay
 MERCHANT_ID = ***************
-HASHKEY = ***************
-HASHIV = ***************
+HASH_KEY = ***************
+HASH_IV = ***************
