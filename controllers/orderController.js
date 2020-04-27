@@ -25,9 +25,9 @@ const URL = process.env.WEBSITE_URL
 const MerchantID = process.env.MERCHANT_ID
 const HashKey = process.env.HASH_KEY
 const HashIV = process.env.HASH_IV
-const PayGateWay = 'https://ccore.newebpay.com/MPG/mpg_gateway'
+const PayGateWay = 'https://ccore.newebpay.com/MPG/mpg_gateway' // 使用的是藍新金流測試平台
 const ReturnURL = URL + '/newebpay/callback?from=ReturnURL'
-const NotifyURL = URL + '/newebpay/callback?from=NotifyURL'
+// const NotifyURL = URL + '/newebpay/callback?from=NotifyURL' // 無法導向先取消掉，用途與最後的'/orders'衝突？
 const ClientBackURL = URL + '/orders'
 
 function genDataChain (TradeInfo) {
@@ -42,6 +42,15 @@ function createMpgAesEncrypt (TradeInfo) {
   const encrypt = crypto.createCipheriv('aes256', HashKey, HashIV)
   const enc = encrypt.update(genDataChain(TradeInfo), 'utf8', 'hex')
   return enc + encrypt.final('hex')
+}
+
+function createMpgAesDecrypt (TradeInfo) {
+  const decrypt = crypto.createDecipheriv('aes256', HashKey, HashIV)
+  decrypt.setAutoPadding(false)
+  const text = decrypt.update(TradeInfo, 'hex', 'utf8')
+  const plainText = text + decrypt.final('utf8')
+  const result = plainText.replace(/[\x00-\x20]+/g, '')
+  return result
 }
 
 function createMpgShaEncrypt (TradeInfo) {
@@ -63,12 +72,12 @@ function getTradeInfo (Amt, Desc, email) {
     Version: 1.5, // 串接程式版本
     MerchantOrderNo: Date.now(), // 商店訂單編號
     LoginType: 0, // 智付通會員
-    OrderComment: 'OrderComment', // 商店備註
+    OrderComment: '無', // 商店備註
     Amt: Amt, // 訂單金額
     ItemDesc: Desc, // 產品名稱
     Email: email, // 付款人電子信箱
     ReturnURL: ReturnURL, // 支付完成返回商店網址
-    NotifyURL: NotifyURL, // 支付通知網址/每期授權結果通知
+    // NotifyURL: NotifyURL, // 支付通知網址/每期授權結果通知
     ClientBackURL: ClientBackURL // 支付取消返回商店網址
   }
 
@@ -138,7 +147,7 @@ const orderController = {
           html: `    
                 <div style="display: inline-block; min-width: 300px; background-color: white;">
                   <h1 style="margin-left: 30px;">您的訂單</h1>
-                  <a href="${process.env.WEBSITE_URL}orders" 
+                  <a href="${process.env.WEBSITE_URL}/orders" 
                   style="margin-top: 5px;">
                     <h3>編號：${order.id}，請至訂單頁面確認</h3>
                   </a>
@@ -179,25 +188,51 @@ const orderController = {
     })
   },
 
+  // 付款前
   getPayment: (req, res) => {
     console.log('===== getPayment =====')
     console.log(req.params.id)
     console.log('==========')
 
     return Order.findByPk(req.params.id, {}).then(order => {
-      const tradeInfo = getTradeInfo(order.amount, '產品名稱', order.email)
-      return res.render('payment', JSON.parse(JSON.stringify({ order, tradeInfo })))
+      const tradeInfo = getTradeInfo(order.amount, '好東西', order.email)
+      order.update({
+        ...req.body,
+        sn: tradeInfo.MerchantOrderNo
+      }).then(order => {
+        res.render('payment', JSON.parse(JSON.stringify({ order, tradeInfo })))
+      })
     })
   },
 
+  // 付款後
   newebpayCallback: (req, res) => {
+    // 會收到三次回傳結果，才能夠驗證交易有效
     console.log('===== newebpayCallback =====')
     console.log(req.method)
     console.log(req.query)
     console.log(req.body)
     console.log('==========')
 
-    return res.redirect('/orders')
+    console.log('===== newebpayCallback: TradeInfo =====')
+    console.log(req.body.TradeInfo)
+
+    const data = JSON.parse(createMpgAesDecrypt(req.body.TradeInfo))
+
+    console.log('===== newebpayCallback: createMpgAesDecrypt, data =====')
+    console.log(data)
+
+    return Order.findAll({ where: { sn: data.Result.MerchantOrderNo } }).then(orders => {
+      // console.log('test', data.Result.MerchantOrderNo)
+      // console.log('test', orders)
+      orders[0].update({
+        ...req.body,
+        paymentStatus: 1
+      }).then(order => {
+        req.flash('success_messages', '已成功付款！')
+        return res.redirect('/orders')
+      })
+    })
   }
 }
 

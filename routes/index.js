@@ -51,9 +51,9 @@ module.exports = (app, passport) => {
   app.post('/order', orderController.postOrder)
   // 取消訂單
   app.post('/order/:id/cancel', orderController.cancelOrder)
-  // 付款頁面
+  // 付款頁面(交易前)
   app.get('/order/:id/payment', orderController.getPayment)
-  // 藍新金流
+  // 藍新金流(交易後)
   app.post('/newebpay/callback', orderController.newebpayCallback)
 
   // 帳戶

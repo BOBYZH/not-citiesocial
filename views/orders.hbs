@@ -41,6 +41,7 @@
         <li>payment_status: {{this.paymentStatus}}</li>
       </ul>
 
+      {{#ifCond this.paymentStatus '0'}}
       <div style="display: flex; justify-content: space-around; min-width: 300px;">
         <form action="/order/{{this.id}}/cancel" method="POST">
           <button type="submit" class="btn btn-primary">取消訂單</button>
@@ -48,6 +49,9 @@
 
         <a href="/order/{{this.id}}/payment"><button class="btn btn-primary">立即付款</button></a>
       </div>
+      {{else}}
+      {{!-- display:none --}}
+      {{/ifCond}}
     </div>
   </div>
 
