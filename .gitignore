@@ -1,6 +1,9 @@
 temp/
 upload/
 
+ngrok
+ngrok.exe
+
 .DS_Store
 *.DS_Store
 
