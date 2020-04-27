@@ -21,25 +21,25 @@ module.exports = {
       isAdmin: true,
       shopName: 'One',
       firstName: 'User1',
-      lastName: 'Customer',
+      lastName: 'Admin',
       createdAt: new Date(),
       updatedAt: new Date()
-      }, {
+    }, {
       // 店家帳號2
       email: 'user2@example.com',
       password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
       isAdmin: true,
       shopName: 'Truth',
       firstName: 'User2',
-      lastName: 'Customer',
+      lastName: 'Admin',
       createdAt: new Date(),
       updatedAt: new Date()
-      }, {
+    }, {
       // 顧客帳號
       email: 'test@test.com',
       password: bcrypt.hashSync('12345678', bcrypt.genSaltSync(10), null),
       isAdmin: false,
-      firstName: 'User2',
+      firstName: 'Test',
       lastName: 'Customer',
       createdAt: new Date(),
       updatedAt: new Date()
@@ -48,12 +48,5 @@ module.exports = {
 
   down: (queryInterface, Sequelize) => {
     return queryInterface.bulkDelete('Users', null, {})
-    /*
-      Add reverting commands here.
-      Return a promise to correctly handle asynchronicity.
-
-      Example:
-      return queryInterface.bulkDelete('People', null, {});
-    */
   }
 }
