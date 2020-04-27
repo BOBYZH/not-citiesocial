@@ -20,7 +20,7 @@ const transporter = nodemailer.createTransport({
 
 // 設定交易資料的加密與雜湊
 const crypto = require('crypto')
-// 需在環境變數設置，本地測試時使用ngork產生的domain，並在瀏覽器替換網址列的'http://localhost:3000'，否則無法進入金流頁面
+// 需在環境變數設置網址
 const URL = process.env.WEBSITE_URL
 const MerchantID = process.env.MERCHANT_ID
 const HashKey = process.env.HASH_KEY
@@ -140,7 +140,7 @@ const orderController = {
                   <h1 style="margin-left: 30px;">您的訂單</h1>
                   <a href="${process.env.WEBSITE_URL}orders" 
                   style="margin-top: 5px;">
-                    <h3>編號：${order.id}，請至訂單頁面確認並付款</h3>
+                    <h3>編號：${order.id}，請至訂單頁面確認</h3>
                   </a>
                   <h3>交易時間：${new Date()}</h3>
                   <h3>總金額：${order.amount}</h3>
