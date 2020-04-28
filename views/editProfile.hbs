@@ -1,0 +1,24 @@
+<div class="container mt-5">
+  <form action="/users/{{user.id}}?_method=PUT" method="POST">
+  
+    <div class="form-group">
+      <label for="last-name">姓</label>
+      <input type="text" class="form-control" name="lastName" placeholder="姓氏" value="{{user.lastName}}" id="last-name">
+    </div>
+  
+    <div class="form-group">
+      <label for="first-name">名</label>
+      <input type="text" class="form-control" name="firstName" placeholder="名字" value="{{user.firstName}}" id="first-name"
+        required>
+    </div>
+
+    <div class="form-group">
+      <label for="email">電子郵件</label>
+      <input type="email" class="form-control" name="email" placeholder="email" value="{{user.email}}" id="email"
+        disabled>
+    </div>
+  
+    <button type="submit" class="btn btn-primary">修改</button>
+    
+  </form>
+</div>

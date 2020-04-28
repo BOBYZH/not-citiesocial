@@ -14,12 +14,13 @@ const unAuthenticated = (req, res, next) => {
   res.redirect('/')
   return req.flash('error_messages', '已登入')
 }
-// const authenticated = (req, res, next) => {
-//   if (req.isAuthenticated()) {
-//     return next()
-//   }
-//   res.redirect('/signin')
-// }
+
+const authenticated = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next()
+  }
+  res.redirect('/signin')
+}
 
 const authenticatedAdmin = (req, res, next) => {
   if (req.isAuthenticated()) {
@@ -84,6 +85,12 @@ module.exports = (app, passport) => {
       failureRedirect: '/signin'
     })
   )
+  // 個人資料頁面
+  app.get('/users/:id', authenticated, userController.getUser)
+  // 編輯頁面
+  app.get('/users/:id/edit', authenticated, userController.editUser)
+  // 編輯資料
+  app.put('/users/:id', authenticated, upload.single('image'), userController.putUser)
 
   // 顧客
 

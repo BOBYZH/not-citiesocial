@@ -98,13 +98,14 @@
       <a href="/orders" class="ml-3">個人訂單</a>
     </div>
 
-    <div id="account-info" class="col-1 border border-right-0 d-flex justify-content-center align-items-center py-2"
-      >
+    <div id="account-info" class="col-1 border border-right-0 d-flex justify-content-center align-items-center py-2">
       {{#if user}}
-      <a href="/logout" class="text-center" style="line-height: 20px;">{{user.firstName}}，<br>登出</a>
+      <a href="/users/{{user.id}}">
       {{else}}
-      <a href="/signin" class="text-center">訪客，<br>登入</a>
+      <a href="/signin">
       {{/if}}
+        <i class="far fa-user text-dark h3" style="-webkit-text-stroke-width: 1px; -webkit-text-stroke-color: black;"></i>
+      </a>
     </div>
 
     <div id="cart-icon" class="col-1 border border-right-0 d-flex justify-content-center align-items-center py-2" >
@@ -170,7 +171,7 @@
       <form action="#">
         <div class="input-group-append d-inline-flex">
           <input type="email" class="border border-dark rounded-left pl-3" placeholder="YOUR@EMAIL.COM" name="email"
-            style="width: 30vw; height: 5vh;" aria-label="Recipient's username" aria-describedby="basic-addon2"
+            style="width: 30vw; height: 4vh;" aria-label="Recipient's username" aria-describedby="basic-addon2"
             disabled>
           <button type="submit" class="btn-secondary  px-4 rounded-right float-right" disabled>訂閱電子報</button>
         </div>
