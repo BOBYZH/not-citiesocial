@@ -69,28 +69,50 @@ const userController = {
   },
 
   putUser: (req, res) => {
-    console.log('putUser')
+    console.log('putUser', req.body)
     if (!req.body.firstName) {
       req.flash('error_messages', '沒有填寫名字！')
       return res.redirect('back')
     }
 
     return User.findByPk(req.params.id).then(user => {
-      user
-        .update({
-          firstName: req.body.firstName,
-          lastName: req.body.lastName
-        })
-        .then((user) => {
-          req.flash(
-            'success_messages',
-            '你的個人資料已更新！'
-          )
-          res.redirect('back')
-        })
-        .catch((user) => {
-          req.flash('error_messages', '發生錯誤，請稍後再嘗試')
-        })
+      if (!req.body.isAdmin) {
+        user
+          .update({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            isAdmin: 0,
+            shopName: req.body.shopName
+          })
+          .then((user) => {
+            req.flash(
+              'success_messages',
+              '你的個人資料已更新！'
+            )
+            res.redirect('back')
+          })
+          .catch((user) => {
+            req.flash('error_messages', '發生錯誤，請稍後再嘗試')
+          })
+      } else {
+        user
+          .update({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            isAdmin: 1,
+            shopName: req.body.shopName
+          })
+          .then((user) => {
+            req.flash(
+              'success_messages',
+              '你的個人資料已更新！'
+            )
+            res.redirect('back')
+          })
+          .catch((user) => {
+            req.flash('error_messages', '發生錯誤，請稍後再嘗試')
+          })
+      }
     })
   }
 }

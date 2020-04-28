@@ -17,8 +17,35 @@
       <input type="email" class="form-control" name="email" placeholder="email" value="{{user.email}}" id="email"
         disabled>
     </div>
+
+    <div class="form-check mb-2">
+      <input type="checkbox" class="form-check-input" id="is-admin" name="isAdmin" {{#ifTrue user.isAdmin}}checked{{/ifTrue}} value="{{user.isAdmin}}">
+      <label class="form-check-label" for="is-admin">是否開店</label>
+    </div>
+
+    <div class="form-group">
+      <label for="shop-name">商店名稱</label>
+      <input type="text" class="form-control" name="shopName" placeholder="商店或品牌名稱" value="{{user.shopName}}" id="shop-name" {{#ifTrue user.isAdmin}}{{else}}disabled{{/ifTrue}} required>
+    </div>
   
     <button type="submit" class="btn btn-primary">修改</button>
     
   </form>
 </div>
+
+<script>
+  const checkbox = document.querySelector('#is-admin')
+  const shopName = document.querySelector('#shop-name')
+
+  console.log(checkbox, shopName)
+  
+  checkbox.onchange = () => {
+    if (checkbox.checked) {
+      shopName.disabled = false
+      checkbox.value = "true"
+    } else {
+      shopName.disabled = true
+      checkbox.value = !checkbox.value
+    } 
+  }
+</script>

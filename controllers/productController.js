@@ -19,8 +19,9 @@ const productController = {
     Product.findAndCountAll(
       { include: User, offset: PAGE_OFFSET, limit: PAGE_LIMIT, where: { forSale: true } } // forSale限制只能看到上架的商品
     ).then(products => {
-      // console.log(products.rows[1].User.shopName)
+      // console.log(products.rows[1].User.isAdmin)
       const Products = products.rows
+        .filter(product => product.User.isAdmin === true) // 只顯示有營業店家的商品
         .map(product => (
           {
             ...product.dataValues,
@@ -46,6 +47,9 @@ const productController = {
         res.redirect('/')
       } else if (product.forSale === false || product.forSale === null) {
         req.flash('error_messages', '該商品尚未上架！')
+        res.redirect('back')
+      } else if (product.User.isAdmin === false) {
+        req.flash('error_messages', '商店停業中！')
         res.redirect('back')
       } else {
         return res.render('product', JSON.parse(JSON.stringify({
