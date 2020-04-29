@@ -27,6 +27,9 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'ProductId'
     })
     Product.belongsTo(models.User)
+    Product.belongsTo(models.CategoryLv1)
+    Product.belongsTo(models.CategoryLv2)
+    Product.belongsTo(models.CategoryLv3)
   }
   return Product
 }
