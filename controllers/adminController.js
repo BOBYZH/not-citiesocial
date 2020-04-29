@@ -1,7 +1,9 @@
 const db = require('../models')
 const Product = db.Product
 // const User = db.User
-// const Category = db.Category
+const CategoryLv1 = db.CategoryLv1
+const CategoryLv2 = db.CategoryLv2
+const CategoryLv3 = db.CategoryLv3
 const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const inAdmin = true
@@ -10,7 +12,7 @@ const inProducts = true
 const adminController = {
   // 後台管理
   getProducts: (req, res) => {
-    Product.findAndCountAll({ where: { UserId: req.user.id } }).then(products => {
+    Product.findAndCountAll({ where: { UserId: req.user.id }, include: [CategoryLv1, CategoryLv2, CategoryLv3] }).then(products => {
       return res.render('admin/products', JSON.parse(JSON.stringify({
         products, inAdmin, inProducts
       })))

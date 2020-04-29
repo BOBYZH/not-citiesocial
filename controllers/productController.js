@@ -1,7 +1,9 @@
 const db = require('../models')
 const Product = db.Product
 const User = db.User
-// const Category = db.Category
+const CategoryLv1 = db.CategoryLv1
+const CategoryLv2 = db.CategoryLv2
+const CategoryLv3 = db.CategoryLv3
 
 // 設定顯示數量，來自購物車教案
 let PAGE_LIMIT, PAGE_OFFSET // 前者：最多顯示幾個商品, 後者：從id幾開始顯示
@@ -37,8 +39,8 @@ const productController = {
   getProduct: (req, res) => {
     Product.findByPk(req.params.id, {
       include: [
-        User
-        // Category
+        User,
+        CategoryLv1, CategoryLv2, CategoryLv3
       ]
     }).then(product => {
       // console.log(product.forSale)
