@@ -42,7 +42,7 @@ const adminController = {
           // CategoryId: req.body.categoryId,
           UserId: req.user.id
         }).then((product) => {
-          req.flash('success_messages', '已成功新增商品')
+          req.flash('success_messages', `已成功新增商品：${product.name}`)
           return res.redirect('/admin/products')
         }).catch((product) => {
           req.flash('error_messages', '發生錯誤，請稍後再試……')
@@ -57,7 +57,7 @@ const adminController = {
         // CategoryId: req.body.categoryId,
         UserId: req.user.id
       }).then((product) => {
-        req.flash('success_messages', '已成功新增商品')
+        req.flash('success_messages', `已成功新增商品：${product.name}`)
         return res.redirect('/admin/products')
       }).catch((product) => {
         req.flash('error_messages', '發生錯誤，請稍後再試……')
@@ -101,7 +101,7 @@ const adminController = {
                   // CategoryId: req.body.categoryId,
                   UserId: req.user.id
                 }).then((product) => {
-                  req.flash('success_messages', '已成功修改商品')
+                  req.flash('success_messages', `已成功修改商品：${product.name}`)
                   return res.redirect('/admin/products')
                 }).catch((product) => {
                   req.flash('error_messages', '發生錯誤，請稍後再試……')
@@ -119,7 +119,7 @@ const adminController = {
                 // CategoryId: req.body.categoryId,
                 UserId: req.user.id
               }).then((product) => {
-                req.flash('success_messages', '已成功修改商品')
+                req.flash('success_messages', `已成功修改商品：${product.name}`)
                 return res.redirect('/admin/products')
               }).catch((product) => {
                 req.flash('error_messages', '發生錯誤，請稍後再試……')
@@ -139,8 +139,8 @@ const adminController = {
         } else {
           product.destroy()
             .then((product) => {
-              req.flash('success_messages', '已成功刪除商品')
-              return res.redirect('/admin/products')
+              req.flash('success_messages', `已成功刪除商品：${product.name}`)
+              return res.redirect('back')
             })
         }
       })
@@ -157,8 +157,8 @@ const adminController = {
             forSale: true
           })
             .then((product) => {
-              req.flash('success_messages', '已成功上架商品')
-              return res.redirect('/admin/products')
+              req.flash('success_messages', `已成功上架商品：${product.name}`)
+              return res.redirect('back')
             })
         }
       })
@@ -175,10 +175,44 @@ const adminController = {
             forSale: false
           })
             .then((product) => {
-              req.flash('success_messages', '已成功下架商品')
-              return res.redirect('/admin/products')
+              req.flash('success_messages', `已成功下架商品：${product.name}`)
+              return res.redirect('back')
             })
         }
+      })
+  },
+
+  sellAllProducts: (req, res) => {
+    return Product.findAll({ where: { UserId: req.user.id } })
+      .then((products) => {
+        products.forEach(product =>
+          product.update({
+            forSale: true
+          }))
+      }).then((products) => {
+        req.flash('success_messages', '已成功上架所有商品')
+        setTimeout( // 避免資料庫寫入未完成時，顯示改到一半的資訊
+          () => {
+            return res.redirect('back')
+          }, 1500
+        )
+      })
+  },
+
+  cancelAllProducts: (req, res) => {
+    return Product.findAll({ where: { UserId: req.user.id } })
+      .then((products) => {
+        products.forEach(product =>
+          product.update({
+            forSale: false
+          }))
+      }).then((products) => {
+        req.flash('success_messages', '已成功下架所有商品')
+        setTimeout( // 避免資料庫寫入未完成時，顯示改到一半的資訊
+          () => {
+            return res.redirect('back')
+          }, 1500
+        )
       })
   }
 }

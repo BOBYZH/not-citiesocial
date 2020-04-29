@@ -133,6 +133,18 @@
       <div class="d-flex justify-content-end align-items-center">
         {{#if inProducts}}
         <a href="/admin/products/create" class="btn btn-primary">新增商品</a>
+         {{#if products}}
+        <form action="/admin/products/sellAll?_method=PUT" method="POST" class="d-inline">
+          <button type="submit" class="btn btn-warning mx-2" onclick="if(confirm('確認全部上架？')) return true; else return false">
+            全部上架
+          </button>
+        </form>
+        <form action="/admin/products/cancelAll?_method=PUT" method="POST" class="d-inline">
+          <button type="submit" class="btn btn-danger" onclick="if(confirm('確認全部下架？')) return true; else return false">
+            全部下架
+          </button>
+        </form>
+          {{/if}}
         {{/if}}
       </div>
     </div>

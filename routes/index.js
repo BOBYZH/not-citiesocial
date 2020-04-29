@@ -99,8 +99,18 @@ module.exports = (app, passport) => {
   app.get('/admin', (req, res) => {
     res.redirect('/admin/products')
   })
-  // 商品管理
+
+  // 商品管理頁面
   app.get('/admin/products', authenticatedAdmin, adminController.getProducts)
+  // 上架商品
+  app.put('/admin/products/:id/sell', authenticatedAdmin, adminController.sellProduct)
+  // 下架商品
+  app.put('/admin/products/:id/cancel', authenticatedAdmin, adminController.cancelProduct)
+  // 上架所有商品
+  app.put('/admin/products/sellAll', authenticatedAdmin, adminController.sellAllProducts)
+  // 下架所有商品
+  app.put('/admin/products/cancelAll', authenticatedAdmin, adminController.cancelAllProducts)
+
   // 新增商品
   app.get('/admin/products/create', authenticatedAdmin, adminController.createProduct)
   app.post('/admin/products', authenticatedAdmin, upload.single('image'), adminController.postProduct)
@@ -109,10 +119,6 @@ module.exports = (app, passport) => {
   app.put('/admin/products/:id', authenticatedAdmin, upload.single('image'), adminController.putProduct)
   // 刪除商品
   app.delete('/admin/products/:id', authenticatedAdmin, adminController.deleteProduct)
-  // 上架商品
-  app.put('/admin/products/:id/sell', authenticatedAdmin, adminController.sellProduct)
-  // 下架商品
-  app.put('/admin/products/:id/cancel', authenticatedAdmin, adminController.cancelProduct)
   // 避免404當掉
   app.all('*', productController.redirectInvalidUrl)
 }
