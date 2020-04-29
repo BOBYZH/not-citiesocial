@@ -15,7 +15,10 @@ module.exports = {
           UserId: Math.floor(Math.random() * 3) + 1,
           forSale: Math.round(Math.random()),
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
+          CategoryLv1Id: Math.floor(Math.random() * 6) + 1,
+          CategoryLv2Id: Math.floor(Math.random() * 60) + 1,
+          CategoryLv3Id: Math.floor(Math.random() * 600) + 1
         })
       ), {})
   },
