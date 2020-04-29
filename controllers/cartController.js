@@ -33,7 +33,7 @@ const cartController = {
         }
       }).spread(function (cartItem, created) {
         return cartItem.update({
-          quantity: (cartItem.quantity || 0) + 1
+          quantity: (cartItem.quantity || 0) + req.body.quantity
         })
           .then((cartItem) => {
             req.session.cartId = cart.id

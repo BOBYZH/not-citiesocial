@@ -71,19 +71,20 @@
         {{/if}}
         <span class="ml-3 h7"> (免運費)</span>
       </p>
-      <div class="row my-4">
-        <div class="col-3 mt-3 pl-1 text-center text-black-50">
-          數量
-        </div>
-        <button class="col-3 btn btn-light border-0 text-muted bg-white" disabled>
-          <h2>-</h2>
-        </button>
-        <input type="number" name="quantity" class="col-3 pl-4 text-center" value="1" disabled>
-        <button class="col-2 btn btn-light border-0 text-info bg-white" disabled>
-          <h2>+</h2>
-        </button>
-      </div>
+
       <form action="/cart" method="POST" class="col-12 px-0">
+        <div class="row my-4">
+          <div class="col-3 mt-3 pl-1 text-center text-black-50">
+            數量
+          </div>
+          <button class="col-3 btn btn-light border-0 text-muted bg-white" id="minus">
+            <h2>-</h2>
+          </button>
+          <input type="number" name="quantity" class="col-3 pl-4 text-center" id="quantity" value="1" min="1">
+          <button class="col-2 btn btn-light border-0 text-info bg-white" id="plus">
+            <h2>+</h2>
+          </button>
+        </div>
         <input type="hidden" name="productId" value="{{product.id}}">
         <button type="submit" class="btn btn-info py-3 mt-1 col-12" id="add-to-cart">
           加入購物車
@@ -94,9 +95,39 @@
 </section>
 
 <script>
-    const addToCart = document.querySelector('#add-to-cart')
+  const minus = document.querySelector('#minus')
+  const plus = document.querySelector('#plus')
+  const quantity = document.querySelector('#quantity')
+  const addToCart = document.querySelector('#add-to-cart')
+
+  /*
+  表單欄位輸入的數字會被認定為是字串，無法從頭設定類型為數字？
+  如下皆無效，只好在無效的地方部份設定：
+  quantity.value = Number(quantity.value)
+  quantity.value = parseInt(quantity.value)
+  */
+
+  quantity.value = parseInt(quantity.value)
+
+  minus.addEventListener('click', (event) => {
+    event.preventDefault()
+    if (quantity.value > 1) {
+      quantity.value -= 1
+    }
     
-    addToCart.addEventListener('click', (event) => {
-      addToCart.textContent = '加入中…'
-    })
+    if (Number(quantity.value) === 1) {
+      minus.classList.remove('text-info')
+      minus.classList.add('text-muted')
+    }
+  })
+  plus.addEventListener('click', (event) => {
+    event.preventDefault()
+    minus.classList.remove('text-muted')
+    minus.classList.add('text-info')
+    quantity.value = Number(quantity.value) + 1 // quantity.value += 1 會變成文字相加？
+  })
+
+  addToCart.addEventListener('click', (event) => {
+    addToCart.textContent = '加入中…'
+  })
 </script>
