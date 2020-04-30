@@ -12,17 +12,40 @@
         </div>
 
         <div class="row">
-          <div class="form-group col-8">
-            <label for="categoryId">產品類型</label>
-            <select class="form-control" id="categoryId" name="categoryId"  required disabled>
-              {{#each categories}}
-              <option value="{{this.id}}" {{#ifCond this.id ../product.CategoryId}} selected {{/ifCond}}>{{this.name}}
+          <div class="form-group col-4 col-lg-2 col-xl-2">
+            <label for="category-lv1">產品類型</label>
+            <select class="form-control" id="category-lv1" name="categoryLv1Id" required>
+              <option value="">未定義</option>
+              {{#each CategoryLv1s}}
+              <option value="{{this.id}}" class="option-lv1" {{#ifCond this.id ../product.CategoryLv1Id}} selected {{/ifCond}}>{{this.name}}
+              </option>
+              {{/each}}
+            </select>
+          </div>
+
+          <div class="form-group col-8 col-lg-5 col-xl-4">
+            <label for="category-lv2">項目類型</label>
+            <select class="form-control" id="category-lv2" name="categoryLv2Id" required disabled>
+              <option value="">未定義</option>
+              {{#each CategoryLv2s}}
+              <option value="{{this.id}}" {{#ifCond this.id ../product.CategoryLv2Id}} selected {{/ifCond}}>{{this.name}}
+              </option>
+              {{/each}}
+            </select>
+          </div>
+
+          <div class="form-group col-8 col-lg-5 col-xl-4">
+            <label for="category-lv3">次分類</label>
+            <select class="form-control" id="category-lv3" name="categoryLv3Id" required disabled>
+              <option value="">未定義</option>
+              {{#each CategoryLv3s}}
+              <option value="{{this.id}}" {{#ifCond this.id ../product.CategoryLv3Id}} selected {{/ifCond}}>{{this.name}}
               </option>
               {{/each}}
             </select>
           </div>
           
-          <div class="form-group col-4">
+          <div class="form-group col-4 col-lg- col-xl-2">
             <label for="price">產品價格</label>
             <input type="number" class="form-control" name="price" id="price"  value="{{product.price}}" min="0" step="1" required>
           </div>
@@ -39,7 +62,7 @@
         </div>
 
         <div class="d-flex justify-content-between">
-          <button type="submit" class="btn btn-primary">
+          <button type="submit" class="btn btn-primary" id="submit-button" disabled>
           {{#if product}}
           確認修改
           {{else}}
@@ -58,3 +81,55 @@
       return 'Are you sure you want to leave?'
     }
 </script> --}}
+
+<script>
+  const categoryLv1 = document.querySelector('#category-lv1')
+  const categoryLv2 = document.querySelector('#category-lv2')
+  const categoryLv3 = document.querySelector('#category-lv3')
+  const submitButton = document.querySelector('#submit-button')
+
+  categoryLv1.onchange = function () {  
+    console.log('testLv1', this.value)
+    if (!this.value) {
+      console.log('lv1未定義')
+      categoryLv2.disabled = true
+      categoryLv3.disabled = true
+      submitButton.disabled = true
+    } else {
+      categoryLv2.disabled = false
+      if (categoryLv3.value) {
+        submitButton.disabled = false
+        categoryLv3.disabled = false
+      }
+    }
+  }
+
+  categoryLv2.onchange = function () {
+    console.log('testLv2', this.value)
+    if (!this.value) {
+      console.log('lv2未定義')
+      categoryLv3.disabled = true
+      submitButton.disabled = true
+    } else {
+      categoryLv3.disabled = false
+      if (categoryLv3.value) {
+        submitButton.disabled = false
+      }
+    }
+  }
+
+  categoryLv3.onchange = function () {
+    console.log('testLv3', this.value)
+    if (!this.value) {
+      console.log('lv3未定義')
+      submitButton.disabled = true
+    } else {
+      categoryLv3.disabled = false
+      submitButton.disabled = false
+    }
+  }    
+  // 允許編輯頁面不做修改也能直接送出
+  if (categoryLv3.value) {
+    submitButton.disabled = false
+  }
+</script>

@@ -12,7 +12,10 @@ const inProducts = true
 const adminController = {
   // 後台管理
   getProducts: (req, res) => {
-    Product.findAndCountAll({ where: { UserId: req.user.id }, include: [CategoryLv1, CategoryLv2, CategoryLv3] }).then(products => {
+    Product.findAndCountAll({
+      where: { UserId: req.user.id },
+      include: [CategoryLv1, CategoryLv2, CategoryLv3]
+    }).then(products => {
       return res.render('admin/products', JSON.parse(JSON.stringify({
         products, inAdmin, inProducts
       })))
@@ -20,9 +23,16 @@ const adminController = {
   },
 
   createProduct: (req, res) => {
-    return res.render('admin/create', JSON.parse(JSON.stringify({
-      inAdmin, inProducts
-    })))
+    CategoryLv1.findAll().then(CategoryLv1s => {
+      CategoryLv2.findAll().then(CategoryLv2s => {
+        CategoryLv3.findAll().then(CategoryLv3s => {
+          // console.log(inAdmin, inProducts, CategoryLv1s)
+          return res.render('admin/create', JSON.parse(JSON.stringify({
+            inAdmin, inProducts, CategoryLv1s, CategoryLv2s, CategoryLv3s
+          })))
+        })
+      })
+    })
   },
 
   postProduct: (req, res) => {
@@ -41,7 +51,9 @@ const adminController = {
           price: req.body.price,
           description: req.body.description,
           image: file ? img.data.link : null,
-          // CategoryId: req.body.categoryId,
+          CategoryLv1Id: req.body.categoryLv1Id,
+          CategoryLv2Id: req.body.categoryLv2Id,
+          CategoryLv3Id: req.body.categoryLv3Id,
           UserId: req.user.id
         }).then((product) => {
           req.flash('success_messages', `已成功新增商品：${product.name}`)
@@ -56,7 +68,9 @@ const adminController = {
         price: req.body.price,
         description: req.body.description,
         image: null,
-        // CategoryId: req.body.categoryId,
+        CategoryLv1Id: req.body.categoryLv1Id,
+        CategoryLv2Id: req.body.categoryLv2Id,
+        CategoryLv3Id: req.body.categoryLv3Id,
         UserId: req.user.id
       }).then((product) => {
         req.flash('success_messages', `已成功新增商品：${product.name}`)
@@ -69,13 +83,19 @@ const adminController = {
 
   editProduct: (req, res) => {
     Product.findByPk(req.params.id).then(product => {
-      console.log(product.UserId, 'test')
-      if (product.UserId !== req.user.id) { // 防止進入非自己店家商品頁面偷改資料
-        req.flash('error_messages', '只能改自己的商品！')
-        res.redirect('/admin/products')
-      } else {
-        return res.render('admin/create', JSON.parse(JSON.stringify({ product, inAdmin, inProducts })))
-      }
+      // console.log(product.UserId, 'test')
+      CategoryLv1.findAll().then(CategoryLv1s => {
+        CategoryLv2.findAll().then(CategoryLv2s => {
+          CategoryLv3.findAll().then(CategoryLv3s => {
+            if (product.UserId !== req.user.id) { // 防止進入非自己店家商品頁面偷改資料
+              req.flash('error_messages', '只能改自己的商品！')
+              res.redirect('/admin/products')
+            } else {
+              return res.render('admin/create', JSON.parse(JSON.stringify({ product, inAdmin, inProducts, CategoryLv1s, CategoryLv2s, CategoryLv3s })))
+            }
+          })
+        })
+      })
     })
   },
 
@@ -100,11 +120,17 @@ const adminController = {
                   price: req.body.price,
                   description: req.body.description,
                   image: file ? img.data.link : product.image,
-                  // CategoryId: req.body.categoryId,
+                  CategoryLv1Id: req.body.categoryLv1Id,
+                  CategoryLv2Id: req.body.categoryLv2Id,
+                  CategoryLv3Id: req.body.categoryLv3Id,
                   UserId: req.user.id
                 }).then((product) => {
-                  req.flash('success_messages', `已成功修改商品：${product.name}`)
-                  return res.redirect('/admin/products')
+                  setTimeout( // 避免資料庫寫入未完成時，顯示改到一半的資訊
+                    () => {
+                      req.flash('success_messages', `已成功修改商品：${product.name}`)
+                      return res.redirect('/admin/products')
+                    }, 1500
+                  )
                 }).catch((product) => {
                   req.flash('error_messages', '發生錯誤，請稍後再試……')
                 })
@@ -118,11 +144,17 @@ const adminController = {
                 price: req.body.price,
                 description: req.body.description,
                 image: product.image,
-                // CategoryId: req.body.categoryId,
+                CategoryLv1Id: req.body.categoryLv1Id,
+                CategoryLv2Id: req.body.categoryLv2Id,
+                CategoryLv3Id: req.body.categoryLv3Id,
                 UserId: req.user.id
               }).then((product) => {
-                req.flash('success_messages', `已成功修改商品：${product.name}`)
-                return res.redirect('/admin/products')
+                setTimeout( // 避免資料庫寫入未完成時，顯示改到一半的資訊
+                  () => {
+                    req.flash('success_messages', `已成功修改商品：${product.name}`)
+                    return res.redirect('/admin/products')
+                  }, 1500
+                )
               }).catch((product) => {
                 req.flash('error_messages', '發生錯誤，請稍後再試……')
               })
