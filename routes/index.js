@@ -36,6 +36,7 @@ module.exports = (app, passport) => {
   app.get('/', productController.getIndex)
   // 個別商品
   app.get('/products/:id', productController.getProduct)
+
   // 購物車內容
   app.get('/cart', cartController.getCart)
   // 新增商品
@@ -46,7 +47,8 @@ module.exports = (app, passport) => {
   app.post('/cartItem/:id/sub', cartController.subCartItem)
   // 移除商品
   app.delete('/cartItem/:id', cartController.deleteCartItem)
-  // 訂單內容
+
+  // 訂單頁面
   app.get('/orders', orderController.getOrders)
   // 新增訂單
   app.post('/order', orderController.postOrder)
@@ -54,7 +56,9 @@ module.exports = (app, passport) => {
   app.post('/order/:id/cancel', orderController.cancelOrder)
   // 付款頁面(交易前)
   app.get('/order/:id/payment', orderController.getPayment)
-  // 藍新金流(交易後)
+  // 確認交易頁面(交易後)
+  app.post('/orders', orderController.checkOrder)
+  // 確認交易資料(交易後)
   app.post('/newebpay/callback', orderController.newebpayCallback)
 
   // 帳戶

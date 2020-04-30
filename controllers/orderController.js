@@ -27,10 +27,10 @@ const HashKey = process.env.HASH_KEY
 const HashIV = process.env.HASH_IV
 const PayGateWay = 'https://ccore.newebpay.com/MPG/mpg_gateway' // 使用的是藍新金流測試平台
 
-// 交易後導向的URL，但用途看不出來，因與newebpayCallback最後的'/orders'衝突？
-const ReturnURL = URL + '/newebpay/callback?from=ReturnURL'
-// 底下變數會導致店家信箱收到「API 串接 Notify URL 觸發失敗通知信」，故註解掉
-// const NotifyURL = URL + '/newebpay/callback?from=NotifyURL'
+// 付款結束後，藍新會向ReturnURL的連結發post，讓顧客回到商店網站頁面
+const ReturnURL = URL + '/orders'
+// 付款結束後，藍新會向NotifyURL的連結發post，以告知商店伺服器交易結果
+const NotifyURL = URL + '/newebpay/callback?from=NotifyURL'
 
 const ClientBackURL = URL + '/orders'
 
@@ -81,7 +81,7 @@ function getTradeInfo (Amt, Desc, email) {
     ItemDesc: Desc, // 產品名稱
     Email: email, // 付款人電子信箱
     ReturnURL: ReturnURL, // 支付完成返回商店網址
-    // NotifyURL: NotifyURL, // 支付通知網址/每期授權結果通知
+    NotifyURL: NotifyURL, // 支付通知網址/每期授權結果通知
     ClientBackURL: ClientBackURL // 支付取消返回商店網址
   }
 
@@ -150,7 +150,7 @@ const orderController = {
           subject: `${order.name}，您的訂單（編號：${order.id}）已成立`,
           html: `    
                 <div style="display: inline-block; min-width: 300px; background-color: white;">
-                  <h1 style="margin-left: 30px;">您的訂單</h1>
+                  <h1>您在Not citiesocial的訂單</h1>
                   <a href="${process.env.WEBSITE_URL}/orders" 
                   style="margin-top: 5px;">
                     <h3>編號：${order.id}，請至訂單頁面確認</h3>
@@ -210,6 +210,7 @@ const orderController = {
   },
 
   // 付款後
+  // 藍新向NotifyURL的連結發post後執行的動作
   newebpayCallback: (req, res) => {
     // 會收到三次回傳結果，才能夠驗證交易有效
     console.log('===== newebpayCallback =====')
@@ -226,6 +227,7 @@ const orderController = {
     console.log('===== newebpayCallback: createMpgAesDecrypt, data =====')
     console.log(data)
 
+    // 交易成功後更新訂單為已付款
     return Order.findAll({ where: { sn: data.Result.MerchantOrderNo } }).then(orders => {
       // console.log('test', data.Result.MerchantOrderNo)
       // console.log('test', orders)
@@ -233,10 +235,14 @@ const orderController = {
         ...req.body,
         paymentStatus: 1
       }).then(order => {
-        req.flash('success_messages', '已成功付款！')
-        return res.redirect('/orders')
+        res.sendStatus(200) // 向藍新回報已經確認交易，否則商家會收到「API 串接 Notify URL 觸發失敗通知信」
       })
     })
+  },
+  // 藍新向ReturnURL的連結發post後執行的動作
+  checkOrder: (req, res) => {
+    req.flash('success_messages', '已成功付款！')
+    return res.redirect('/orders')
   }
 }
 
