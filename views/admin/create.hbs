@@ -23,6 +23,14 @@
             </select>
           </div>
 
+          {{!-- category-lv2與category-lv3在這邊只是裝飾，
+          模仿原版citiesocial網站一般商品有三層分類，
+          如：家電 〉 清潔家電 〉 蒸氣拖把 / 多功能清潔機
+
+          完整功能目前想到要依據上一層級選項數量建立更多model，
+          如將category-lv2依據category-lv1項目數量拆成6個，
+          category-lv3則依category-lv2項目數量拆成數十個 --}}
+
           <div class="form-group col-8 col-lg-5 col-xl-4">
             <label for="category-lv2">項目類型</label>
             <select class="form-control" id="category-lv2" name="categoryLv2Id" required disabled>

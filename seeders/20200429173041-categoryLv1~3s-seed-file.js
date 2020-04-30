@@ -23,7 +23,7 @@ module.exports = {
         ), {})
 
     queryInterface.bulkInsert('CategoryLv2s',
-      Array.from({ length: 60 })
+      Array.from({ length: 24 }) // 簡化該層級model數量，詳見admin/create.hbs理的說明
         .map((item, index) =>
           ({
             id: index + 1,
@@ -34,7 +34,7 @@ module.exports = {
         ), {})
 
     return queryInterface.bulkInsert('CategoryLv3s',
-      Array.from({ length: 600 })
+      Array.from({ length: 15 }) // 簡化該層級model數量，詳見admin/create.hbs理的說明
         .map((item, index) =>
           ({
             id: index + 1,

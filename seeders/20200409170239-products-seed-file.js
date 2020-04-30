@@ -17,8 +17,10 @@ module.exports = {
           createdAt: new Date(),
           updatedAt: new Date(),
           CategoryLv1Id: Math.floor(Math.random() * 6) + 1,
-          CategoryLv2Id: Math.floor(Math.random() * 60) + 1,
-          CategoryLv3Id: Math.floor(Math.random() * 600) + 1
+          // 簡化該層級model數量，詳見admin/create.hbs理的說明
+          CategoryLv2Id: Math.floor(Math.random() * 24) + 1,
+          // 簡化該層級model數量，詳見admin/create.hbs理的說明
+          CategoryLv3Id: Math.floor(Math.random() * 15) + 1
         })
       ), {})
   },
