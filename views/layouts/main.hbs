@@ -131,9 +131,8 @@
         </li>
       </ul>
       <div class="d-flex justify-content-end align-items-center">
-        {{#if inProducts}}
-        <a href="/admin/products/create" class="btn btn-primary">新增商品</a>
          {{#if products}}
+        <a href="/admin/products/create" class="btn btn-primary">新增商品</a>
         <form action="/admin/products/sellAll?_method=PUT" method="POST" class="d-inline">
           <button type="submit" class="btn btn-warning mx-2" onclick="if(confirm('確認全部上架？')) return true; else return false">
             全部上架
@@ -145,15 +144,31 @@
           </button>
         </form>
           {{/if}}
-        {{/if}}
       </div>
     </div>
     {{else}}
     <div class="mx-auto d-none d-md-flex">
       <ul class="col-12 text-center mb-0 mx-0 row list-unstyled" style="line-height: 50px;">
-        <li class="px-3 active"><a>分類1</a></li>
-        <li class="px-3"><a>分類2</a></li>
-        <li class="px-3"><a>分類3</a></li>
+        <li>
+          <a class="nav-link text-muted p-0 mx-2" href="#">即時排行 TOP 100</a>
+        </li>
+        <li>
+          <a class="nav-link text-muted p-0 mx-2" href="#">早鳥首映會</a>
+        </li>
+        <li>
+          <a class="nav-link text-muted p-0 mx-2" href="#">焦點推薦</a>
+        </li>
+        {{#each categories}}
+        <li>
+          <a class="nav-link text-dark p-0 mx-2" href="#">{{this.name}}</a>
+        </li>
+        {{/each}}
+        <li>
+          <a class="nav-link text-muted p-0 mx-2" href="#">購物優惠</a>
+        </li>
+        <li>
+          <a class="nav-link text-muted p-0 mx-2" href="#">VIEWS生活誌</a>
+        </li>
       </ul>
     </div>
     {{/if}}
@@ -200,40 +215,40 @@
         <div class="col-3">
           <h6 class="mb-3">關於我們</h6>
           <ul class="list-unstyled font-weight-light">
-            <li class="py-1"><a href="#" class="text-dark">關於 not citiesocial</a></li>
-            <li class="py-1"><a href="#" class="text-dark">隱私權保護政策</a></li>
-            <li class="py-1"><a href="#" class="text-dark">服務條款</a></li>
+            <li class="py-1"><a href="#" class="text-muted">關於 not citiesocial</a></li>
+            <li class="py-1"><a href="#" class="text-muted">隱私權保護政策</a></li>
+            <li class="py-1"><a href="#" class="text-muted">服務條款</a></li>
           </ul>
         </div>
 
         <div class="col-3">
           <h6 class="mb-3">聯絡我們</h6>
           <ul class="list-unstyled font-weight-light">
-            <li class="py-1"><a href="#" class="text-dark">業務合作洽談</a></li>
-            <li class="py-1"><a href="#" class="text-dark">Sell with not citiesocial</a></li>
+            <li class="py-1"><a href="#" class="text-muted">業務合作洽談</a></li>
+            <li class="py-1"><a href="#" class="text-muted">Sell with not citiesocial</a></li>
           </ul>
         </div>
 
         <div class="col-3">
           <h6 class="mb-3">自助查詢</h6>
           <ul class="list-unstyled font-weight-light">
-            <li class="py-1"><a href="#" class="text-dark">銀行優惠說明</a></li>
-            <li class="py-1"><a href="#" class="text-dark">LINE Points 回饋說明</a></li>
-            <li class="py-1"><a href="#" class="text-dark">預購商品查詢</a></li>
-            <li class="py-1"><a href="#" class="text-dark">訂單出貨查詢</a></li>
-            <li class="py-1"><a href="#" class="text-dark">配送進度查詢</a></li>
+            <li class="py-1"><a href="#" class="text-muted">銀行優惠說明</a></li>
+            <li class="py-1"><a href="#" class="text-muted">LINE Points 回饋說明</a></li>
+            <li class="py-1"><a href="#" class="text-muted">預購商品查詢</a></li>
+            <li class="py-1"><a href="#" class="text-muted">訂單出貨查詢</a></li>
+            <li class="py-1"><a href="#" class="text-muted">配送進度查詢</a></li>
           </ul>
         </div>
 
         <div class="col-3">
           <h6 class="mb-3">顧客服務</h6>
           <ul class="list-unstyled font-weight-light">
-            <li class="py-1"><a href="#" class="text-dark">VIEWS生活誌</a></li>
-            <li class="py-1"><a href="#" class="text-dark">會員回饋計畫</a></li>
-            <li class="py-1"><a href="#" class="text-dark">早鳥首映會</a></li>
-            <li class="py-1"><a href="#" class="text-dark">退換貨說明</a></li>
-            <li class="py-1"><a href="#" class="text-dark">發票說明</a></li>
-            <li class="py-1"><a href="#" class="text-dark">客服中心</a></li>
+            <li class="py-1"><a href="#" class="text-muted">VIEWS生活誌</a></li>
+            <li class="py-1"><a href="#" class="text-muted">會員回饋計畫</a></li>
+            <li class="py-1"><a href="#" class="text-muted">早鳥首映會</a></li>
+            <li class="py-1"><a href="#" class="text-muted">退換貨說明</a></li>
+            <li class="py-1"><a href="#" class="text-muted">發票說明</a></li>
+            <li class="py-1"><a href="#" class="text-muted">客服中心</a></li>
           </ul>
         </div>
       </div>
