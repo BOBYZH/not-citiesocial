@@ -52,7 +52,7 @@ const productController = {
         .map(product => (
           {
             ...product.dataValues,
-            name: product.dataValues.name !== null ? (product.dataValues.name.length > 18 ? (product.dataValues.name.substring(0, 18) + '...') : product.dataValues.name) : ''
+            name: product.dataValues.name !== null ? product.dataValues.name : ''
           }
         ))
       CategoryLv1.findAll().then(categoryLv1s => {
