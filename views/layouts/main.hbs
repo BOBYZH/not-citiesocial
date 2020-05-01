@@ -72,7 +72,7 @@
           <button type="submit" class="input-group-text bg-white p-0 py-1 mx-2 border-0" id="search-button">
             <i class="fas fa-search text-dark h3 m-0"></i>
           </button>
-          <input type="text" name="keyword" class="form-control py-1 mx-2 border-0" placeholder="請輸入關鍵字" aria-label="Movie Name..." value="{{keyword}}" aria-describedby="search-button">
+          <input type="text" name="keyword" class="form-control py-1 mx-2 border-0" placeholder="請輸入關鍵字" aria-label="Keyword of products" value="{{keyword}}" aria-describedby="search-button">
         </div>
       </form>
       {{/if}}
@@ -108,10 +108,18 @@
     </div>
 
     <div id="cart-icon" class="col-1 border border-right-0 d-flex justify-content-center align-items-center py-2" >
+      {{#if inCartPage}}
       <a href="/cart">
         <i class="fas fa-shopping-bag text-white h3" style="-webkit-text-stroke-width: 4px;
   -webkit-text-stroke-color: black;"></i>
       </a>
+      {{else}}
+      <!-- Button trigger modal -->
+      <button type="button" class="btn" data-toggle="modal" data-target="#cartModal">
+        <i class="fas fa-shopping-bag text-white h3" style="-webkit-text-stroke-width: 4px;
+          -webkit-text-stroke-color: black;"></i>
+      </button>
+      {{/if}}
     </div>
 
 
@@ -259,6 +267,87 @@
 
     </section>
   </footer>
+
+  {{!-- 點擊開啟modal後，常常無法正確載入購物車內資料，
+  通常是顯示不出cartItem的名稱與單價，少數是誤顯示為購物車沒東西，
+  還有極少數情況是操作中途重新建立空的購物車，
+  尤其在元素較多較複雜的頁面...... --}}
+  <!-- Modal -->
+  <div class="modal fade p-0" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModalLabel"
+    aria-hidden="true">
+
+    <div class="modal-dialog mt-0 mr-0" role="document">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <span class="col-10">
+            <div class="row">
+              <i class="fas fa-shopping-bag text-white h3 px-2"
+                style="-webkit-text-stroke-width: 4px; -webkit-text-stroke-color: green;"></i>
+              <h5 class="modal-title" id="exampleModalLabel">我的購物車</h5>
+            </div>
+          </span>
+          <button type="button" class="close col-2" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        {{#ifCond cart.items.length 0}}
+        <div class="modal-body">
+          <h5 class="text-center">您還沒有加入商品到購物車中</h5>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info w-50 mx-auto" data-dismiss="modal" aria-label="Close">
+            開始逛逛
+          </button>
+        </div>
+        {{else}}
+        <div class="modal-body">          
+          <div class="sidebar-sticky">            
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">              
+                {{#each cart.items}}
+                <div class="row no-gutters">
+                  <div class="col-md-4" style="display: flex;align-items: center;">
+                    <img src="{{this.image}}" class="card-img" alt="...">
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title">{{this.name}}</h5>
+                      <p>${{this.price}}</p>
+                      <div class="btn-group">
+                        <span style="margin: 0 20px;">{{this.CartItem.quantity}}</span>
+          
+                        <form action="/cartItem/{{this.CartItem.id}}?_method=DELETE" method="POST">
+                          <button type="submit" class="btn btn-link">
+                            <i class="fas fa-trash"></i>
+                          </button>
+                        </form>
+          
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {{/each}}              
+              </li>
+            </ul>
+            <hr>
+            <li class="list-group-item">
+              Total: ${{totalPrice}}
+            </li>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <a href="/cart" class="btn btn-info w-100">立即結帳</a>
+        </div>
+        {{/ifCond}}
+
+      </div>
+    </div>
+
+  </div>
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

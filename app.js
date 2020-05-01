@@ -54,8 +54,16 @@ app.use((req, res, next) => {
 
   const db = require('./models')
   const Category = db.CategoryLv1
+  const Cart = db.Cart
+
   Category.findAll().then(categories => {
     res.locals.categories = JSON.parse(JSON.stringify(categories))
+  })
+  Cart.findByPk(req.session.cartId, { include: 'items' }).then(cart => {
+    cart = cart || { items: [] } // 找不到購物車的話，回傳空的內容
+    const totalPrice = cart.items.length > 0 ? cart.items.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
+    res.locals.cart = JSON.parse(JSON.stringify(cart))
+    res.locals.totalPrice = JSON.parse(JSON.stringify(totalPrice))
   })
 
   next()
