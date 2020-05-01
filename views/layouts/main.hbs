@@ -148,19 +148,24 @@
     </div>
     {{else}}
     <div class="mx-auto d-none d-md-flex">
-      <ul class="col-12 text-center mb-0 mx-0 row list-unstyled" style="line-height: 50px;">
-        <li>
-          <a class="nav-link text-muted p-0 mx-2" href="#">即時排行 TOP 100</a>
+      <ul class="col-12 text-center mb-0 mx-0 row list-unstyled nav nav-pills" style="line-height: 50px;">
+        <li class="nav-item">
+          <a class="nav-link text-muted p-0 mx-2" href="#">即時排行 TOP 10</a>
         </li>
-        <li>
-          <a class="nav-link text-muted p-0 mx-2" href="#">早鳥首映會</a>
-        </li>
-        <li>
-          <a class="nav-link text-muted p-0 mx-2" href="#">焦點推薦</a>
+        <li class="nav-item">
+          <a class="nav-link text-dark p-0 mx-2" href="/products?categoryLv1Id=">
+            <span class="{{#ifCond '' categoryLv1Id}}text-info{{/ifCond}}">
+              全部商品
+            </span>
+          </a>
         </li>
         {{#each categories}}
-        <li>
-          <a class="nav-link text-dark p-0 mx-2" href="#">{{this.name}}</a>
+        <li class="nav-item">
+          <a class="nav-link text-dark p-0 mx-2" href="/products?categoryLv1Id={{this.id}}">
+            <span class="{{#ifCond this.id ../categoryLv1Id}}text-info{{/ifCond}}">
+              {{this.name}}
+            </span>
+          </a>
         </li>
         {{/each}}
         <li>
