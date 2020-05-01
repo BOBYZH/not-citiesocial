@@ -46,11 +46,18 @@ app.use(passport.session())
 // 使用完整RESTful 動詞
 app.use(methodOverride('_method'))
 
-// 把 req.flash 放到 res.locals 裡面
+// 把資料放到res.locals裡面，在所有連結都可以使用
 app.use((req, res, next) => {
   res.locals.success_messages = req.flash('success_messages')
   res.locals.error_messages = req.flash('error_messages')
   res.locals.user = req.user
+
+  const db = require('./models')
+  const Category = db.CategoryLv1
+  Category.findAll().then(categories => {
+    res.locals.categories = JSON.parse(JSON.stringify(categories))
+  })
+
   next()
 })
 
