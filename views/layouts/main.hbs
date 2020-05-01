@@ -65,17 +65,16 @@
         <br>
         <span class="h5">店家名稱：{{user.shopName}}</span>
       </h4>
-      {{!-- <h5 class="w-100 text-center"></h5> --}}
-      {{else}}
-      {{#if inAdmin}}
       <h5 class="mr-2">店家名稱：{{user.shopName}}</h5>
-      {{/if}}
-      <div class="input-group-append">
-        <button class="input-group-text bg-white form-control  border-0" id="search-button">
-          <i class="fas fa-search text-dark h3"></i>
-        </button>
-      </div>
-      <input type="text" class="form-control  border-0" placeholder="請輸入關鍵字">
+      {{else}}
+      <form action="/products/">
+        <div class="input-group-append">
+          <button type="submit" class="input-group-text bg-white p-0 py-1 mx-2 border-0" id="search-button">
+            <i class="fas fa-search text-dark h3 m-0"></i>
+          </button>
+          <input type="text" name="keyword" class="form-control py-1 mx-2 border-0" placeholder="請輸入關鍵字" aria-label="Movie Name..." value="{{keyword}}" aria-describedby="search-button">
+        </div>
+      </form>
       {{/if}}
     </div>
 

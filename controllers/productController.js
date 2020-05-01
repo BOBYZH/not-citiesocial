@@ -47,7 +47,7 @@ const productController = {
       { include: [User, CategoryLv1], where: [{ forSale: true }, whereQuery] } // forSale限制只能看到上架的商品
     ).then(products => {
       // console.log(products.rows[1].User.isAdmin)
-      const Products = products.rows
+      let Products = products.rows
         .filter(product => product.User.isAdmin === true) // 只顯示有營業店家的商品
         .map(product => (
           {
@@ -56,8 +56,17 @@ const productController = {
           }
         ))
       CategoryLv1.findAll().then(categoryLv1s => {
+        const keyword = req.query.keyword || ''
+        if (req.query) {
+          console.log('req.query', req.query)
+          Products = Products.filter(product => {
+            return product.name.toLowerCase().includes(keyword.toLowerCase())
+          })
+        } else {
+          console.log('req.categoryLv1Id', req.categoryLv1Id)
+        }
         return res.render('products', JSON.parse(JSON.stringify({
-          products: Products, categoryLv1s, categoryLv1Id
+          products: Products, categoryLv1s, categoryLv1Id, keyword
         })))
       })
     })
