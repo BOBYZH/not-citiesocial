@@ -38,7 +38,7 @@ const cartController = {
         }
       }).spread(function (cartItem, created) {
         return cartItem.update({
-          quantity: (cartItem.quantity || 0) + req.body.quantity
+          quantity: (cartItem.quantity || 0) + Number(req.body.quantity) // html表單回傳的數字會被js當文字，須轉換否則變文字相加
         })
           .then((cartItem) => {
             req.session.cartId = cart.id
