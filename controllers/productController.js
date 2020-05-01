@@ -44,7 +44,7 @@ const productController = {
       whereQuery.categoryLv1Id = categoryLv1Id
     }
     Product.findAndCountAll(
-      { include: [User, CategoryLv1], where: [{ forSale: true }, whereQuery] } // forSale限制只能看到上架的商品
+      { include: [User, CategoryLv1, CategoryLv2, CategoryLv3], where: [{ forSale: true }, whereQuery] } // forSale限制只能看到上架的商品
     ).then(products => {
       // console.log(products.rows[1].User.isAdmin)
       let Products = products.rows
@@ -60,7 +60,13 @@ const productController = {
         if (req.query) {
           console.log('req.query', req.query)
           Products = Products.filter(product => {
-            return product.name.toLowerCase().includes(keyword.toLowerCase())
+            return product.name.toLowerCase().includes(keyword.toLowerCase()) ||
+              product.description.toLowerCase().includes(keyword.toLowerCase()) ||
+              product.CategoryLv1.name.toLowerCase().includes(keyword.toLowerCase()) ||
+              product.CategoryLv2.name.toLowerCase().includes(keyword.toLowerCase()) ||
+              product.CategoryLv3.name.toLowerCase().includes(keyword.toLowerCase()) ||
+              product.User.shopName.toLowerCase().includes(keyword.toLowerCase()) ||
+              product.price.toString().includes(keyword.toLowerCase())
           })
         } else {
           console.log('req.categoryLv1Id', req.categoryLv1Id)

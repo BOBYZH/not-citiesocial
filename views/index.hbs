@@ -76,7 +76,9 @@
         <a href="/products/{{this.id}}" class="text-decoration-none">
           <img src={{this.image}} alt="Placeholder image" class="w-100 card-img-top mb-0">
           <div class="card-body py-1 px-0">
-            <h7 class="card-title text-muted my-0">{{this.User.shopName}}</h7>
+            <a href="/products/?keyword={{this.User.shopName}}">
+              <h7 class="card-title text-muted my-0">{{this.User.shopName}}</h7>
+            </a>
             <div class="row">
               <h6 class="card-text text-dark col-8">{{this.name}}</h6>
               {{#if this.discount}}
