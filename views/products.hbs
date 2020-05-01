@@ -1,0 +1,26 @@
+<section id="product-list" class="py-5 mt-5">
+  <section class="container mt-4">
+    <div class="row">
+      {{!-- 應該根據後端資料產生20個，先用5個當範例 --}}
+      {{#each products}}
+      <div class="card border-0 col-12 col-lg-4">
+        <a href="/products/{{this.id}}" class="text-decoration-none">
+          <img src={{this.image}} alt="Placeholder image" class="w-100 card-img-top mb-0">
+          <div class="card-body py-1 px-0">
+            <h7 class="card-title text-muted my-0">{{this.User.shopName}}</h7>
+            <div class="row">
+              <h6 class="card-text text-dark col-8">{{this.name}}</h6>
+              {{#if this.discount}}
+              <span class="col-4 text-muted">
+                <span class="h4 text-info">{{this.discount}}</span>折起
+              </span>
+              {{/if}}
+            </div>
+          </div>
+        </a>
+      </div>
+      {{/each}}
+      {{!-- 應該根據後端資料產生20個，先用5個當範例 --}}
+    </div>
+  </section>
+</section>

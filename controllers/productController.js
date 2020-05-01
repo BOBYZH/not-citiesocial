@@ -16,7 +16,7 @@ const productController = {
 
   // 前台瀏覽
   getIndex: (req, res) => {
-    PAGE_LIMIT = 20 // 數值大於等於總上架商品數量即可全部顯示
+    PAGE_LIMIT = 6 // 可設定只顯示id前幾個商品，數值大於等於總上架商品數量即可全部顯示
     PAGE_OFFSET = 0
     Product.findAndCountAll(
       { include: User, offset: PAGE_OFFSET, limit: PAGE_LIMIT, where: { forSale: true } } // forSale限制只能看到上架的商品
@@ -33,6 +33,33 @@ const productController = {
       return res.render('index', JSON.parse(JSON.stringify({
         products: Products
       })))
+    })
+  },
+
+  getProducts: (req, res) => {
+    const whereQuery = {}
+    let categoryLv1Id = ''
+    if (req.query.categoryLv1Id) {
+      categoryLv1Id = Number(req.query.categoryLv1Id)
+      whereQuery.categoryLv1Id = categoryLv1Id
+    }
+    Product.findAndCountAll(
+      { include: [User, CategoryLv1], where: [{ forSale: true }, whereQuery] } // forSale限制只能看到上架的商品
+    ).then(products => {
+      // console.log(products.rows[1].User.isAdmin)
+      const Products = products.rows
+        .filter(product => product.User.isAdmin === true) // 只顯示有營業店家的商品
+        .map(product => (
+          {
+            ...product.dataValues,
+            name: product.dataValues.name !== null ? (product.dataValues.name.length > 18 ? (product.dataValues.name.substring(0, 18) + '...') : product.dataValues.name) : ''
+          }
+        ))
+      CategoryLv1.findAll().then(categoryLv1s => {
+        return res.render('products', JSON.parse(JSON.stringify({
+          products: Products, categoryLv1s, categoryLv1Id
+        })))
+      })
     })
   },
 
