@@ -6,6 +6,11 @@
     <form action="/admin/products" method="POST" enctype="multipart/form-data">
     {{/if}}
         <div class="form-group">
+          {{#if product}}
+          <h4 class="mb-3">修改產品資料</h4>
+          {{else}}
+          <h4 class="mb-3">新增產品資料</h4>
+          {{/if}}
           <label for="name">產品名稱</label>
           <input type="text" class="form-control" name="name" id="name"
             value="{{product.name}}" required>
