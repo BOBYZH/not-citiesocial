@@ -204,19 +204,22 @@
   {{#if inAdmin}}
   {{!-- display: none --}}
   {{else}}
+    {{#if inUnsubscribePage}}
+    {{!-- display: none --}}
+    {{else}}
   <section id="subscription" class="bg-light text-center">
     <h5 class="text-center pt-4">訂閱電子報</h5>
     <div class="input-group mb-3 pt-4 pb-5 d-flex justify-content-center">
-      <form action="#">
+      <form action="/subscriber" method="POST">
         <div class="input-group-append d-inline-flex">
           <input type="email" class="border border-dark rounded-left pl-3" placeholder="YOUR@EMAIL.COM" name="email"
-            style="width: 30vw; height: 4vh;" aria-label="Recipient's username" aria-describedby="basic-addon2"
-            disabled>
-          <button type="submit" class="btn-secondary  px-4 rounded-right float-right" disabled>訂閱電子報</button>
+            style="width: 30vw; height: 4vh;" aria-label="Recipient's username" aria-describedby="basic-addon2" required>
+          <button type="submit" class="btn-secondary  px-4 rounded-right float-right">訂閱電子報</button>
         </div>
       </form>
     </div>
   </section>
+    {{/if}}
   {{/if}}
 
   <footer id="about-company">

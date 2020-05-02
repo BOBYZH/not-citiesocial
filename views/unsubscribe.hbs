@@ -1,0 +1,27 @@
+<div class="container pt-5 mt-5 bg-light">
+  <section id="subscription" class="text-center">
+    <h5 class="text-center pt-4">取消訂閱電子報</h5>
+    <div class="input-group mb-3 pt-4 pb-5 d-flex justify-content-center">
+      <form action="/subscriber?_method=DELETE" method="POST" style="display: inline;">
+        <div class="input-group-append d-inline-flex">
+          <input type="email" class="border border-dark rounded-left pl-3" placeholder="YOUR@EMAIL.COM" name="email" id="email"
+            style="width: 30vw; height: 4vh;" aria-label="Recipient's username" aria-describedby="basic-addon2" required>
+          <button type="submit" class="btn-secondary  px-4 rounded-right float-right" onclick="if(confirm('確認取消？')) return true; else return false">
+            取消訂閱電子報
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+</div>
+
+<script>
+  const input = document.querySelector('#email')
+  let email = window.location.search
+  email = email.substring(7, email.length)
+
+  document.addEventListener("DOMContentLoaded", () => {
+    console.log('test', input, email)
+    input.value = email
+  })
+</script>

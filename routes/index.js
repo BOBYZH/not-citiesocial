@@ -3,7 +3,8 @@ const adminController = require('../controllers/adminController.js')
 const productController = require('../controllers/productController.js')
 const cartController = require('../controllers/cartController.js')
 const orderController = require('../controllers/orderController.js')
-// const passport = require('passport')
+const subscriberController = require('../controllers/subscriberController.js')
+
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
 
@@ -38,6 +39,14 @@ module.exports = (app, passport) => {
   app.get('/products', productController.getProducts)
   // 個別商品頁面
   app.get('/products/:id', productController.getProduct)
+
+  // 電子報
+  // 訂閱電子報
+  app.post('/subscriber', subscriberController.subscribe)
+  // 退訂電子報
+  app.get('/unsubscribe', subscriberController.unsubscribePage)
+  // 退訂電子報
+  app.delete('/subscriber', subscriberController.unsubscribe)
 
   // 購物車內容
   app.get('/cart', cartController.getCart)
