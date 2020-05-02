@@ -65,12 +65,36 @@
         </div>
 
         <div class="form-group">
-          <label for="description">產品介紹</label>
-          <textarea class="form-control" id="description" name="description" rows="3" required>{{product.description}}</textarea>
+          <label for="features">產品特色（選填，僅支援單行）</label>
+          <textarea class="form-control" id="features" name="features" rows="3">{{product.features}}</textarea>
         </div>
 
         <div class="form-group">
-          <label for="image">產品圖片</label>
+          <label for="description">產品介紹</label>
+          <textarea class="form-control" id="description" name="description" rows="3"
+            required>{{product.description}}</textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="instruction">使用說明（選填）</label>
+          <textarea class="form-control" id="instruction" name="instruction" rows="3"
+          >{{product.instruction}}</textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="announcement">注意事項（選填）</label>
+          <textarea class="form-control" id="announcement" name="announcement" rows="3"
+          >{{product.description}}</textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="specification">商品規格（選填）</label>
+          <textarea class="form-control" id="specification" name="specification" rows="3"
+          >{{product.description}}</textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="image">產品圖片（選填）</label>
           <input type="file" class="form-control-file" id="image" name="image">
         </div>
 

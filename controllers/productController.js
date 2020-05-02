@@ -85,7 +85,7 @@ const productController = {
         CategoryLv1, CategoryLv2, CategoryLv3
       ]
     }).then(product => {
-      // console.log(product.forSale)
+      // console.log(product)
       if (product === null) {
         req.flash('error_messages', '無此商品！')
         res.redirect('/')

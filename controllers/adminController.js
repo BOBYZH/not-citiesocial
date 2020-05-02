@@ -49,7 +49,11 @@ const adminController = {
         return Product.create({
           name: req.body.name,
           price: req.body.price,
+          features: req.body.features,
           description: req.body.description,
+          instruction: req.body.instruction,
+          announcement: req.body.announcement,
+          specification: req.body.specification,
           image: file ? img.data.link : null,
           CategoryLv1Id: req.body.categoryLv1Id,
           CategoryLv2Id: req.body.categoryLv2Id,
@@ -66,7 +70,11 @@ const adminController = {
       return Product.create({
         name: req.body.name,
         price: req.body.price,
+        features: req.body.features,
         description: req.body.description,
+        instruction: req.body.instruction,
+        announcement: req.body.announcement,
+        specification: req.body.specification,
         image: 'https://fakeimg.pl/640x480/', // 預設圖片
         CategoryLv1Id: req.body.categoryLv1Id,
         CategoryLv2Id: req.body.categoryLv2Id,
@@ -118,7 +126,11 @@ const adminController = {
                 product.update({
                   name: req.body.name,
                   price: req.body.price,
+                  features: req.body.features,
                   description: req.body.description,
+                  instruction: req.body.instruction,
+                  announcement: req.body.announcement,
+                  specification: req.body.specification,
                   image: file ? img.data.link : product.image,
                   CategoryLv1Id: req.body.categoryLv1Id,
                   CategoryLv2Id: req.body.categoryLv2Id,
@@ -142,7 +154,11 @@ const adminController = {
               product.update({
                 name: req.body.name,
                 price: req.body.price,
+                features: req.body.features,
                 description: req.body.description,
+                instruction: req.body.instruction,
+                announcement: req.body.announcement,
+                specification: req.body.specification,
                 image: product.image,
                 CategoryLv1Id: req.body.categoryLv1Id,
                 CategoryLv2Id: req.body.categoryLv2Id,

@@ -9,7 +9,11 @@ module.exports = {
         ({
           id: index + 1,
           name: faker.commerce.productName(),
+          features: 'None',
           description: faker.commerce.product() + '/' + faker.commerce.productName(),
+          instruction: (Math.floor(Math.random() * 2) ? (faker.commerce.product() + '/' + faker.commerce.productMaterial()) : null),
+          announcement: (Math.floor(Math.random() * 2) ? (faker.commerce.product() + '/' + faker.commerce.productName() + faker.commerce.productAdjective()) : null),
+          specification: (Math.floor(Math.random() * 2) ? (faker.commerce.productMaterial()) : null),
           price: faker.commerce.price(),
           image: 'https://picsum.photos/640/480', // lorempixel is too unstable to use, so i use picsum instead
           UserId: Math.floor(Math.random() * 3) + 1,
