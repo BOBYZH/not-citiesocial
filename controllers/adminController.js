@@ -67,7 +67,7 @@ const adminController = {
         name: req.body.name,
         price: req.body.price,
         description: req.body.description,
-        image: null,
+        image: 'https://fakeimg.pl/640x480/', // 預設圖片
         CategoryLv1Id: req.body.categoryLv1Id,
         CategoryLv2Id: req.body.categoryLv2Id,
         CategoryLv3Id: req.body.categoryLv3Id,
