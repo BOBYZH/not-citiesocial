@@ -175,7 +175,11 @@ const orderController = {
           // 刪除已經下訂單的購物車
           cart.destroy()
             .then(() => {
-              res.redirect('/orders')
+              setTimeout( // 避免資料庫寫入未完成時，顯示改到一半的資訊
+                () => {
+                  res.redirect('/orders')
+                }, 3000
+              )
             })
         })
       })
