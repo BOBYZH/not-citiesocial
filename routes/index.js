@@ -109,7 +109,7 @@ module.exports = (app, passport) => {
   // 確認交易頁面(交易後)
   app.post('/orders', authenticated, orderController.checkOrder)
   // 確認交易資料(交易後)
-  app.post('/newebpay/callback', authenticated, orderController.newebpayCallback)
+  app.post('/newebpay/callback', orderController.newebpayCallback)
 
   // 店家
   // 管理首頁（指向商品管理）
