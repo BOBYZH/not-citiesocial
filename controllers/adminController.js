@@ -137,6 +137,7 @@ const adminController = {
                   CategoryLv3Id: req.body.categoryLv3Id,
                   UserId: req.user.id
                 }).then((product) => {
+                  // 用order.controller的promise，做完一件事情再做另一見事情
                   setTimeout( // 避免資料庫寫入未完成時，顯示改到一半的資訊
                     () => {
                       req.flash('success_messages', `已成功修改商品：${product.name}`)
@@ -165,6 +166,7 @@ const adminController = {
                 CategoryLv3Id: req.body.categoryLv3Id,
                 UserId: req.user.id
               }).then((product) => {
+                // 用order.controller的promise，做完一件事情再做另一見事情
                 setTimeout( // 避免資料庫寫入未完成時，顯示改到一半的資訊
                   () => {
                     req.flash('success_messages', `已成功修改商品：${product.name}`)
@@ -241,6 +243,7 @@ const adminController = {
           }))
       }).then((products) => {
         req.flash('success_messages', '已成功上架所有商品')
+        // 用order.controller的promise，做完一件事情再做另一見事情
         setTimeout( // 避免資料庫寫入未完成時，顯示改到一半的資訊
           () => {
             return res.redirect('back')
@@ -258,6 +261,7 @@ const adminController = {
           }))
       }).then((products) => {
         req.flash('success_messages', '已成功下架所有商品')
+        // 用order.controller的promise，做完一件事情再做另一見事情
         setTimeout( // 避免資料庫寫入未完成時，顯示改到一半的資訊
           () => {
             return res.redirect('back')

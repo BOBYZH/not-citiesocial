@@ -11,8 +11,9 @@ const cartController = {
       const totalPrice = cart.items.length > 0 ? cart.items.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
       const inCartPage = true
       /* 因為Cart.findByPk的查詢條件包含req.session的值（？），
-    無法和其他有提供變數的controller一樣，直接從app.js取得res.locals.categories，
-    便在這邊局部加載 */
+      購物車有商品時才能顯示res.locals的資料，/cart路由的畫面才能顯示；
+      無法和其他有提供變數的controller一樣，直接從app.js取得res.locals.categories，
+      便在這邊局部加載 */
       const Category = db.CategoryLv1
       Category.findAll().then(categories => {
         return res.render('cart', JSON.parse(JSON.stringify({
@@ -41,7 +42,7 @@ const cartController = {
         return cartItem.update({
           quantity: (cartItem.quantity || 0) + Number(req.body.quantity) // html表單回傳的數字會被js當文字，須轉換否則變文字相加
         })
-          .then((cartItem) => {
+          .then((cartItem) => { // 應該要用Promise，讓項目處理完後才顯示頁面
             req.session.cartId = cart.id
             return req.session.save(() => {
               setTimeout( // 避免資料庫寫入未完成時，顯示改到一半的資訊？
@@ -76,7 +77,7 @@ const cartController = {
     })
   },
   deleteCartItem: (req, res) => {
-    CartItem.findByPk(req.params.id).then(cartItem => {
+    CartItem.findByPk(req.params.id).then(cartItem => { // 應該要用Promise，讓項目處理完後才顯示頁面
       cartItem.destroy()
         .then((cartItem) => {
           setTimeout( // 避免資料庫寫入未完成時，顯示改到一半的資訊？
