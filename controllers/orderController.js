@@ -112,7 +112,7 @@ function getTradeInfo (Amt, Desc, email) {
 
 const orderController = {
   getOrders: (req, res) => {
-    Order.findAll({ include: 'items' }).then(orders => {
+    Order.findAll({ include: 'items', where: { UserId: req.user.id } }).then(orders => {
       return res.render('orders', JSON.parse(JSON.stringify({
         orders
       })))
@@ -122,7 +122,8 @@ const orderController = {
   postOrder: (req, res) => {
     return Cart.findByPk(req.body.cartId, { include: 'items' }).then(cart => {
       return Order.create({
-        name: req.body.name,
+        UserId: req.user.id || null,
+        name: req.body.lastName + ' ' + req.body.firstName,
         address: req.body.address,
         phone: req.body.phone,
         email: req.body.email,
@@ -164,8 +165,6 @@ const orderController = {
 
         // 確認所有商品加入訂單後才轉址
         return Promise.all(results).then(() => {
-          // 待優化：刪除已經下訂單的購物車
-
           transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
               console.log(error)
@@ -173,8 +172,11 @@ const orderController = {
               console.log('Email sent: ' + info.response)
             }
           })
-
-          res.redirect('/orders')
+          // 刪除已經下訂單的購物車
+          cart.destroy()
+            .then(() => {
+              res.redirect('/orders')
+            })
         })
       })
     })
