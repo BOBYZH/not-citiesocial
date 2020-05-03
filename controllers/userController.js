@@ -15,7 +15,7 @@ const userController = {
 
   signIn: (req, res) => {
     // req.flash('success_messages', '登入成功')
-    return res.redirect('/')
+    return res.redirect(`/users/${req.user.id}`)
   },
 
   signUpPage: (req, res) => {
@@ -93,6 +93,8 @@ const userController = {
           .update({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
+            defaultPhone: req.body.defaultPhone || null,
+            defaultAddress: req.body.defaultAddress || null,
             isAdmin: 0,
             shopName: req.body.shopName
           })
@@ -111,6 +113,8 @@ const userController = {
           .update({
             firstName: req.body.firstName,
             lastName: req.body.lastName,
+            defaultPhone: req.body.defaultPhone || null,
+            defaultAddress: req.body.defaultAddress || null,
             isAdmin: 1,
             shopName: req.body.shopName
           })
