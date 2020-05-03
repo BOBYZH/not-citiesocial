@@ -1,4 +1,14 @@
-<div class="mt-5 pt-5">
+<div class="mt-5 pt-5" id="cart">
+  {{#ifCond cart.items.length 0}}
+  <div class="">
+    <h5 class="text-center">您還沒有加入商品到購物車中</h5>
+    <h6 class="text-center my-5"></span>
+      <a href="/" class="btn btn-info" aria-label="Close">
+        開始逛逛
+      </a>
+    </h6>
+  </div>
+  {{else}}
   <table class="table">
     <thead>
       <tr>
@@ -45,45 +55,102 @@
       </tr>
       {{/each}}
       <tr>
-        <td></td>
+        <td>
+          <h6>備註</h6>
+          <textarea name="" id="" cols="40" rows="3"></textarea>
+        </td>
         <td></td>
         <td style="text-align: right;">
-          <h2>Total: </h2>
+          <h2>NTD </h2>
         </td>
         <td>
           <h2>{{totalPrice}}</h2>
+          <button class="btn btn-info" id="checkout">結帳</button>
         </td>
         <td></td>
       </tr>
     </tbody>
-  </table>
+  </table> 
+  {{/ifCond}}
 </div>
 
-<div class="row">
+<div class="row mt-5 pt-5" id="information" style="display: none;">  
   <div class="col-md-4">
     <form action="order" method="POST">
       <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" class="form-control" id="name" placeholder="Enter name" name="name">
+      {{#if user}}
+      <h3>會員結帳 | 收件人資料</h3>
+      <h4>
+        <span>{{user.name}}</span>
+        <a class="text-info" href="/signin">登入其他帳戶</a>
+      </h4>
+      <label for="email">Email</label>
+      <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" value="{{user.email}}" required>
+      {{else}}
+        <div class="ml-2">
+          <h4>目前不開放非會員結帳！</h4>
+          <p>
+            <a class="text-info" href="/signin">登入會員</a>
+            快速結帳
+            <br>
+            或 
+            <a class="text-info" href="/signup">立即註冊</a>
+            享有完整會員功能
+            <h5 class="text-warning">請於登入後回到購物車繼續交易！</h5>
+          </p>
+        </div>
+      {{/if}}
+      </div>
+      
+      {{#if user}}
+      <div class="form-group">
+        <label for="lastName">姓</label>
+        <input type="text" class="form-control" id="lastName" placeholder="Enter last name" name="lastName" value="{{user.lastName}}" required>
+      </div>
+      <div class="form-group">
+        <label for="firstName">名</label>
+        <input type="text" class="form-control" id="firstName" placeholder="Enter first name" name="firstName" value="{{user.firstName}}" required>
       </div>
       <div class="form-group">
         <label for="phone">Phone</label>
-        <input type="text" class="form-control" id="phone" placeholder="Enter phone" name="phone">
+        <input type="text" class="form-control" id="phone" placeholder="Enter phone" name="phone" value="{{user.defaultPhone}}" required>
       </div>
       <div class="form-group">
         <label for="address">Address</label>
-        <input type="text" class="form-control" id="address" placeholder="Enter address" name="address">
+        <input type="text" class="form-control" id="address" placeholder="Enter address" name="address" value="{{user.defaultAddress}}" required>
       </div>
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
-      </div>
+      
       <input type="hidden" name="cartId" value="{{cart.id}}">
       <input type="hidden" name="amount" value="{{totalPrice}}">
       <input type="hidden" name="shippingStatus" value="0">
       <input type="hidden" name="paymentStatus" value="0">
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-info">下一步</button>
+      {{/if}}
     </form>
   </div>
+  <div class="col-md-8">
+    {{#if user}}
+    <h4 class="text-right">
+      <span>{{totalPrice}}</span>
+      <span>NTD </span>
+      <span>免運費</span>
+    </h4>
+    <h3 class="text-right">
+      <span>總計</span>
+      <small>TWD </small>
+      <span>{{totalPrice}}</span>
+    </h3>
+    {{/if}}
+  </div>
 </div>
-</div>
+
+<script>
+  const cart = document.querySelector('#cart')
+  const information = document.querySelector('#information')
+  const checkout = document.querySelector('#checkout')
+
+  checkout.addEventListener('click', () => {
+    cart.style.display = "none"
+    information.style.display = "flex"
+  })
+</script>
