@@ -7,8 +7,9 @@
         <span>{{profile.firstName}}</span>
       </h4>
       {{#ifCond profile.id user.id}}
+      <a href="/orders" class="btn btn-secondary">訂單查詢</a>
       <a href="/users/{{profile.id}}/edit" class="btn btn-primary">帳號管理</a>
-      <a href="/logout" class="btn btn-secondary">登出</a>
+      <a href="/logout" class="btn btn-warning">登出</a>
       {{/ifCond}}
     </div>
   </div>
