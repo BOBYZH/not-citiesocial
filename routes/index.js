@@ -48,6 +48,7 @@ module.exports = (app, passport) => {
   // 退訂電子報
   app.delete('/subscriber', subscriberController.unsubscribe)
 
+  // 購物車
   // 購物車內容
   app.get('/cart', cartController.getCart)
   // 新增商品
@@ -58,19 +59,6 @@ module.exports = (app, passport) => {
   app.post('/cartItem/:id/sub', cartController.subCartItem)
   // 移除商品
   app.delete('/cartItem/:id', cartController.deleteCartItem)
-
-  // 訂單頁面
-  app.get('/orders', orderController.getOrders)
-  // 新增訂單
-  app.post('/order', orderController.postOrder)
-  // 取消訂單
-  app.post('/order/:id/cancel', orderController.cancelOrder)
-  // 付款頁面(交易前)
-  app.get('/order/:id/payment', orderController.getPayment)
-  // 確認交易頁面(交易後)
-  app.post('/orders', orderController.checkOrder)
-  // 確認交易資料(交易後)
-  app.post('/newebpay/callback', orderController.newebpayCallback)
 
   // 帳戶
   // 登入頁面
@@ -108,6 +96,20 @@ module.exports = (app, passport) => {
   app.put('/users/:id', authenticated, upload.single('image'), userController.putUser)
 
   // 顧客
+
+  // 訂單
+  // 訂單頁面
+  app.get('/orders', authenticated, orderController.getOrders)
+  // 新增訂單
+  app.post('/order', authenticated, orderController.postOrder)
+  // 取消訂單
+  app.post('/order/:id/cancel', authenticated, orderController.cancelOrder)
+  // 付款頁面(交易前)
+  app.get('/order/:id/payment', authenticated, orderController.getPayment)
+  // 確認交易頁面(交易後)
+  app.post('/orders', authenticated, orderController.checkOrder)
+  // 確認交易資料(交易後)
+  app.post('/newebpay/callback', authenticated, orderController.newebpayCallback)
 
   // 店家
   // 管理首頁（指向商品管理）
