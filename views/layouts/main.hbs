@@ -65,7 +65,6 @@
         <br>
         <span class="h5">店家名稱：{{user.shopName}}</span>
       </h4>
-      <h5 class="mr-2">店家名稱：{{user.shopName}}</h5>
       {{else}}
       <form action="/products/">
         <div class="input-group-append">
@@ -132,8 +131,12 @@
         {{/if}}
         <a href="/admin/products">商品管理</a>
         </li>
-        <li class="px-3">
-          <a href="/orders" class="ml-3">訂單管理</a>
+        {{#if inOrders}}
+        <li class="px-3 bg-dark ml-4">
+          {{else}}
+        <li class="px-3"></li>
+        {{/if}}
+          <a href="/admin/orders">訂單管理</a>
         </li>
       </ul>
       <div class="d-flex justify-content-end align-items-center">
@@ -149,6 +152,8 @@
             全部下架
           </button>
         </form>
+          {{else}}
+          
           {{/if}}
       </div>
     </div>

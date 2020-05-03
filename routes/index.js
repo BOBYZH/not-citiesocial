@@ -136,6 +136,10 @@ module.exports = (app, passport) => {
   app.put('/admin/products/:id', authenticatedAdmin, upload.single('image'), adminController.putProduct)
   // 刪除商品
   app.delete('/admin/products/:id', authenticatedAdmin, adminController.deleteProduct)
+
+  // 訂單管理頁面
+  app.get('/admin/orders', authenticatedAdmin, adminController.getOrders)
+
   // 避免404當掉
   app.all('*', productController.redirectInvalidUrl)
 }

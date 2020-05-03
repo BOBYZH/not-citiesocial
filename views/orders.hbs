@@ -46,7 +46,7 @@
       {{#ifCond this.paymentStatus '0'}}
       <div style="display: flex; justify-content: space-around; min-width: 300px;">
         <form action="/order/{{this.id}}/cancel" method="POST">
-          <button type="submit" class="btn btn-primary">取消訂單</button>
+          <button type="submit" class="btn btn-primary" onclick="if(confirm('確認取消？')) return true; else return false">取消訂單</button>
         </form>
 
         <a href="/order/{{this.id}}/payment"><button class="btn btn-primary">立即付款</button></a>

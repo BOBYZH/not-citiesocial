@@ -1,4 +1,5 @@
 <div class="mt-5 pt-5">
+  {{#if orders}}
   {{#each orders}}
   <div class="row">
     <div class="col-md-5">
@@ -34,6 +35,7 @@
     <div>
       <ul>
         <li>{{this.id}}</li>
+        <li>user id:{{this.UserId}}</li>
         <li>name: {{this.name}}</li>
         <li>address: {{this.address}}</li>
         <li>phone: {{this.phone}}</li>
@@ -41,20 +43,25 @@
         <li>payment_status: {{this.paymentStatus}}</li>
       </ul>
 
-      {{#ifCond this.paymentStatus '0'}}
       <div style="display: flex; justify-content: space-around; min-width: 300px;">
-        <form action="/order/{{this.id}}/cancel" method="POST">
-          <button type="submit" class="btn btn-primary">取消訂單</button>
+      {{#ifCond this.paymentStatus '1'}}      
+        {{#ifCond this.shippingStatus '1'}}
+        <a href="#"><button class="btn btn-primary">立即請款</button></a>
+        {{else}}
+        <form action="#" method="POST">
+          <button type="submit" class="btn btn-primary">標示為已送出</button>
         </form>
-
-        <a href="/order/{{this.id}}/payment"><button class="btn btn-primary">立即付款</button></a>
-      </div>
+        {{/ifCond}}
       {{else}}
-      {{!-- display:none --}}
-      {{/ifCond}}
+        {{!-- display: none --}}
+      {{/ifCond}}      
+      </div>
     </div>
   </div>
 
   <hr />
   {{/each}}
+  {{else}}
+  <h5 class="text-center mb-5">你還沒有訂單資料</h5>
+  {{/if}}
 </div>

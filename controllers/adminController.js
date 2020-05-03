@@ -1,6 +1,6 @@
 const db = require('../models')
 const Product = db.Product
-// const User = db.User
+const Order = db.Order
 const CategoryLv1 = db.CategoryLv1
 const CategoryLv2 = db.CategoryLv2
 const CategoryLv3 = db.CategoryLv3
@@ -8,6 +8,7 @@ const imgur = require('imgur-node-api')
 const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const inAdmin = true
 const inProducts = true
+const inOrders = true
 
 const adminController = {
   // 後台管理
@@ -268,6 +269,14 @@ const adminController = {
           }, 1500
         )
       })
+  },
+
+  getOrders: (req, res) => {
+    Order.findAll({ include: 'items' }).then(orders => {
+      return res.render('admin/orders', JSON.parse(JSON.stringify({
+        orders, inAdmin, inOrders
+      })))
+    })
   }
 }
 
