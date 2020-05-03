@@ -33,7 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 // 設定 session
 app.use(session({
   secret: 'secret',
-  cookie: { maxAge: 80000 },
+  cookie: { maxAge: 86400000 }, // 延長到一天， 以免用到一半被登出
   resave: false,
   saveUninitialized: false
 }))
