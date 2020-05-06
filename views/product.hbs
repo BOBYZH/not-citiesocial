@@ -100,31 +100,28 @@
   const quantity = document.querySelector('#quantity')
   const addToCart = document.querySelector('#add-to-cart')
 
-  /*
-  表單欄位輸入的數字會被認定為是字串，無法從頭設定類型為數字？
-  如下皆無效，只好在無效的地方部份設定：
-  quantity.value = Number(quantity.value)
-  quantity.value = parseInt(quantity.value)
-  */
-
-  quantity.value = parseInt(quantity.value)
-
   minus.addEventListener('click', (event) => {
     event.preventDefault()
-    if (quantity.value > 1) {
-      quantity.value -= 1
-    }
+    let number = Number(quantity.value) // 寫在callback裡面才能轉表單數字屬性
     
-    if (Number(quantity.value) === 1) {
+    if (number > 1) {
+      quantity.value = number - 1 // 修改原本的值
+      number-- // 對應的轉換值也要減掉，否則quantity.value與number大小不一致
+    }
+    // 不用else連結，才能在數量顯示為1時，直接讓減號變成灰色
+    if (number === 1) {
       minus.classList.remove('text-info')
       minus.classList.add('text-muted')
     }
   })
+
   plus.addEventListener('click', (event) => {
     event.preventDefault()
+    const number = Number(quantity.value) // 寫在callback裡面才能轉表單數字屬性
+
     minus.classList.remove('text-muted')
     minus.classList.add('text-info')
-    quantity.value = Number(quantity.value) + 1 // quantity.value += 1 會變成文字相加？
+    quantity.value = number + 1 // 修改原本的值
   })
 
   addToCart.addEventListener('click', (event) => {
