@@ -62,6 +62,10 @@ const productController = {
           Products = Products.filter(product => {
             return product.name.toLowerCase().includes(keyword.toLowerCase()) ||
               product.description.toLowerCase().includes(keyword.toLowerCase()) ||
+              (product.features ? product.features : '').toLowerCase().includes(keyword.toLowerCase()) || // 選填欄位可能為空值
+              (product.instruction ? product.instruction : '').toLowerCase().includes(keyword.toLowerCase()) || // 選填欄位可能為空值
+              (product.announcement ? product.announcement : '').toLowerCase().includes(keyword.toLowerCase()) || // 選填欄位可能為空值
+              (product.specification ? product.specification : '').toLowerCase().includes(keyword.toLowerCase()) || // 選填欄位可能為空值
               product.CategoryLv1.name.toLowerCase().includes(keyword.toLowerCase()) ||
               product.CategoryLv2.name.toLowerCase().includes(keyword.toLowerCase()) ||
               product.CategoryLv3.name.toLowerCase().includes(keyword.toLowerCase()) ||
