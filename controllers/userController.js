@@ -15,7 +15,7 @@ const userController = {
 
   signIn: (req, res) => {
     // req.flash('success_messages', '登入成功')
-    return res.redirect(`/users/${req.user.id}`)
+    return res.redirect(`/users/${req.user.id}#cart`)
   },
 
   signUpPage: (req, res) => {

@@ -387,6 +387,14 @@
 
     })(jQuery)
   </script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+       // 因為後端有在網址加hashtag，加入購物車或登入導回頁面後會顯示購物車的modal
+      if (window.location.hash == "#cart") {
+        $('#cartModal').modal()
+      }
+    })
+  </script>
 </body>
 
 </html>

@@ -126,12 +126,5 @@
 
   addToCart.addEventListener('click', (event) => {
     addToCart.textContent = '加入中…'
-  })
-
-  document.addEventListener("DOMContentLoaded", () => {
-      // 因為後端有在網址加hashtag，導回頁面後會顯示購物車的modal
-      if (window.location.hash == "#cart") {
-        $('#cartModal').modal()
-      }
-    })
+  })  
 </script>
