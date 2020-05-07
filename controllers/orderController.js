@@ -2,6 +2,7 @@ const db = require('../models')
 const Order = db.Order
 const OrderItem = db.OrderItem
 const Cart = db.Cart
+const CartItem = db.CartItem
 
 // 設定nodemailer，與寄件者服務、帳密
 const nodemailer = require('nodemailer')
@@ -172,8 +173,13 @@ const orderController = {
               console.log('Email sent: ' + info.response)
             }
           })
-          // 刪除已經下訂單的購物車
-          cart.destroy()
+          // 刪除已經下訂單的購物車項目與購物車本身
+          CartItem.findAll({ where: { CartId: cart.id } }).then(cartItems => {
+            cartItems.forEach(cartItem => {
+              cartItem.destroy()
+            })
+            cart.destroy()
+          })
             .then(() => {
               setTimeout( // 避免資料庫寫入未完成時，顯示改到一半的資訊
                 () => {
@@ -193,7 +199,11 @@ const orderController = {
         shippingStatus: '-1',
         paymentStatus: '-1'
       }).then(order => {
-        return res.redirect('back')
+        setTimeout( // 避免資料庫寫入未完成時，顯示改到一半的資訊
+          () => {
+            return res.redirect('back')
+          }, 3000
+        )
       })
     })
   },
