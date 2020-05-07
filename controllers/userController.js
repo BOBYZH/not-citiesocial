@@ -14,8 +14,12 @@ const userController = {
   },
 
   signIn: (req, res) => {
-    // req.flash('success_messages', '登入成功')
-    return res.redirect(`/users/${req.user.id}#cart`)
+    console.log('test cart', res.locals.cart) // 購物車內容無法顯示時，cart === undefined
+    // if (res.locals.cart.items.length === 0) {
+    return res.redirect(`/users/${req.user.id}#cart`) // 方便登入後進入購物車（已經有商品時）
+    // } else {
+    // return res.redirect(`/users/${req.user.id}`)
+    // }
   },
 
   signUpPage: (req, res) => {
@@ -53,9 +57,12 @@ const userController = {
   },
 
   logOut: (req, res) => {
-    // req.flash('success_messages', '登出成功')
     req.logout()
+    // if (res.locals.cart.items.length !== 0) { // 方便切換帳號時登入
+    //   res.redirect('/signin')
+    // } else {
     res.redirect('/')
+    // }
   },
 
   getUser: (req, res) => {
