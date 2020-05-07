@@ -1,6 +1,7 @@
 const db = require('../models')
 const Product = db.Product
 const Order = db.Order
+const OrderItem = db.OrderItem
 const CategoryLv1 = db.CategoryLv1
 const CategoryLv2 = db.CategoryLv2
 const CategoryLv3 = db.CategoryLv3
@@ -272,9 +273,10 @@ const adminController = {
   },
 
   getOrders: (req, res) => {
-    Order.findAll({ include: 'items' }).then(orders => {
+    OrderItem.findAll({ include: [Product, Order] }).then(orderItems => {
+      orderItems = orderItems.filter(orderItem => orderItem.Product.UserId === req.user.id)
       return res.render('admin/orders', JSON.parse(JSON.stringify({
-        orders, inAdmin, inOrders
+        orderItems, inAdmin, inOrders
       })))
     })
   }
