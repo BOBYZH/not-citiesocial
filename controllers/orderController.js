@@ -3,6 +3,8 @@ const Order = db.Order
 const OrderItem = db.OrderItem
 const Cart = db.Cart
 const CartItem = db.CartItem
+const Product = db.Product
+const User = db.User
 
 // 設定nodemailer，與寄件者服務、帳密
 const nodemailer = require('nodemailer')
@@ -150,7 +152,7 @@ const orderController = {
         const mailOptions = {
           from: process.env.GMAIL_ADDRESS,
           to: req.body.email,
-          subject: `${order.name}，您的訂單（編號：${order.id}）已成立`,
+          subject: `${order.name}，您的訂單（編號：${order.id}）已成立，請盡快付款`,
           html: `    
                 <div style="display: inline-block; min-width: 300px; background-color: white;">
                   <h1>您在Not citiesocial的訂單</h1>
@@ -158,7 +160,6 @@ const orderController = {
                   style="margin-top: 5px;">
                     <h3>編號：${order.id}，請至訂單頁面確認</h3>
                   </a>
-                  <h3>交易時間：${new Date()}</h3>
                   <h3>總金額：${order.amount}</h3>
                 </div>
                 `
@@ -245,13 +246,45 @@ const orderController = {
     console.log(data)
 
     // 交易成功後更新訂單為已付款
-    return Order.findAll({ where: { sn: data.Result.MerchantOrderNo } }).then(orders => {
-      // console.log('test', data.Result.MerchantOrderNo)
-      // console.log('test', orders)
-      orders[0].update({
+    return Order.findOne({ where: { sn: data.Result.MerchantOrderNo }, include: [ {model: OrderItem, include: [{model: Product, include: [User]}]}  ] }).then(order => {
+      // console.log('test', data.Result.MerchantOrderNo)      
+      // console.log('test', order.OrderItems[0].Product.User)
+      order.update({
         ...req.body,
         paymentStatus: 1
       }).then(order => {
+        order.OrderItems.forEach(OrderItem => {
+          console.log('shop email:', OrderItem.Product.User.email)
+          // 信件資訊
+          const mailOptions = {
+            from: process.env.GMAIL_ADDRESS,
+            to: OrderItem.Product.User.email,
+            subject: `${OrderItem.Product.User.shopName}，${order.name}的訂單（編號：${order.id}）已付款，請盡快配送商品`,
+            html: `    
+                <div style="display: inline-block; min-width: 300px; background-color: white;">
+                  <h1>您在Not citiesocial的訂單</h1>
+                  <a href="${process.env.WEBSITE_URL}/admin/orders" 
+                  style="margin-top: 5px;">
+                    <h3>編號：${order.id}，請至訂單頁面確認</h3>
+                  </a>
+                  <h3>購買商品：${OrderItem.Product.name}</h3>
+                  <h3>購買數量：${OrderItem.quantity}</h3>
+                  <h3>商品單價：${OrderItem.price}</h3>
+                  <h3>總計：${OrderItem.subtotal}</h3>
+                </div>
+                `
+          }
+
+          console.log('Mail, from ', process.env.ADDRESS, ' to ', OrderItem.Product.User.email)
+
+          transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+              console.log(error)
+            } else {
+              console.log('Email sent: ' + info.response)
+            }
+          })
+        })
         res.sendStatus(200) // 向藍新回報已經確認交易，否則商家會收到「API 串接 Notify URL 觸發失敗通知信」
       })
     })

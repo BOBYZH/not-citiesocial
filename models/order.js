@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     })
     Order.belongsTo(models.User)
     Order.hasMany(models.Payment)
+    Order.hasMany(models.OrderItem)
   }
   return Order
 }
