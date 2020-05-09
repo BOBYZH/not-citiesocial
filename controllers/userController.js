@@ -4,13 +4,10 @@ const bcrypt = require('bcryptjs')
 
 const userController = {
   signInPage: (req, res) => {
-    /* 因為沒有載入其他model，沒有撈資料的動作，而res.locals較晚；
-    無法和其他有提供變數的controller一樣，直接從app.js取得res.locals.categories，
-    便在這邊局部加載 */
     const Category = db.CategoryLv1
-    Category.findAll().then(categories => {
-      return res.render('signIn', JSON.parse(JSON.stringify(categories)))
-    })
+    // Category.findAll().then(categories => {
+      return res.render('signIn')
+    // })
   },
 
   signIn: (req, res) => {
@@ -23,13 +20,10 @@ const userController = {
   },
 
   signUpPage: (req, res) => {
-    /* 因為沒有載入其他model（？），
-    無法和其他有提供變數的controller一樣，直接從app.js取得res.locals.categories，
-    便在這邊局部加載 */
     const Category = db.CategoryLv1
-    Category.findAll().then(categories => {
-      return res.render('signUp', JSON.parse(JSON.stringify(categories)))
-    })
+    // Category.findAll().then(categories => {
+      return res.render('signUp')
+    // })
   },
 
   signUp: (req, res) => {
