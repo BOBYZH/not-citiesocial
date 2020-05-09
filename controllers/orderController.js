@@ -115,7 +115,7 @@ function getTradeInfo (Amt, Desc, email) {
 
 const orderController = {
   getOrders: (req, res) => {
-    Order.findAll({ include: 'items', where: { UserId: req.user.id } }).then(orders => {
+    Order.findAll({ include: [ {model: OrderItem, include: [{model: Product, include: [User]}]}  ], where: { UserId: req.user.id } }).then(orders => {
       return res.render('orders', JSON.parse(JSON.stringify({
         orders
       })))
@@ -143,22 +143,24 @@ const orderController = {
               ProductId: cart.items[i].id,
               price: cart.items[i].price,
               quantity: cart.items[i].CartItem.quantity,
-              subtotal: (cart.items[i].price) * (cart.items[i].CartItem.quantity)
+              subtotal: (cart.items[i].price) * (cart.items[i].CartItem.quantity),
+              shippingStatus: 0,
+              receivingStatus: 0
             })
           )
         }
 
         // 信件資訊
         const mailOptions = {
-          from: process.env.GMAIL_ADDRESS,
+          from: process.env.ADDRESS,
           to: req.body.email,
-          subject: `${order.name}，您的訂單（編號：${order.id}）已成立，請盡快付款`,
+          subject: `${order.name}，您的訂單（id：${order.id}）已成立，請盡快付款`,
           html: `    
                 <div style="display: inline-block; min-width: 300px; background-color: white;">
                   <h1>您在Not citiesocial的訂單</h1>
                   <a href="${process.env.WEBSITE_URL}/orders" 
                   style="margin-top: 5px;">
-                    <h3>編號：${order.id}，請至訂單頁面確認</h3>
+                    <h3>訂單id：${order.id}，請至訂單頁面確認</h3>
                   </a>
                   <h3>總金額：${order.amount}</h3>
                 </div>
@@ -257,15 +259,15 @@ const orderController = {
           console.log('shop email:', OrderItem.Product.User.email)
           // 信件資訊
           const mailOptions = {
-            from: process.env.GMAIL_ADDRESS,
+            from: process.env.ADDRESS,
             to: OrderItem.Product.User.email,
-            subject: `${OrderItem.Product.User.shopName}，${order.name}的訂單（編號：${order.id}）已付款，請盡快配送商品`,
+            subject: `${OrderItem.Product.User.shopName}，${order.name}的訂單（id：${order.id}）已付款，請盡快配送商品`,
             html: `    
                 <div style="display: inline-block; min-width: 300px; background-color: white;">
                   <h1>您在Not citiesocial的訂單</h1>
                   <a href="${process.env.WEBSITE_URL}/admin/orders" 
                   style="margin-top: 5px;">
-                    <h3>編號：${order.id}，請至訂單頁面確認</h3>
+                    <h3>訂單id：${order.id}，請至訂單頁面確認</h3>
                   </a>
                   <h3>購買商品：${OrderItem.Product.name}</h3>
                   <h3>購買數量：${OrderItem.quantity}</h3>

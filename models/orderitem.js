@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
     ProductId: DataTypes.INTEGER,
     price: DataTypes.INTEGER,
     quantity: DataTypes.INTEGER,
-    subtotal: DataTypes.INTEGER
+    subtotal: DataTypes.INTEGER,
+    shippingStatus: DataTypes.STRING
   }, {})
   OrderItem.associate = function (models) {
     OrderItem.belongsTo(models.Order)
