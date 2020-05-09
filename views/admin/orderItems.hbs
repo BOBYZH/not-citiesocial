@@ -1,0 +1,101 @@
+<div class="mt-5 pt-5">
+  {{#if orderItems}}
+  {{#each orderItems}}
+  <div class="row">
+    <div class="col-md-7">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">購買商品</th>
+            <th scope="col">購買數量</th>
+            <th scope="col">商品單價</th>
+            <th scope="col">運送狀態</th>
+            <th scope="col">點收狀態</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <a href="/products/{{this.Product.id}}" class="text-dark">{{this.Product.name}}</a>
+            </td>
+            <td>{{this.quantity}}</td>
+            <td>{{this.price}}</td>
+            <td>
+              {{#ifCond this.shippingStatus 0}}
+              <form action="/admin/orderItems/{{this.id}}/confirm" method="POST">
+                <button type="submit" class="btn btn-info" 
+                {{#ifCond this.Order.paymentStatus '1'}} 
+                onclick="if(confirm('確認已將商品寄送給顧客？')) return true; else return false"
+                {{else}}
+                disabled
+                {{/ifCond}}>
+                  未寄送
+                </button>
+              </form>
+              {{else}}
+              <button type="submit" class="btn btn-warning" disabled>已寄送</button>
+              {{/ifCond}}
+            </td>
+            <td>
+
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td style="text-align: right;">
+              <h4>總計：</h4>
+            </td>
+            <td>
+              <h4>{{this.subtotal}}</h4>
+            </td>
+            <td>
+              <h4>付款狀況：</h4>
+            </td>
+            <td>
+              {{#ifCond this.Order.paymentStatus '0'}}
+              <h4 class="text-warning">未付款</h4>
+              {{/ifCond}}
+            
+              {{#ifCond this.Order.paymentStatus '1'}}
+              <h4 class="text-success">已付款</h4>
+              {{/ifCond}}
+            
+              {{#ifCond this.Order.paymentStatus '-1'}}
+              <h4 class="text-muted">已取消</h4>
+              {{/ifCond}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-4">
+      <h5>收件者資訊</h5>
+      <ul>
+        <li>訂單id: {{this.Order.id}}</li>
+        {{#if this.Order.sn}}
+        <li>sn: {{this.Order.sn}}</li>
+        {{/if}}
+        <li>email: {{this.Order.email}}</li>
+        <li>姓名： {{this.Order.name}}</li>
+        <li>地址： {{this.Order.address}}</li>
+        <li>電話： {{this.Order.phone}}</li>
+      </ul>
+    </div>
+    <div class="col-md-1" style="display: flex; justify-content: space-around; min-width: 300px;">
+    {{#ifCond this.paymentStatus '1'}}
+      {{#ifCond this.shippingStatus '1'}}
+      <a href="#"><button class="btn btn-primary">立即請款</button></a>
+      {{else}}
+      
+      {{/ifCond}}
+    {{else}}
+      {{!-- display: none --}}
+    {{/ifCond}}
+    </div>
+    
+  </div>
+  {{/each}}
+  {{else}}
+  <h5 class="text-center mb-5">你還沒有訂單資料</h5>
+  {{/if}}
+</div>
