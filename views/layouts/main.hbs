@@ -136,7 +136,7 @@
           {{else}}
         <li class="px-3"></li>
         {{/if}}
-          <a href="/admin/orders">訂單管理</a>
+          <a href="/admin/orderItems">訂單管理</a>
         </li>
       </ul>
       <div class="d-flex justify-content-end align-items-center">
@@ -152,9 +152,10 @@
             全部下架
           </button>
         </form>
-          {{else}}
-          
+          {{else if orderItems}}
+          {{!-- display: none --}}
           {{/if}}
+        <a href="mailto:{{superAdminEmail}}" class="btn btn-outline-info ml-5">聯絡網管</a>
       </div>
     </div>
     {{else}}
