@@ -103,7 +103,14 @@ const userController = {
             defaultPhone: req.body.defaultPhone || null,
             defaultAddress: req.body.defaultAddress || null,
             isAdmin: 0,
-            shopName: req.body.shopName
+            shopName: req.body.shopName,
+            shopId: req.body.shopId,
+            shopBirthday: req.body.shopBirthday,
+            shopAddress: req.body.shopAddress,
+            shopBankName: req.body.shopBankName,
+            shopBranch: req.body.shopBranch,
+            shopAccountName: req.body.shopAccountName,
+            shopAccountNumber: req.body.shopAccountNumber
           })
           .then((user) => {
             req.flash(
@@ -123,7 +130,14 @@ const userController = {
             defaultPhone: req.body.defaultPhone || null,
             defaultAddress: req.body.defaultAddress || null,
             isAdmin: 1,
-            shopName: req.body.shopName
+            shopName: req.body.shopName,
+            shopId: req.body.shopId,
+            shopBirthday: req.body.shopBirthday,
+            shopAddress: req.body.shopAddress,
+            shopBankName: req.body.shopBankName,
+            shopBankBranch: req.body.shopBankBranch,
+            shopAccountName: req.body.shopAccountName,
+            shopAccountNumber: req.body.shopAccountNumber
           })
           .then((user) => {
             req.flash(

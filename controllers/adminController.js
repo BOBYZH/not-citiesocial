@@ -10,6 +10,22 @@ const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID
 const inAdmin = true
 const inProducts = true
 const inOrders = true
+const superAdminEmail = process.env.ADDRESS
+
+// 設定nodemailer，與寄件者服務、帳密
+const nodemailer = require('nodemailer')
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  secure: true,
+  auth: {
+    type: 'OAuth2',
+    user: process.env.ACCOUNT,
+    clientId: process.env.CLINENTID,
+    clientSecret: process.env.CLINENTSECRET,
+    refreshToken: process.env.REFRESHTOKEN
+  }
+})
+// console.log('processTest', process.env.GMAIL_ACCOUNT, process.env.GMAIL_PASSWORD)
 
 const adminController = {
   // 後台管理
@@ -19,7 +35,7 @@ const adminController = {
       include: [CategoryLv1, CategoryLv2, CategoryLv3]
     }).then(products => {
       return res.render('admin/products', JSON.parse(JSON.stringify({
-        products, inAdmin, inProducts
+        products, inAdmin, inProducts, superAdminEmail
       })))
     })
   },
@@ -30,7 +46,7 @@ const adminController = {
         CategoryLv3.findAll().then(CategoryLv3s => {
           // console.log(inAdmin, inProducts, CategoryLv1s)
           return res.render('admin/create', JSON.parse(JSON.stringify({
-            inAdmin, inProducts, CategoryLv1s, CategoryLv2s, CategoryLv3s
+            inAdmin, inProducts, CategoryLv1s, CategoryLv2s, CategoryLv3s, superAdminEmail
           })))
         })
       })
@@ -101,7 +117,7 @@ const adminController = {
               req.flash('error_messages', '只能改自己的商品！')
               res.redirect('/admin/products')
             } else {
-              return res.render('admin/create', JSON.parse(JSON.stringify({ product, inAdmin, inProducts, CategoryLv1s, CategoryLv2s, CategoryLv3s })))
+              return res.render('admin/create', JSON.parse(JSON.stringify({ product, inAdmin, inProducts, CategoryLv1s, CategoryLv2s, CategoryLv3s, superAdminEmail })))
             }
           })
         })
@@ -272,12 +288,65 @@ const adminController = {
       })
   },
 
-  getOrders: (req, res) => {
+  getOrderItems: (req, res) => {
     OrderItem.findAll({ include: [Product, Order] }).then(orderItems => {
       orderItems = orderItems.filter(orderItem => orderItem.Product.UserId === req.user.id)
-      return res.render('admin/orders', JSON.parse(JSON.stringify({
-        orderItems, inAdmin, inOrders
+      return res.render('admin/orderItems', JSON.parse(JSON.stringify({
+        orderItems, inAdmin, inOrders, superAdminEmail
       })))
+    })
+  },
+
+  confirmOrderItem: (req, res) => {
+    console.log('test')
+    return OrderItem.findByPk(req.params.id, {include: [Order, Product]}).then(orderItem => {
+      orderItem.update({
+        ...req.body,
+        shippingStatus: '1'
+      }).then(orderItem => {
+        console.log('test', orderItem)
+
+        // 信件資訊
+        const mailOptions = {
+          from: process.env.ADDRESS,
+          to: orderItem.Order.email, // 提醒購買該筆orderItem的顧客
+          // 提醒負責撥款給店家的管理人員，在店家配送後將代收的金錢轉給店家，密件副本
+          bcc: process.env.ADDRESS, 
+          subject: `${orderItem.Order.name}，您訂單（id：${orderItem.Order.id}）中的${orderItem.Product.name}已寄送`,
+          html: `    
+                <div style="display: inline-block; min-width: 300px; background-color: white;">
+                  <h1>您在Not citiesocial的訂單</h1>
+                  <a href="${process.env.WEBSITE_URL}/orders" 
+                  style="margin-top: 5px;">
+                    <h3>訂單id：${orderItem.Order.id}，請至訂單頁面確認</h3>
+                  </a>
+                  <h3>購買商品：${orderItem.Product.name}</h3>
+                  <h3>購買數量：${orderItem.quantity}</h3>
+                  <h3>商品單價：${orderItem.price}</h3>
+                  <h3>總計：${orderItem.subtotal}</h3>
+                  <p>
+                    上述商品店家回報已經寄送，將於近期送至訂單指定地址，如有疑義請與店家保持聯繫；
+                    <br>
+                    如店家未確實送出商品，或顧客與店家有其他關於該筆訂單之糾紛，請提供證據並回覆此信，將由專員盡快為您處理。
+                  </p>
+                </div>
+                `
+        }
+        console.log('Mail, from ', process.env.ADDRESS, ' to ', orderItem.Order.email)
+        transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+            console.log(error)
+          } else {
+            console.log('Email sent: ' + info.response)
+          }
+        })
+
+        setTimeout( // 避免資料庫寫入未完成時，顯示改到一半的資訊
+          () => {
+            return res.redirect('back')
+          }, 3000
+        )
+      })
     })
   }
 }

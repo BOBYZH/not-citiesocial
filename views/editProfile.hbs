@@ -3,29 +3,29 @@
   
     <div class="form-group">
       <label for="last-name">姓</label>
-      <input type="text" class="form-control" name="lastName" placeholder="姓氏" value="{{user.lastName}}" id="last-name">
+      <input type="text" class="form-control" name="lastName" value="{{user.lastName}}" id="last-name">
     </div>
   
     <div class="form-group">
       <label for="first-name">名</label>
-      <input type="text" class="form-control" name="firstName" placeholder="名字" value="{{user.firstName}}" id="first-name"
+      <input type="text" class="form-control" name="firstName" value="{{user.firstName}}" id="first-name"
         required>
     </div>
 
     <div class="form-group">
       <label for="email">電子郵件</label>
-      <input type="email" class="form-control" name="email" placeholder="email" value="{{user.email}}" id="email"
+      <input type="email" class="form-control" name="email" value="{{user.email}}" id="email"
         disabled>
     </div>
     
     <div class="form-group">
-      <label for="default-phone">預設電話（選填）</label>
-      <input type="text" class="form-control" name="defaultPhone" placeholder="電話" value="{{user.defaultPhone}}" id="default-phone">
+      <label for="default-phone">預設電話（選填，也作為商店聯絡電話）</label>
+      <input type="text" class="form-control" name="defaultPhone" value="{{user.defaultPhone}}" id="default-phone">
     </div>
 
     <div class="form-group">
       <label for="default-address">預設地址（選填）</label>
-      <input type="text" class="form-control" name="defaultAddress" placeholder="地址" value="{{user.defaultAddress}}" id="default-address">
+      <input type="text" class="form-control" name="defaultAddress" value="{{user.defaultAddress}}" id="default-address">
     </div>
 
     <div class="form-check mb-2">
@@ -33,9 +33,61 @@
       <label class="form-check-label" for="is-admin">是否開店</label>
     </div>
 
+    <hr>
+
     <div class="form-group">
       <label for="shop-name">商店名稱</label>
-      <input type="text" class="form-control" name="shopName" placeholder="商店或品牌名稱" value="{{user.shopName}}" id="shop-name" {{#ifTrue user.isAdmin}}{{else}}disabled{{/ifTrue}} required>
+      <input type="text" class="form-control for-shop" name="shopName" value="{{user.shopName}}" id="shop-name" {{#ifTrue user.isAdmin}}{{else}}disabled{{/ifTrue}} required>
+    </div>
+
+    <div class="form-group">
+      <label for="shop-id">身分證字號/統一證號/公司統編</label>
+      <input type="text" class="form-control for-shop" name="shopId" value="{{user.shopId}}" id="shop-id"
+        {{#ifTrue user.isAdmin}}{{else}}disabled{{/ifTrue}} required>
+    </div>
+    
+    <div class="form-group">
+      <label for="shop-birthday">生日/公司核准設立日期</label>
+      <input type="date" class="form-control for-shop" name="shopBirthday" value="{{user.shopBirthday}}" id="shop-birthday"
+        {{#ifTrue user.isAdmin}}{{else}}disabled{{/ifTrue}} required 
+        pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
+    </div>
+
+    <div class="form-group">
+      <label for="shop-address">戶籍地址/公司地址</label>
+      <input type="text" class="form-control for-shop" name="shopAddress" 
+      {{#if user.shopAddress}}
+      value="{{user.shopAddress}}" 
+      {{else if user.defaultAddress}}
+      value="{{user.defaultAddress}}" 
+      {{/if}}
+      id="shop-address"
+        {{#ifTrue user.isAdmin}}{{else}}disabled{{/ifTrue}} required>
+    </div>
+
+    <div class="form-group">
+      <label for="shop-bank-name">銀行名稱</label>
+      <input type="text" class="form-control for-shop" name="shopBankName" value="{{user.shopBankName}}" id="shop-bank-name"
+        {{#ifTrue user.isAdmin}}{{else}}disabled{{/ifTrue}} required>
+    </div>
+    
+    <div class="form-group">
+      <label for="shop-bank-branch">分行名稱</label>
+      <input type="text" class="form-control for-shop" name="shopBankBranch"
+        value="{{user.shopBankBranch}}" id="shop-bank-branch" {{#ifTrue user.isAdmin}}{{else}}disabled{{/ifTrue}} required>
+    </div>
+
+    <div class="form-group">
+      <label for="shop-account-name">銀行戶名</label>
+      <input type="text" class="form-control for-shop" name="shopAccountName" value="{{user.shopAccountName}}" id="shop-account-name"
+        {{#ifTrue user.isAdmin}}{{else}}disabled{{/ifTrue}} required>
+    </div>
+    
+    <div class="form-group">
+      <label for="shop-account-number">銀行帳號</label>
+      <input type="text" class="form-control for-shop" name="shopAccountNumber"
+        value="{{user.shopAccountNumber}}" id="shop-account-number" {{#ifTrue user.isAdmin}}{{else}}disabled{{/ifTrue}}
+        required>
     </div>
   
     <button type="submit" class="btn btn-primary">修改</button>
@@ -45,16 +97,20 @@
 
 <script>
   const checkbox = document.querySelector('#is-admin')
-  const shopName = document.querySelector('#shop-name')
+  let forShops = document.querySelectorAll('.for-shop')
 
-  console.log(checkbox, shopName)
+  console.log(checkbox, forShops)
   
   checkbox.onchange = () => {
     if (checkbox.checked) {
-      shopName.disabled = false
+      for(let i = 0; i < forShops.length; i++) {
+        forShops[i].disabled = false
+      }
       checkbox.value = "true"
     } else {
-      shopName.disabled = true
+      for (let i = 0; i < forShops.length; i++) {
+        forShops[i].disabled = true
+      }
       checkbox.value = !checkbox.value
     } 
   }
