@@ -5,25 +5,21 @@ const bcrypt = require('bcryptjs')
 const userController = {
   signInPage: (req, res) => {
     const Category = db.CategoryLv1
-    // Category.findAll().then(categories => {
       return res.render('signIn')
-    // })
   },
 
   signIn: (req, res) => {
-    console.log('test cart', res.locals.cart) // 購物車內容無法顯示時，cart === undefined
-    // if (res.locals.cart.items.length === 0) {
-    return res.redirect(`/users/${req.user.id}#cart`) // 方便登入後進入購物車（已經有商品時）
-    // } else {
-    // return res.redirect(`/users/${req.user.id}`)
-    // }
+    // 購物車已經有商品時跳出互動視窗，方便登入後進入購物車
+    if (res.locals.cart.items.length === 0) { // 購物車沒商品時
+      return res.redirect(`/users/${req.user.id}`)
+    } else {
+      return res.redirect(`/users/${req.user.id}#cart`) 
+    }
   },
 
   signUpPage: (req, res) => {
     const Category = db.CategoryLv1
-    // Category.findAll().then(categories => {
       return res.render('signUp')
-    // })
   },
 
   signUp: (req, res) => {
@@ -52,11 +48,12 @@ const userController = {
 
   logOut: (req, res) => {
     req.logout()
-    // if (res.locals.cart.items.length !== 0) { // 方便切換帳號時登入
-    //   res.redirect('/signin')
-    // } else {
-    res.redirect('/')
-    // }
+    // 購物車已經有商品時跳出互動視窗，方便結帳時切換帳號時登入
+    if (res.locals.cart.items.length === 0) { // 購物車沒商品時
+      res.redirect('/')
+    } else {
+      res.redirect('/signin')
+    }
   },
 
   getUser: (req, res) => {
