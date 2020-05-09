@@ -117,7 +117,7 @@ module.exports = (app, passport) => {
     res.redirect('/admin/products')
   })
 
-  // 商品管理頁面
+  // 商品項目管理頁面
   app.get('/admin/products', authenticatedAdmin, adminController.getProducts)
   // 上架商品
   app.put('/admin/products/:id/sell', authenticatedAdmin, adminController.sellProduct)
@@ -137,8 +137,10 @@ module.exports = (app, passport) => {
   // 刪除商品
   app.delete('/admin/products/:id', authenticatedAdmin, adminController.deleteProduct)
 
-  // 訂單管理頁面
-  app.get('/admin/orders', authenticatedAdmin, adminController.getOrders)
+  // 商品訂單管理頁面
+  app.get('/admin/orderItems', authenticatedAdmin, adminController.getOrderItems)
+  // 標注為已寄送
+  app.post('/admin/orderItems/:id/confirm', authenticatedAdmin, adminController.confirmOrderItem)
 
   // 避免404當掉
   app.all('*', productController.redirectInvalidUrl)
