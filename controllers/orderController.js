@@ -115,7 +115,7 @@ function getTradeInfo (Amt, Desc, email) {
 
 const orderController = {
   getOrders: (req, res) => {
-    Order.findAll({ include: [ {model: OrderItem, include: [{model: Product, include: [User]}]}  ], where: { UserId: req.user.id } }).then(orders => {
+    Order.findAll({ include: [{ model: OrderItem, include: [{ model: Product, include: [User] }] }], where: { UserId: req.user.id } }).then(orders => {
       return res.render('orders', JSON.parse(JSON.stringify({
         orders
       })))
@@ -144,8 +144,7 @@ const orderController = {
               price: cart.items[i].price,
               quantity: cart.items[i].CartItem.quantity,
               subtotal: (cart.items[i].price) * (cart.items[i].CartItem.quantity),
-              shippingStatus: 0,
-              receivingStatus: 0
+              shippingStatus: 0
             })
           )
         }
@@ -179,18 +178,17 @@ const orderController = {
           })
           // 刪除已經下訂單的購物車項目與購物車本身
           CartItem.findAll({ where: { CartId: cart.id } }).then(cartItems => {
-            cartItems.forEach(cartItem => {
+            // 包裝到陣列，以使用Promise.all
+            const destroyedResults = cartItems.map(cartItem => {
               cartItem.destroy()
             })
-            cart.destroy()
-          })
-            .then(() => {
-              setTimeout( // 避免資料庫寫入未完成時，顯示改到一半的資訊
-                () => {
-                  res.redirect('/orders')
-                }, 3000
-              )
+            // 用Promise.all避免資料庫寫入未完成時，顯示改到一半的資訊
+            return Promise.all(destroyedResults).then(() => {
+              cart.destroy().then(() => {
+                res.redirect('/orders')
+              })
             })
+          })
         })
       })
     })
@@ -198,16 +196,20 @@ const orderController = {
 
   cancelOrder: (req, res) => {
     return Order.findByPk(req.params.id, {}).then(order => {
-      order.update({
-        ...req.body,
-        shippingStatus: '-1',
-        paymentStatus: '-1'
-      }).then(order => {
-        setTimeout( // 避免資料庫寫入未完成時，顯示改到一半的資訊
-          () => {
-            return res.redirect('back')
-          }, 3000
-        )
+      const canceledResults = []
+      canceledResults.push(
+        // 用async ... await包裝到陣列，以使用Promise.all
+        (async function () {
+          await order.update({
+            ...req.body,
+            shippingStatus: '-1',
+            paymentStatus: '-1'
+          })
+        })()
+      )
+      // 用Promise.all避免資料庫寫入未完成時，顯示改到一半的資訊
+      return Promise.all(canceledResults).then(order => {
+        return res.redirect('back')
       })
     })
   },
@@ -248,8 +250,8 @@ const orderController = {
     console.log(data)
 
     // 交易成功後更新訂單為已付款
-    return Order.findOne({ where: { sn: data.Result.MerchantOrderNo }, include: [ {model: OrderItem, include: [{model: Product, include: [User]}]}  ] }).then(order => {
-      // console.log('test', data.Result.MerchantOrderNo)      
+    return Order.findOne({ where: { sn: data.Result.MerchantOrderNo }, include: [{ model: OrderItem, include: [{ model: Product, include: [User] }] }] }).then(order => {
+      // console.log('test', data.Result.MerchantOrderNo)
       // console.log('test', order.OrderItems[0].Product.User)
       order.update({
         ...req.body,

@@ -141,27 +141,31 @@ const adminController = {
           imgur.upload(file.path, (_err, img) => {
             return Product.findByPk(req.params.id)
               .then((product) => {
-                product.update({
-                  name: req.body.name,
-                  price: req.body.price,
-                  features: req.body.features,
-                  description: req.body.description,
-                  instruction: req.body.instruction,
-                  announcement: req.body.announcement,
-                  specification: req.body.specification,
-                  image: file ? img.data.link : product.image,
-                  CategoryLv1Id: req.body.categoryLv1Id,
-                  CategoryLv2Id: req.body.categoryLv2Id,
-                  CategoryLv3Id: req.body.categoryLv3Id,
-                  UserId: req.user.id
-                }).then((product) => {
-                  // 用order.controller的promise，做完一件事情再做另一見事情
-                  setTimeout( // 避免資料庫寫入未完成時，顯示改到一半的資訊
-                    () => {
-                      req.flash('success_messages', `已成功修改商品：${product.name}`)
-                      return res.redirect('/admin/products')
-                    }, 1500
-                  )
+                const putResults = []
+                putResults.push(
+                  // 用async ... await包裝到陣列，以使用Promise.all
+                  (async function () {
+                    await product.update({
+                      name: req.body.name,
+                      price: req.body.price,
+                      features: req.body.features,
+                      description: req.body.description,
+                      instruction: req.body.instruction,
+                      announcement: req.body.announcement,
+                      specification: req.body.specification,
+                      image: file ? img.data.link : product.image,
+                      CategoryLv1Id: req.body.categoryLv1Id,
+                      CategoryLv2Id: req.body.categoryLv2Id,
+                      CategoryLv3Id: req.body.categoryLv3Id,
+                      UserId: req.user.id
+                    })
+                  })()
+                )
+                const productName = product.name // 將變數傳到Promise.all後使用
+                // 用Promise.all避免資料庫寫入未完成時，顯示改到一半的資訊
+                return Promise.all(putResults).then((product) => {
+                  req.flash('success_messages', `已成功修改商品：${productName}`)
+                  return res.redirect('/admin/products')
                 }).catch((product) => {
                   req.flash('error_messages', '發生錯誤，請稍後再試……')
                 })
@@ -170,27 +174,32 @@ const adminController = {
         } else {
           return Product.findByPk(req.params.id)
             .then((product) => {
-              product.update({
-                name: req.body.name,
-                price: req.body.price,
-                features: req.body.features,
-                description: req.body.description,
-                instruction: req.body.instruction,
-                announcement: req.body.announcement,
-                specification: req.body.specification,
-                image: product.image,
-                CategoryLv1Id: req.body.categoryLv1Id,
-                CategoryLv2Id: req.body.categoryLv2Id,
-                CategoryLv3Id: req.body.categoryLv3Id,
-                UserId: req.user.id
-              }).then((product) => {
-                // 用order.controller的promise，做完一件事情再做另一見事情
-                setTimeout( // 避免資料庫寫入未完成時，顯示改到一半的資訊
-                  () => {
-                    req.flash('success_messages', `已成功修改商品：${product.name}`)
-                    return res.redirect('/admin/products')
-                  }, 1500
-                )
+              const putResults = []
+              putResults.push(
+                // 用async ... await包裝到陣列，以使用Promise.all
+                (async function () {
+                  await product.update({
+                    name: req.body.name,
+                    price: req.body.price,
+                    features: req.body.features,
+                    description: req.body.description,
+                    instruction: req.body.instruction,
+                    announcement: req.body.announcement,
+                    specification: req.body.specification,
+                    image: product.image,
+                    CategoryLv1Id: req.body.categoryLv1Id,
+                    CategoryLv2Id: req.body.categoryLv2Id,
+                    CategoryLv3Id: req.body.categoryLv3Id,
+                    UserId: req.user.id
+                  })
+                })()
+              )
+              const productName = product.name
+              // 用Promise.all避免資料庫寫入未完成時，顯示改到一半的資訊
+              return Promise.all(putResults).then((product) => {
+                console.log('test', productName)
+                req.flash('success_messages', `已成功修改商品：${productName}`)
+                return res.redirect('/admin/products')
               }).catch((product) => {
                 req.flash('error_messages', '發生錯誤，請稍後再試……')
               })
@@ -253,38 +262,36 @@ const adminController = {
   },
 
   sellAllProducts: (req, res) => {
-    return Product.findAll({ where: { UserId: req.user.id } })
+    Product.findAll({ where: { UserId: req.user.id } })
       .then((products) => {
-        products.forEach(product =>
+        // 包裝到陣列，以使用Promise.all
+        const sellAllResults = products.map(product => {
           product.update({
             forSale: true
-          }))
-      }).then((products) => {
-        req.flash('success_messages', '已成功上架所有商品')
-        // 用order.controller的promise，做完一件事情再做另一見事情
-        setTimeout( // 避免資料庫寫入未完成時，顯示改到一半的資訊
-          () => {
-            return res.redirect('back')
-          }, 1500
-        )
+          })
+        })
+        // 用Promise.all避免資料庫寫入未完成時，顯示改到一半的資訊
+        return Promise.all(sellAllResults).then((products) => {
+          req.flash('success_messages', '已成功上架所有商品')
+          return res.redirect('/admin/products') // 用'back'容易顯示寫入未完成的資訊
+        })
       })
   },
 
   cancelAllProducts: (req, res) => {
-    return Product.findAll({ where: { UserId: req.user.id } })
+    Product.findAll({ where: { UserId: req.user.id } })
       .then((products) => {
-        products.forEach(product =>
+        // 包裝到陣列，以使用Promise.all
+        const cancelAllResults = products.map(product => {
           product.update({
             forSale: false
-          }))
-      }).then((products) => {
-        req.flash('success_messages', '已成功下架所有商品')
-        // 用order.controller的promise，做完一件事情再做另一見事情
-        setTimeout( // 避免資料庫寫入未完成時，顯示改到一半的資訊
-          () => {
-            return res.redirect('back')
-          }, 1500
-        )
+          })
+        })
+        // 用Promise.all避免資料庫寫入未完成時，顯示改到一半的資訊
+        return Promise.all(cancelAllResults).then((products) => {
+          req.flash('success_messages', '已成功下架所有商品')
+          return res.redirect('/admin/products') // 用'back'容易顯示寫入未完成的資訊
+        })
       })
   },
 
@@ -299,31 +306,38 @@ const adminController = {
 
   confirmOrderItem: (req, res) => {
     console.log('test')
-    return OrderItem.findByPk(req.params.id, {include: [Order, Product]}).then(orderItem => {
-      orderItem.update({
-        ...req.body,
-        shippingStatus: '1'
-      }).then(orderItem => {
-        console.log('test', orderItem)
-
+    return OrderItem.findByPk(req.params.id, { include: [Order, Product] }).then(orderItem => {
+      const confirmedResults = []
+      confirmedResults.push(
+        // 用async ... await包裝到陣列，以使用Promise.all
+        (async function () {
+          await orderItem.update({
+            ...req.body,
+            shippingStatus: '1'
+          })
+        })()
+      )
+      const OrderItem = orderItem // 將變數傳到Promise.all後使用
+      // 用Promise.all避免資料庫寫入未完成時，顯示改到一半的資訊
+      return Promise.all(confirmedResults).then(orderItem => {
         // 信件資訊
         const mailOptions = {
           from: process.env.ADDRESS,
-          to: orderItem.Order.email, // 提醒購買該筆orderItem的顧客
+          to: OrderItem.Order.email, // 提醒購買該筆orderItem的顧客
           // 提醒負責撥款給店家的管理人員，在店家配送後將代收的金錢轉給店家，密件副本
-          bcc: process.env.ADDRESS, 
-          subject: `${orderItem.Order.name}，您訂單（id：${orderItem.Order.id}）中的${orderItem.Product.name}已寄送`,
+          bcc: process.env.ADDRESS,
+          subject: `${OrderItem.Order.name}，您訂單（id：${OrderItem.Order.id}）中的${OrderItem.Product.name}已寄送`,
           html: `    
                 <div style="display: inline-block; min-width: 300px; background-color: white;">
                   <h1>您在Not citiesocial的訂單</h1>
                   <a href="${process.env.WEBSITE_URL}/orders" 
                   style="margin-top: 5px;">
-                    <h3>訂單id：${orderItem.Order.id}，請至訂單頁面確認</h3>
+                    <h3>訂單id：${OrderItem.Order.id}，請至訂單頁面確認</h3>
                   </a>
-                  <h3>購買商品：${orderItem.Product.name}</h3>
-                  <h3>購買數量：${orderItem.quantity}</h3>
-                  <h3>商品單價：${orderItem.price}</h3>
-                  <h3>總計：${orderItem.subtotal}</h3>
+                  <h3>購買商品：${OrderItem.Product.name}</h3>
+                  <h3>購買數量：${OrderItem.quantity}</h3>
+                  <h3>商品單價：${OrderItem.price}</h3>
+                  <h3>總計：${OrderItem.subtotal}</h3>
                   <p>
                     上述商品店家回報已經寄送，將於近期送至訂單指定地址，如有疑義請與店家保持聯繫；
                     <br>
@@ -332,7 +346,7 @@ const adminController = {
                 </div>
                 `
         }
-        console.log('Mail, from ', process.env.ADDRESS, ' to ', orderItem.Order.email)
+        console.log('Mail, from ', process.env.ADDRESS, ' to ', OrderItem.Order.email)
         transporter.sendMail(mailOptions, function (error, info) {
           if (error) {
             console.log(error)
@@ -341,11 +355,7 @@ const adminController = {
           }
         })
 
-        setTimeout( // 避免資料庫寫入未完成時，顯示改到一半的資訊
-          () => {
-            return res.redirect('back')
-          }, 3000
-        )
+        return res.redirect('back')
       })
     })
   }
