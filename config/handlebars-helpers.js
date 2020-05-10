@@ -1,3 +1,6 @@
+const moment = require('moment')
+moment.locale('zh-tw')
+
 module.exports = {
   ifCond: function (a, b, options) {
     if (a === b) {
@@ -16,5 +19,11 @@ module.exports = {
       return options.fn(this)
     }
     return options.inverse(this)
+  },
+  momentLLLL: function (a) {
+    return moment(a).format('LLLL')
+  },
+  momentFromNow: function (a) {
+    return moment(a).fromNow()
   }
 }

@@ -2,7 +2,7 @@
   {{#if orderItems}}
   {{#each orderItems}}
   <div class="row">
-    <div class="col-md-7">
+    <div class="col-md-8">
       <table class="table">
         <thead>
           <tr>
@@ -32,32 +32,34 @@
                 </button>
               </form>
               {{else}}
-              <button type="submit" class="btn btn-warning" disabled>已寄送</button>
+              <!-- Button trigger modal -->
+              <button class="btn btn-warning" data-toggle="modal" data-target="#dateOfDispatch{{this.id}}">已寄送</button>
               {{/ifCond}}
             </td>
           </tr>
           <tr>
             <td style="text-align: right;">
-              <h4>總計：</h4>
+              <h5>總計：</h5>
             </td>
             <td>
-              <h4>{{this.subtotal}}</h4>
+              <h5>{{this.subtotal}}</h5>
             </td>
             <td>
-              <h4>付款狀況：</h4>
+              <h5>付款狀況：</h5>
             </td>
             <td>
               {{#ifCond this.Order.paymentStatus '0'}}
-              <h4 class="text-warning">未付款</h4>
+              <h5 class="text-warning">未付款
               {{/ifCond}}
             
               {{#ifCond this.Order.paymentStatus '1'}}
-              <h4 class="text-success">已付款</h4>
+              <h5 class="text-success">已付款
               {{/ifCond}}
             
               {{#ifCond this.Order.paymentStatus '-1'}}
-              <h4 class="text-muted">已取消</h4>
+              <h5 class="text-muted">已取消
               {{/ifCond}}
+              ({{momentLLLL this.Order.updatedAt}}，{{momentFromNow this.Order.updatedAt}})</h5>
             </td>
           </tr>
         </tbody>
@@ -76,18 +78,35 @@
         <li>電話： {{this.Order.phone}}</li>
       </ul>
     </div>
-    <div class="col-md-1" style="display: flex; justify-content: space-around; min-width: 300px;">
-    {{#ifCond this.paymentStatus '1'}}
-      {{#ifCond this.shippingStatus '1'}}
-      <a href="#"><button class="btn btn-primary">立即請款</button></a>
-      {{else}}
-      
-      {{/ifCond}}
-    {{else}}
-      {{!-- display: none --}}
-    {{/ifCond}}
-    </div>
     
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade bd-example-modal-sm" id="dateOfDispatch{{this.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">商品已寄送！</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>
+            您在{{momentLLLL this.updatedAt}}
+            <br>
+            ({{momentFromNow this.updatedAt}})
+            <br>
+            標記此商品為已出貨，將在近期送達顧客指定的地點。
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info" data-dismiss="modal">
+            知道了
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
   {{/each}}
   {{else}}

@@ -1,5 +1,5 @@
 <div class="mt-5 pt-5">
-{{#if orders}}
+  {{#if orders}}
   {{#each orders}}
   <div class="row">
     <div class="col-9">
@@ -25,7 +25,9 @@
               {{#ifCond this.shippingStatus 0}}
               <button type="submit" class="btn btn-info" disabled>未寄送</button>
               {{else}}
-              <button type="submit" class="btn btn-warning" disabled>已寄送</button>
+              <!-- Button trigger modal -->
+              <button class="btn btn-warning" data-toggle="modal"
+                data-target="#dateOfDispatch{{this.id}}">已寄送</button>
               {{/ifCond}}
             </td>
             <td>
@@ -35,30 +37,58 @@
               <a href="tel:{{this.Product.User.defaultPhone}}">{{this.Product.User.defaultPhone}}</a>
             </td>
           </tr>
+
+          <!-- Modal -->
+          <div class="modal fade bd-example-modal-sm" id="dateOfDispatch{{this.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalCenterTitle">商品已寄送！</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>
+                    店家在{{momentLLLL this.updatedAt}}
+                    <br>
+                    ({{momentFromNow this.updatedAt}})
+                    <br>
+                    標記此商品為已出貨，將在近期送達訂單指定的地點。
+                  </p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-info" data-dismiss="modal">
+                    知道了
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
           {{/each}}
           <tr>
-            <td></td>
             <td style="text-align: right;">
-              <h4>總計：</h4>
+              <h5>總計：</h5>
             </td>
             <td>
-              <h4>{{this.amount}}</h4>
+              <h5>{{this.amount}}</h5>
             </td>
             <td>
-              <h4>付款狀況：</h4>
+              <h5>付款狀況：</h5>
             </td>
-            <td>
+            <td colspan="2">
               {{#ifCond this.paymentStatus '0'}}
-              <h4 class="text-warning">未付款</h4>
+              <h5 class="text-warning">未付款
               {{/ifCond}}
 
               {{#ifCond this.paymentStatus '1'}}
-              <h4 class="text-success">已付款</h4>
+              <h5 class="text-success">已付款
               {{/ifCond}}
 
               {{#ifCond this.paymentStatus '-1'}}
-              <h4 class="text-muted">已取消</h4>
+              <h5 class="text-muted">已取消
               {{/ifCond}}
+              ({{momentLLLL this.updatedAt}}，{{momentFromNow this.updatedAt}})</h5>
             </td>
           </tr>
         </tbody>
@@ -86,19 +116,20 @@
             <button type="submit" class="btn btn-primary my-4"
               onclick="if(confirm('確認取消？')) return true; else return false">取消訂單</button>
           </form>
-      
-          <a href="/order/{{this.id}}/payment" class="d-flex align-items-center mx-3"><button class="btn btn-primary">立即付款</button></a>
+
+          <a href="/order/{{this.id}}/payment" class="d-flex align-items-center mx-3"><button
+              class="btn btn-primary">立即付款</button></a>
         </div>
         {{else}}
         {{!-- display:none --}}
         {{/ifCond}}
       </div>
-    </div>    
+    </div>
   </div>
 
   <hr />
   {{/each}}
-{{else}}
+  {{else}}
   <h5 class="text-center mb-5">你還沒有訂單資料</h5>
-{{/if}}
+  {{/if}}
 </div>
