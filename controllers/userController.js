@@ -4,8 +4,7 @@ const bcrypt = require('bcryptjs')
 
 const userController = {
   signInPage: (req, res) => {
-    const Category = db.CategoryLv1
-      return res.render('signIn')
+    return res.render('signIn')
   },
 
   signIn: (req, res) => {
@@ -13,13 +12,12 @@ const userController = {
     if (res.locals.cart.items.length === 0) { // 購物車沒商品時
       return res.redirect(`/users/${req.user.id}`)
     } else {
-      return res.redirect(`/users/${req.user.id}#cart`) 
+      return res.redirect(`/users/${req.user.id}#cart`)
     }
   },
 
   signUpPage: (req, res) => {
-    const Category = db.CategoryLv1
-      return res.render('signUp')
+    return res.render('signUp')
   },
 
   signUp: (req, res) => {

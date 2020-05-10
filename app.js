@@ -80,7 +80,7 @@ app.use((req, res, next) => {
     res.locals.cart = JSON.parse(JSON.stringify(cart))
     res.locals.totalPrice = JSON.parse(JSON.stringify(totalPrice))
     next()
-  })  
+  })
 })
 
 // error handler

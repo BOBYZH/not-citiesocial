@@ -5,13 +5,13 @@ const faker = require('faker')
 // 修改自：https://stackoverflow.com/questions/3066586/get-string-in-yyyymmdd-format-from-js-date-object
 
 Date.prototype.standard = function () {
-  let mm = this.getMonth() + 1; // getMonth() is zero-based
-  let dd = this.getDate();
+  const mm = this.getMonth() + 1 // getMonth() is zero-based
+  const dd = this.getDate()
 
   return [this.getFullYear(),
-  '-' + (mm > 9 ? '' : '0') + mm,
-  '-' + (dd > 9 ? '' : '0') + dd
-  ].join('');
+    '-' + (mm > 9 ? '' : '0') + mm,
+    '-' + (dd > 9 ? '' : '0') + dd
+  ].join('')
 }
 
 module.exports = {
