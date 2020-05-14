@@ -1,10 +1,12 @@
 const db = require('../models')
 const Cart = db.Cart
 const CartItem = db.CartItem
+const Product = db.Product
+const User = db.User
 
 const cartController = {
   getCart: (req, res) => {
-    return Cart.findByPk(req.session.cartId, { include: 'items' }).then(cart => {
+    return Cart.findByPk(req.session.cartId, { include: ['items', { model: CartItem, include: [{ model: Product, include: [User] }] }] }).then(cart => {
       cart = cart || { items: [] } // 找不到購物車的話，回傳空的內容
       const totalPrice = cart.items.length > 0 ? cart.items.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
       const inCartPage = true

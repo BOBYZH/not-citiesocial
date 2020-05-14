@@ -11,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
     quantity: DataTypes.INTEGER
   }, {})
   CartItem.associate = function (models) {
-    // associations can be defined here
+    CartItem.belongsTo(models.Cart)
+    CartItem.belongsTo(models.Product)
   }
   return CartItem
 }

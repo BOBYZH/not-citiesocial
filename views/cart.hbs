@@ -1,9 +1,23 @@
-<div class="mt-5 pt-5" id="cart">
+<div class="container my-5 pb-5" id="cart">
+
+  <ul class="nav mt-5 pt-5">
+    <li class="nav-item">
+      <a class="text-muted" href="/">首頁</a>
+    </li>
+    <span class="mx-1">></span>
+    <li class="nav-item">
+      <a class="text-muted">
+        購物車
+      </a>
+    </li>
+  </ul>
+  <h3 class="mt-3 font-weight-bolder">我的購物車</h3>
+
   {{#ifCond cart.items.length 0}}
   <div class="">
     <h5 class="text-center">您還沒有加入商品到購物車中</h5>
     <h6 class="text-center my-5"></span>
-      <a href="/" class="btn btn-info" aria-label="Close">
+      <a href="/" class="btn btn-info px-5 py-3" aria-label="Close">
         開始逛逛
       </a>
     </h6>
@@ -12,69 +26,102 @@
   <table class="table">
     <thead>
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">Price</th>
-        <th scope="col">quantity</th>
-        <th scope="col">Subtotal</th>
-        <th scope="col">#</th>
+        <th scope="col" class="font-weight-normal py-3 pl-5">商品</th>
+        <th scope="col" class="font-weight-normal py-3 pl-5">價格</th>
+        <th scope="col" class="font-weight-normal py-3 pl-5">數量</th>
+        <th scope="col" class="font-weight-normal py-3 pl-5">小計</th>
+        <th scope="col" class="font-weight-normal py-3 pl-5"></th>
       </tr>
     </thead>
     <tbody>
-      {{#each cart.items}}
+      {{#each cart.CartItems}}
       <tr>
-        <td>
-          <div style="display: flow-root;">
-            <img src="{{this.image}}" class="card-img" alt="..." style="height: 100px;width: auto;">
-            <span>{{this.name}}</span>
+        <td class="pl-5">
+          <div class="d-flex align-items-center">
+            <a href="/products/{{this.Product.id}}">
+              <img src="{{this.Product.image}}" class="card-img my-3" alt="..." style="height: 100px;width: auto;">  
+            </a>
+            <div class="d-inline ml-2">
+              <span>{{this.Product.User.shopName}}</span>
+              <a href="/products/{{this.Product.id}}">
+                <h4 class="text-dark font-weight-bolder">{{this.Product.name}}</h4>
+              </a>
+            </div>
+          </div>
+        </td>
+        <td class="">
+          <div class="my-5 pt-3">
+            <div class="d-inline ml-2">
+              <span class="font-weight-bolder">NTD {{this.Product.price}}</span>
+            </div>
           </div>
         </td>
         <td>
-          <p>$ {{this.price}}</p>
+          <div class="my-5 d-flex align-items-center">
+            <span class="px-4">
+              {{this.quantity}}
+            </span>            
+            {{#ifCond this.quantity 1}}
+            <form action="/cartItem/{{this.id}}?_method=DELETE" method="POST">
+            {{else}}
+            <form action="/cartItem/{{this.id}}/sub" method="POST">
+            {{/ifCond}}
+              <button type="submit" class="btn btn-sm btn-outline-secondary border px-4 py-2" style="border-radius: 50% 0 0 50%;">
+                <span class="p-0" style="font-size: x-large; border-color: grey;">-</span>
+              </button>
+            </form>
+            <form action="/cartItem/{{this.id}}/add" method="POST">
+              <button type="submit" class="btn btn-sm btn-outline-secondary border px-4 py-2" style="border-radius: 0 50% 50% 0;">
+                <span class="p-0" style="font-size: x-large; border-color: grey;">+</span>
+              </button>
+            </form>
+          </div>
         </td>
         <td>
-          <div style="display: flex;">
-            <form action="/cartItem/{{this.CartItem.id}}/add" method="POST">
-              <button type="submit" class="btn btn-sm btn-outline-secondary">+</button>
-            </form>
-            <span style="margin: 0 20px;">
-              {{this.CartItem.quantity}}
+          <div class="my-5 pt-3">
+            <input type="number" id="price-{{this.id}}" value="{{this.Product.price}}" class="d-none">
+            <input type="number" id="quantity-{{this.id}}" value="{{this.quantity}}" class="d-none">
+            <span class="font-weight-bolder">NTD
+              <span id="subtotal-{{this.id}}">0</span>
             </span>
-            <form action="/cartItem/{{this.CartItem.id}}/sub" method="POST">
-              <button type="submit" class="btn btn-sm btn-outline-secondary">-</button>
-            </form>
+            <script>
+              const price{{this.id}} = document.querySelector('#price-{{this.id}}')
+              const quantity{{this.id}} = document.querySelector('#quantity-{{this.id}}')
+              const subtotal{{this.id}} = document.querySelector('#subtotal-{{this.id}}')
+
+              subtotal{{this.id}}.textContent = Number(price{{this.id}}.value) * Number(quantity{{this.id}}.value)
+            </script>
           </div>
         </td>
-        <td>{{this.price}} * {{this.CartItem.quantity}}</td>
         <td>
-          <form action="/cartItem/{{this.CartItem.id}}?_method=DELETE" method="POST">
-            <button type="submit" class="btn btn-link">
-              <i class="fas fa-trash"></i>
+          <form action="/cartItem/{{this.id}}?_method=DELETE" method="POST" class="my-5 pt-2">
+            <button type="submit" class="btn btn-link text-secondary">
+              <i class="fas fa-times-circle h5"></i>
             </button>
           </form>
         </td>
       </tr>
       {{/each}}
       <tr>
-        <td>
-          <h6>備註</h6>
-          <textarea name="" id="" cols="40" rows="3"></textarea>
-        </td>
         <td></td>
-        <td style="text-align: right;">
-          <h2>NTD </h2>
-        </td>
-        <td>
-          <h2>{{totalPrice}}</h2>
-          <button class="btn btn-info" id="checkout">結帳</button>
-        </td>
         <td></td>
+        <td></td>
+        <td colspan="2">
+          <div class="">
+            <h5 class="font-weight-bolder text-right mr-5">NTD {{totalPrice}}</h5>
+            <button class="btn btn-info py-3 px-5 mt-4" id="checkout">
+              結帳
+              <small>>></small>
+            </button>
+          </div>
+        </td>        
       </tr>
     </tbody>
   </table> 
   {{/ifCond}}
 </div>
 
-<div class="row mt-5 pt-5" id="information" style="display: none;">  
+<div class="row container my-5 py-5" id="information" style="display: none;">  
   <div class="col-md-4">
     <form action="order" method="POST">
       <div class="form-group">
