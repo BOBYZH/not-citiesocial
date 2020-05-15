@@ -179,7 +179,7 @@
     </div>
     {{else}}
     <div class="mx-auto d-none d-md-flex">
-      <ul class="col-12 text-center mb-0 mx-0 row list-unstyled nav nav-pills" style="line-height: 50px;">
+      <ul class="col-12 text-center mb-0 mx-0 row list-unstyled nav nav-pills d-flex justify-content-center" style="line-height: 50px;">
         <li class="nav-item">
           <a class="nav-link text-muted p-0 mx-2" href="#">即時排行 TOP 100</a>
         </li>
@@ -199,9 +199,6 @@
           </a>
         </li>
         {{/each}}
-        <li>
-          <a class="nav-link text-muted p-0 mx-2" href="#">購物優惠</a>
-        </li>
         <li>
           <a class="nav-link text-muted p-0 mx-2" href="#">VIEWS生活誌</a>
         </li>
@@ -232,14 +229,14 @@
   {{!-- display: none --}}
   {{else}}
   <section id="subscription" class="bg-light text-center">
-    <h5 class="text-center pt-4">訂閱電子報</h5>
+    <h5 class="text-center pt-4 font-weight-bolder">訂閱電子報</h5>
     <div class="input-group mb-3 pt-4 pb-5 d-flex justify-content-center">
       <form action="/subscriber" method="POST">
         <div class="input-group-append d-inline-flex">
           <input type="email" class="border border-dark rounded-left pl-3" placeholder="YOUR@EMAIL.COM" name="email"
-            style="width: 30vw; height: 4vh;" aria-label="Recipient's username" aria-describedby="basic-addon2"
+            style="width: 25vw; height: 4vh;" aria-label="Recipient's username" aria-describedby="basic-addon2"
             required>
-          <button type="submit" class="btn-secondary  px-4 rounded-right float-right">訂閱電子報</button>
+          <button type="submit" class="btn-secondary px-4 rounded-right float-right">訂閱電子報</button>
         </div>
       </form>
     </div>
@@ -250,10 +247,10 @@
   <footer id="about-company">
     <section class="container">
 
-      <div class="row">
+      <div class="row pt-4">
 
         <div class="col-3">
-          <h6 class="mb-3">關於我們</h6>
+          <h6 class="mb-3 font-weight-bolder">關於我們</h6>
           <ul class="list-unstyled font-weight-light">
             <li class="py-1"><a href="#" class="text-muted">關於 not citiesocial</a></li>
             <li class="py-1"><a href="#" class="text-muted">隱私權保護政策</a></li>
@@ -262,7 +259,7 @@
         </div>
 
         <div class="col-3">
-          <h6 class="mb-3">聯絡我們</h6>
+          <h6 class="mb-3 font-weight-bolder">聯絡我們</h6>
           <ul class="list-unstyled font-weight-light">
             <li class="py-1"><a href="#" class="text-muted">業務合作洽談</a></li>
             <li class="py-1"><a href="#" class="text-muted">Sell with not citiesocial</a></li>
@@ -270,7 +267,7 @@
         </div>
 
         <div class="col-3">
-          <h6 class="mb-3">自助查詢</h6>
+          <h6 class="mb-3 font-weight-bolder">自助查詢</h6>
           <ul class="list-unstyled font-weight-light">
             <li class="py-1"><a href="#" class="text-muted">銀行優惠說明</a></li>
             <li class="py-1"><a href="#" class="text-muted">LINE Points 回饋說明</a></li>
@@ -281,7 +278,7 @@
         </div>
 
         <div class="col-3">
-          <h6 class="mb-3">顧客服務</h6>
+          <h6 class="mb-3 font-weight-bolder">顧客服務</h6>
           <ul class="list-unstyled font-weight-light">
             <li class="py-1"><a href="#" class="text-muted">VIEWS生活誌</a></li>
             <li class="py-1"><a href="#" class="text-muted">會員回饋計畫</a></li>
@@ -291,8 +288,21 @@
             <li class="py-1"><a href="#" class="text-muted">客服中心</a></li>
           </ul>
         </div>
-      </div>
+      </div>         
 
+    </section>
+
+    <section class="col-12 border-top pt-5 pb-3">
+      <div class="h1 d-flex justify-content-center">
+        <i class="fab fa-cc-visa mx-2" ></i>
+        <i class="fab fa-cc-mastercard mx-2"></i>
+        <i class="fab fa-cc-jcb mx-2"></i>
+      </div>
+      <div class="d-flex justify-content-center mt-4">
+        <small class="text-muted">
+          2020, Not Citiesocial
+        </small>
+      </div>
     </section>
   </footer>
 
@@ -331,7 +341,7 @@
         </div>
 
         {{#ifCond cart.CartItems.length 0}}
-        <div class="modal-body">
+        <div class="modal-body bg-light">
           <h5 class="text-center mt-2 mb-0 font-weight-bolder">您還沒有加入商品到購物車中</h5>
         </div>
 
