@@ -73,12 +73,25 @@ app.use((req, res, next) => {
 app.use((req, res, next) => {
   const db = require('./models')
   const Cart = db.Cart
+  const CartItem = db.CartItem
+  const Product = db.Product
+  const User = db.User
 
-  Cart.findByPk(req.session.cartId, { include: 'items' }).then(cart => {
-    cart = cart || { items: [] } // 找不到購物車的話，回傳空的內容
-    const totalPrice = cart.items.length > 0 ? cart.items.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
+  Cart.findByPk(req.session.cartId, { include: [{ model: CartItem, include: [{ model: Product, include: [User] }] }] }).then(cart => {
+    cart = cart || { CartItems: [] } // 找不到購物車的話，回傳空的內容
+    const totalPrice = cart.CartItems.length > 0 ? cart.CartItems.map(d => d.Product.price * d.quantity).reduce((a, b) => a + b) : 0
+    const totalQuantity = cart.CartItems.length > 0 ? cart.CartItems.map(d => d.quantity).reduce((a, b) => a + b) : 0
+    const CartItems = cart.CartItems.map(CartItem => (
+      {
+        ...CartItem.dataValues,
+        name: CartItem.dataValues.Product.name !== null ? (CartItem.dataValues.Product.name.length > 11 ? (CartItem.dataValues.Product.name.substring(0, 11) + '...') : CartItem.dataValues.Product.name) : ''
+      }
+    ))
+    console.log('test', CartItems[0])
     res.locals.cart = JSON.parse(JSON.stringify(cart))
     res.locals.totalPrice = JSON.parse(JSON.stringify(totalPrice))
+    res.locals.totalQuantity = JSON.parse(JSON.stringify(totalQuantity))
+    res.locals.CartItems = JSON.parse(JSON.stringify(CartItems))
     next()
   })
 })
