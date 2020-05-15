@@ -1,9 +1,9 @@
-<div class="mt-5 pt-5">
+<div class="my-5 py-5">
   {{#if orderItems}}
   {{#each orderItems}}
-  <div class="row">
-    <div class="col-md-8">
-      <table class="table">
+  <div class="row mx-5 px-xl-5">
+    <div class="col-8 border-top border-bottom">
+      <table class="table table-borderless">
         <thead>
           <tr>
             <th scope="col">購買商品</th>
@@ -38,41 +38,39 @@
             </td>
           </tr>
           <tr>
-            <td style="text-align: right;">
-              <h5>總計：</h5>
+            <td class="text-center pl-5" colspan="2">
+              <h6>總計：{{this.subtotal}}</h6>
             </td>
-            <td>
-              <h5>{{this.subtotal}}</h5>
-            </td>
-            <td>
-              <h5>付款狀況：</h5>
-            </td>
-            <td>
+            <td class="text-left" colspan="2">
+              <h6>
+                <span>付款狀況：</span>
               {{#ifCond this.Order.paymentStatus '0'}}
-              <h5 class="text-warning">未付款
+              <span class="text-warning">未付款
               {{/ifCond}}
             
               {{#ifCond this.Order.paymentStatus '1'}}
-              <h5 class="text-success">已付款
+              <span class="text-success">已付款
               {{/ifCond}}
             
               {{#ifCond this.Order.paymentStatus '-1'}}
-              <h5 class="text-muted">已取消
+              <span class="text-muted">已取消
               {{/ifCond}}
-              ({{momentLLLL this.Order.updatedAt}}，{{momentFromNow this.Order.updatedAt}})</h5>
+              ({{momentLLLL this.Order.updatedAt}}，{{momentFromNow this.Order.updatedAt}})
+              </span>
+              </h6>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div class="col-md-4">
+    <div class="col-4 border-top border-bottom pl-5 pt-2">
       <h5>收件者資訊</h5>
       <ul>
-        <li>訂單id: {{this.Order.id}}</li>
+        <li>訂單id： {{this.Order.id}}</li>
         {{#if this.Order.sn}}
-        <li>sn: {{this.Order.sn}}</li>
+        <li>sn： {{this.Order.sn}}</li>
         {{/if}}
-        <li>email: {{this.Order.email}}</li>
+        <li>email： {{this.Order.email}}</li>
         <li>姓名： {{this.Order.name}}</li>
         <li>地址： {{this.Order.address}}</li>
         <li>電話： {{this.Order.phone}}</li>
@@ -86,7 +84,7 @@
     <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalCenterTitle">商品已寄送！</h5>
+          <h6 class="modal-title" id="exampleModalCenterTitle">商品已寄送！</h6>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -110,6 +108,6 @@
   </div>
   {{/each}}
   {{else}}
-  <h5 class="text-center mb-5">你還沒有訂單資料</h5>
+  <h6 class="text-center mb-5">你還沒有訂單資料</h6>
   {{/if}}
 </div>

@@ -1,11 +1,11 @@
-<div class="row my-5">
+<div class="row my-5 py-5">
   <div class="col-md-9 mx-auto">
     <div class="row">
       {{#each products.rows}}
       <div class="col-12 col-sm-6 col-lg-4">
         <div class="card mb-4 shadow-sm">
           <a href="/products/{{this.id}}">
-            <img class="bd-placeholder-img card-img-top" src={{this.image}}></img>
+            <img class="bd-placeholder-img card-img-top border" src={{this.image}}></img>
           </a>
           <div class="card-body">
             <p class="card-text">
