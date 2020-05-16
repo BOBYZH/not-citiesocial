@@ -87,7 +87,6 @@ app.use((req, res, next) => {
         name: CartItem.dataValues.Product.name !== null ? (CartItem.dataValues.Product.name.length > 11 ? (CartItem.dataValues.Product.name.substring(0, 11) + '...') : CartItem.dataValues.Product.name) : ''
       }
     ))
-    console.log('test', CartItems[0])
     res.locals.cart = JSON.parse(JSON.stringify(cart))
     res.locals.totalPrice = JSON.parse(JSON.stringify(totalPrice))
     res.locals.totalQuantity = JSON.parse(JSON.stringify(totalQuantity))

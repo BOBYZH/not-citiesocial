@@ -33,7 +33,7 @@ passport.use(new FacebookStrategy(
     User.findOne({
       where: { email: profile._json.email }
     }).then(user => {
-      console.log(profile, 'profile')
+      console.log('profile:', profile)
       if (!user) {
         const randomPassword = Math.random().toString(36).slice(-8)
         bcrypt.genSalt(10, (_err, salt) =>

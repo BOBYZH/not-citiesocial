@@ -21,7 +21,6 @@ const productController = {
     Product.findAndCountAll(
       { include: User, offset: PAGE_OFFSET, limit: PAGE_LIMIT, where: { forSale: true } } // forSale限制只能看到上架的商品
     ).then(products => {
-      // console.log(products.rows[1].User.isAdmin)
       const Products = products.rows
         .filter(product => product.User.isAdmin === true) // 只顯示有營業店家的商品
         .map(product => (
@@ -46,7 +45,6 @@ const productController = {
     Product.findAndCountAll(
       { include: [User, CategoryLv1, CategoryLv2, CategoryLv3], where: [{ forSale: true }, whereQuery] } // forSale限制只能看到上架的商品
     ).then(products => {
-      // console.log(products.rows[1].User.isAdmin)
       let Products = products.rows
         .filter(product => product.User.isAdmin === true) // 只顯示有營業店家的商品
         .map(product => (
@@ -58,7 +56,7 @@ const productController = {
       CategoryLv1.findAll().then(categoryLv1s => {
         const keyword = req.query.keyword || ''
         if (req.query) {
-          console.log('req.query', req.query)
+          console.log('req.query:', req.query)
           Products = Products.filter(product => {
             return product.name.toLowerCase().includes(keyword.toLowerCase()) ||
               product.description.toLowerCase().includes(keyword.toLowerCase()) ||
@@ -73,7 +71,7 @@ const productController = {
               product.price.toString().includes(keyword.toLowerCase())
           })
         } else {
-          console.log('req.categoryLv1Id', req.categoryLv1Id)
+          console.log('req.categoryLv1Id:', req.categoryLv1Id)
         }
         return res.render('products', JSON.parse(JSON.stringify({
           products: Products, categoryLv1s, categoryLv1Id, keyword
@@ -89,7 +87,6 @@ const productController = {
         CategoryLv1, CategoryLv2, CategoryLv3
       ]
     }).then(product => {
-      // console.log(product)
       if (product === null) {
         req.flash('error_messages', '無此商品！')
         res.redirect('/')

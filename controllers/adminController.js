@@ -44,7 +44,6 @@ const adminController = {
     CategoryLv1.findAll().then(CategoryLv1s => {
       CategoryLv2.findAll().then(CategoryLv2s => {
         CategoryLv3.findAll().then(CategoryLv3s => {
-          // console.log(inAdmin, inProducts, CategoryLv1s)
           return res.render('admin/create', JSON.parse(JSON.stringify({
             inAdmin, inProducts, CategoryLv1s, CategoryLv2s, CategoryLv3s, superAdminEmail
           })))
@@ -54,7 +53,6 @@ const adminController = {
   },
 
   postProduct: (req, res) => {
-    // console.log(req.body, 'body')
     if (!req.body.name) {
       req.flash('error_messages', '沒填入產品名稱！')
       return res.redirect('back')
@@ -109,7 +107,6 @@ const adminController = {
 
   editProduct: (req, res) => {
     Product.findByPk(req.params.id).then(product => {
-      // console.log(product.UserId, 'test')
       CategoryLv1.findAll().then(CategoryLv1s => {
         CategoryLv2.findAll().then(CategoryLv2s => {
           CategoryLv3.findAll().then(CategoryLv3s => {
@@ -126,7 +123,6 @@ const adminController = {
   },
 
   putProduct: (req, res) => {
-    // console.log(req.body, 'body')
     Product.findByPk(req.params.id).then(product => {
       if (product.UserId !== req.user.id) { // 防止進入非自己店家商品頁面偷改資料
         req.flash('error_messages', '只能改自己的商品！')
@@ -197,7 +193,6 @@ const adminController = {
               const productName = product.name
               // 用Promise.all避免資料庫寫入未完成時，顯示改到一半的資訊
               return Promise.all(putResults).then((product) => {
-                console.log('test', productName)
                 req.flash('success_messages', `已成功修改商品：${productName}`)
                 return res.redirect('/admin/products')
               }).catch((product) => {
@@ -305,7 +300,6 @@ const adminController = {
   },
 
   confirmOrderItem: (req, res) => {
-    console.log('test')
     return OrderItem.findByPk(req.params.id, { include: [Order, Product] }).then(orderItem => {
       const confirmedResults = []
       confirmedResults.push(

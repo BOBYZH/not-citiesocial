@@ -251,14 +251,11 @@ const orderController = {
 
     // 交易成功後更新訂單為已付款
     return Order.findOne({ where: { sn: data.Result.MerchantOrderNo }, include: [{ model: OrderItem, include: [{ model: Product, include: [User] }] }] }).then(order => {
-      // console.log('test', data.Result.MerchantOrderNo)
-      // console.log('test', order.OrderItems[0].Product.User)
       order.update({
         ...req.body,
         paymentStatus: 1
       }).then(order => {
         order.OrderItems.forEach(OrderItem => {
-          console.log('shop email:', OrderItem.Product.User.email)
           // 信件資訊
           const mailOptions = {
             from: process.env.ADDRESS,

@@ -77,7 +77,7 @@ const userController = {
   },
 
   putUser: (req, res) => {
-    console.log('putUser', req.body)
+    // console.log('putUser', req.body)
     if (!req.body.firstName) {
       req.flash('error_messages', '沒有填寫名字！')
       return res.redirect('back')
