@@ -21,14 +21,17 @@ const productController = {
     Product.findAndCountAll(
       { include: User, offset: PAGE_OFFSET, limit: PAGE_LIMIT, where: { forSale: true } } // forSale限制只能看到上架的商品
     ).then(products => {
-      const Products = products.rows
-        .filter(product => product.User.isAdmin === true) // 只顯示有營業店家的商品
-        .map(product => (
-          {
-            ...product.dataValues,
-            name: product.dataValues.name !== null ? (product.dataValues.name.length > 18 ? (product.dataValues.name.substring(0, 18) + '...') : product.dataValues.name) : ''
-          }
-        ))
+      let Products = products.rows
+      if (products) {
+        Products = Products
+          .filter(product => product.User.isAdmin === true) // 只顯示有營業店家的商品
+          .map(product => (
+            {
+              ...product.dataValues,
+              name: product.dataValues.name !== null ? (product.dataValues.name.length > 18 ? (product.dataValues.name.substring(0, 18) + '...') : product.dataValues.name) : ''
+            }
+          ))
+      }
       return res.render('index', JSON.parse(JSON.stringify({
         products: Products
       })))
