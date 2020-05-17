@@ -2,7 +2,7 @@
 <html>
 
 <head>
-  <title>not citiesocial</title>
+  <title>not citiesocial |也能找 好東西</title>
   <link rel="icon" href="http://res.freestockphotos.biz/pictures/15/15108-illustration-of-a-green-close-button-pv.png">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -37,18 +37,18 @@
     {{#if inAdmin}}
     {{!-- display: none --}}
     {{else}}
-    <a href="#" class="bg-info text-white text-center py-1 col-12 navbar-show">
-      (特定產品促銷)
+    <a href="/products" class="bg-info text-white text-center py-1 col-12 navbar-show">
+      慶開幕──全館商品促銷展！
     </a>
     {{/if}}
     <div id="brand-logo"
       class="col-12 col-sm-4 col-md-5 border border-left-0 border-right-0 d-flex align-items-center py-2">
       <a class="navbar-item" href="/">
-        <h4 id="icon" class="font-weight-light my-auto">
-          <span class="h3 text-danger">Not </span>
+        <h4 id="icon" class="my-auto">
+          <span class="h1 font-weight-bolder text-danger">Not </span>
           <span class="d-inline-flex justify-content-center">
-            <span class="h3 text-info">citie</span>
-            <span class="font-weight-lighter h3 text-info">social</span>
+            <span class="h1 font-weight-bolder text-info">citie</span>
+            <span class="h1 font-weight-lighter text-info">social</span>
           </span>
           <span class="text-dark d-none d-lg-inline">
             &nbsp;也能找&nbsp;&nbsp;好東西
@@ -143,18 +143,18 @@
     <div class="w-100 d-flex justify-content-around align-items-center">
       <ul class="text-center mb-0 mx-0 row list-unstyled" style="line-height: 50px;">
         {{#if inProducts}}
-        <li class="px-3 bg-dark">
+        <li class="px-3 bg-warning">
           {{else}}
         <li class="px-3"></li>
         {{/if}}
-        <a href="/admin/products">商品管理</a>
+        <a href="/admin/products" class="font-weight-bold">商品管理</a>
         </li>
         {{#if inOrders}}
-        <li class="px-3 bg-dark ml-4">
+        <li class="px-3 bg-warning ml-4">
           {{else}}
         <li class="px-3"></li>
         {{/if}}
-        <a href="/admin/orderItems">訂單管理</a>
+        <a href="/admin/orderItems" class="font-weight-bold">訂單管理</a>
         </li>
       </ul>
       <div class="d-flex justify-content-end align-items-center">
@@ -184,7 +184,7 @@
           <a class="nav-link text-muted p-0 mx-2" href="#">即時排行 TOP 100</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-dark p-0 mx-2" href="/products?categoryLv1Id=">
+          <a class="nav-link text-dark p-0 mx-2" href="/products">
             <span class="{{#ifCond '' categoryLv1Id}}text-info{{/ifCond}}">
               全部商品
             </span>
@@ -208,7 +208,11 @@
 
   </nav>
 
+  {{#if inProfile}}
+  <div class="container-fluid mt-5 pt-5 bg-light">
+  {{else}}
   <div class="container-fluid mt-5 pt-5">
+  {{/if}}
     {{#if success_messages}}
     <div class="alert alert-success my-5 pt-4" role="alert">
       {{success_messages}}
@@ -292,11 +296,11 @@
 
     </section>
 
-    <section class="col-12 border-top pt-5 pb-3">
+    <section class="col-12 border-top mt-5 pt-5 pb-3">
       <div class="h1 d-flex justify-content-center">
-        <i class="fab fa-cc-visa mx-2" ></i>
-        <i class="fab fa-cc-mastercard mx-2"></i>
-        <i class="fab fa-cc-jcb mx-2"></i>
+        <i class="fab fa-cc-visa mx-2 text-muted" ></i>
+        <i class="fab fa-cc-mastercard mx-2 text-muted"></i>
+        <i class="fab fa-cc-jcb mx-2 text-muted"></i>
       </div>
       <div class="d-flex justify-content-center mt-4">
         <small class="text-muted">
@@ -376,7 +380,7 @@
               </div>
               <div class="col-md-3">
                 <div class="card-body pl-0 pt-5">
-                  <h6 class="text-info font-weight-bolder text-center">NTD {{this.Product.price}}</h6>
+                  <h6 class="text-info font-weight-bolder text-right">NTD {{this.Product.price}}</h6>
                 </div>
               </div>
             </div>

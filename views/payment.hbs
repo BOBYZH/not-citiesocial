@@ -1,18 +1,92 @@
-<div class="container mt-5 pt-5">
-  <h3>準備為訂單編號： {{order.id}} 付款 </h3>
-  <div class="row justify-content-between mt-3">
-    <h4>總價 {{order.amount}} </h4>    
-    <form name='newebpay' action='{{tradeInfo.PayGateWay}}' method="POST">
-      <button type="submit" class="btn btn-primary">付款</button>
-
-      <span class="d-none">MerchantID:</span>
-      <input type="hidden" name="MerchantID" value="{{tradeInfo.MerchantID}}"><br>
-      <span class="d-none">TradeInfo:</span>
-      <input type="hidden" name="TradeInfo" value="{{tradeInfo.TradeInfo}}"><br>
-      <span class="d-none">TradeSha:</span>
-      <input type="hidden" name="TradeSha" value="{{tradeInfo.TradeSha}}"><br>
-      <span class="d-none">Version:</span>
-      <input type="hidden" name="Version" value="{{tradeInfo.Version}}"><br>
-    </form>
+<div class="my-5 py-5 row">
+  <div class="col-md-7 px-5">
+    <ul class="nav">
+      <li class="nav-item">
+        <a class="text-success" href="/cart">購物車</a>
+      </li>
+      <span class="mx-1">></span>
+      <li class="nav-item">
+        <a class="text-success" href="/order">
+          收件人資料
+        </a>
+      </li>
+      <span class="mx-1">></span>
+      <li class="nav-item">
+        <a class="text-dark">
+          付款方式
+        </a>
+      </li>
+    </ul>
+    <div class="border rounded mt-5">
+      <div class="row mx-3 py-2">
+        <span class="text-muted col-3">聯絡</span>
+        <span class="col-9">{{order.email}}</span>
+      </div>
+      <div class="row border-top border-bottom mx-3 py-2">
+        <span class="text-muted col-3">收貨地</span>
+        <span class="col-9">{{order.address}}</span>
+      </div>
+      <div class="row mx-3 py-2">
+        <span class="text-muted col-3">方法</span>
+        <span class="col-9">一般運送 · 免費</span>
+      </div>
+    </div>
+    <div class="row justify-content-end mt-3">      
+      <form name='newebpay' action='{{tradeInfo.PayGateWay}}' method="POST">     
+        <div class="d-none">
+          <span>MerchantID:</span>
+          <input type="hidden" name="MerchantID" value="{{tradeInfo.MerchantID}}"><br>
+          <span>TradeInfo:</span>
+          <input type="hidden" name="TradeInfo" value="{{tradeInfo.TradeInfo}}"><br>
+          <span>TradeSha:</span>
+          <input type="hidden" name="TradeSha" value="{{tradeInfo.TradeSha}}"><br>
+          <span>Version:</span>
+          <input type="hidden" name="Version" value="{{tradeInfo.Version}}"><br>
+        </div>
+        <button type="submit" class="btn btn-info p-3 mr-3">前往結帳</button>
+      </form>      
+    </div>
+    <hr>
+    <div class="d-flex justify-content-start">
+      <a href="#" class="text-info mr-3"><small>退款政策</small></a>
+      <a href="#" class="text-info mr-3"><small>隱私權保護政策</small></a>
+      <a href="#" class="text-info mr-3"><small>服務條款</small></a>
+    </div>
+  </div>
+  <div class="col-md-5 border-left bg-light px-5">
+    <div class="sidebar-sticky mt-3">
+      {{#each order.items}}
+      <div class="row no-gutters">
+        <div class="col-md-2" style="display: flex;align-items: center;">
+          <img src="{{this.image}}" class="card-img" alt="商品圖片">
+        </div>
+        <div class="col-md-1">
+          <span class="fa-stack">
+            <span class="fas fa-circle text-secondary fa-stack-2x"></span>
+            <span class="fa-stack-1x text-white">
+              {{this.OrderItem.quantity}}
+            </span>
+          </span>
+        </div>
+        <div class="col-md-5">
+          <div class="card-body pt-3">
+            <h6 class="card-title font-weight-lighter">
+              {{this.name}}
+            </h6>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card-body pt-3">
+            <h6 class="font-weight-lighter text-right">${{this.price}} NTD</h6>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+      <hr>
+      <div class="d-flex justify-content-between px-4 py-3">
+        <span>總計</span>
+        <h4 class=" font-weight-bold"><small class="text-muted">TWD</small> ${{order.amount}} NTD</h4>
+      </div>
+    </div>
   </div>
 </div>

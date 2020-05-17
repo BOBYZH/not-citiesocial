@@ -9,34 +9,36 @@
     {{!-- 應該根據後端資料產生8個，先用3個當範例 --}}
     <div class="carousel-item active">
       <a href="#">
-        <img class="d-block mx-auto" style="height: 40vh;" src="https://picsum.photos/500/200" alt="First slide">
+        <img class="d-block mx-auto w-100" style="height: 40vh;" src="https://c.pxhere.com/images/ee/2a/032067e5dd2ef98385bc5f46d57f-1577307.jpg!d" alt="Second slide">        
       </a>
       <div class="carousel-caption d-none d-md-block">
-        <h2 style="text-shadow: 2px 2px grey;">主題品牌1</h2>
-        <p class="h5" style="text-shadow: 2px 2px grey;">主題簡介1</p>
-        <a href="＃" class="btn btn-info mt-3">主題名稱1</a>
+        <h2 style="text-shadow: 2px 2px grey;">地方的廣告需要刊登</h2>
+        <p class="h5" style="text-shadow: 2px 2px grey;">為您掌握商機，創造最大收益！</p>
+        <a href="mailto:cdmyhome3@gmail.com" class="btn btn-info mt-3">詳情請來信洽詢</a>        
       </div>
     </div>
 
     <div class="carousel-item">
-      <a href="#">
-        <img class="d-block mx-auto" style="height: 40vh;" src="https://picsum.photos/500/200" alt="Second slide">
+      <a href="/products/?keyword=Rookie">
+        <img class="d-block mx-auto w-100" style="height: 40vh;"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Rookie_logo.svg/640px-Rookie_logo.svg.png"
+          alt="First slide">
       </a>
       <div class="carousel-caption d-none d-md-block">
-        <h2 style="text-shadow: 2px 2px grey;">主題品牌2</h2>
-        <p class="h5" style="text-shadow: 2px 2px grey;">主題簡介2</p>
-        <a href="＃" class="btn btn-info mt-3">主題名稱2</a>
+        <h2 style="text-shadow: 2px 2px grey;">Rookie</h2>
+        <p class="h5" style="text-shadow: 2px 2px grey;">提供最新鮮的產品</p>
+        <a href="/products/?keyword=Rookie" class="btn btn-info mt-3">新潮雜貨</a>
       </div>
     </div>
 
     <div class="carousel-item">
-      <a href="#">
-        <img class="d-block mx-auto" style="height: 40vh;" src="https://picsum.photos/500/200" alt="Third slide">
+      <a href="http://localhost:3000/products/?keyword=Truth">
+        <img class="d-block mx-auto w-100" style="height: 40vh;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/No_Truth%2C_Justice_Reroute_road_barriers_20180512.jpg/640px-No_Truth%2C_Justice_Reroute_road_barriers_20180512.jpg" alt="Third slide">
       </a>
       <div class="carousel-caption d-none d-md-block">
-        <h2 style="text-shadow: 2px 2px grey;">主題品牌3</h2>
-        <p class="h5" style="text-shadow: 2px 2px grey;">主題簡介3</p>
-        <a href="＃" class="btn btn-info mt-3">主題名稱3</a>
+        <h2 style="text-shadow: 2px 2px grey;">Truth</h2>
+        <p class="h5" style="text-shadow: 2px 2px grey;">提供最正港的產品</p>
+        <a href="http://localhost:3000/products/?keyword=Truth" class="btn btn-info mt-3">真香真貨</a>
       </div>
     </div>
     {{!-- 應該根據後端資料產生8個，先用3個當範例 --}}
@@ -72,15 +74,15 @@
     <div class="row">
       {{!-- 應該根據後端資料產生20個，先用5個當範例 --}}
       {{#each products}}
-      <div class="card border-0 col-12 col-lg-4">
+      <div class="card border-0 col-12 col-lg-4 my-3">
         <a href="/products/{{this.id}}" class="text-decoration-none">
           <img src={{this.image}} alt="Placeholder image" class="w-100 card-img-top mb-0">
           <div class="card-body py-1 px-0">
             <a href="/products/?keyword={{this.User.shopName}}">
-              <h7 class="card-title text-muted my-0">{{this.User.shopName}}</h7>
+              <span class="card-title text-muted my-0">{{this.User.shopName}}</span>
             </a>
             <div class="row">
-              <h6 class="card-text text-dark col-8">{{this.name}}</h6>
+              <h6 class="card-text text-dark col-8 font-weight-bolder">{{this.name}}</h6>
               {{#if this.discount}}
               <span class="col-4 text-muted">
                 <span class="h4 text-info">{{this.discount}}</span>折起

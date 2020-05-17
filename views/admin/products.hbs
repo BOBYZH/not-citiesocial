@@ -15,6 +15,7 @@
                 〉
                 <span>{{this.CategoryLv2.name}}</span>
                 〉
+                <br>
                 <span>{{this.CategoryLv3.name}}</span>
               </small>
             </p>
@@ -22,23 +23,23 @@
               <div class="btn-group">
                 {{#ifTrue this.forSale}}
                 <form action="/admin/products/{{this.id}}/cancel?_method=PUT" method="POST" style="display: inline;">
-                  <button type="submit" class="btn btn-sm btn-success"
+                  <button type="submit" class="btn btn-sm btn-success p-2 mr-3"
                     onclick="if(confirm('確認下架？')) return true; else return false">
                     已上架
                   </button>
                 </form>
                 {{else}}
                 <form action="/admin/products/{{this.id}}/sell?_method=PUT" method="POST" style="display: inline;">
-                  <button type="submit" class="btn btn-sm btn-warning"
+                  <button type="submit" class="btn btn-sm btn-warning p-2 mr-3"
                     onclick="if(confirm('確認上架？')) return true; else return false">
                     未上架
                   </button>
                 </form>
                 {{/ifTrue}}
                 <div class="mx-1">
-                  <a href="/admin/products/{{this.id}}/edit" class="btn btn-sm btn-outline-secondary">編輯</a>
+                  <a href="/admin/products/{{this.id}}/edit" class="btn btn-sm btn-outline-secondary p-2 mr-3">編輯</a>
                   <form action="/admin/products/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
-                    <button type="submit" class="btn btn-sm btn-outline-danger"
+                    <button type="submit" class="btn btn-sm btn-outline-danger p-2 mr-3"
                       onclick="if(confirm('確認刪除？')) return true; else return false">刪除</button>
                   </form>
                 </div>

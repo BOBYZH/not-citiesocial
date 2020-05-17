@@ -1,17 +1,29 @@
-<div id="card" class="container mt-5">
+<div id="card" class="container mt-5 py-5">
   <div class="row">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/User_Circle.png" alt="avatar" style="width: 7.5vw; height: 7.5vw" class="mt-3">
     <div class="card-body col-8 col-md-6 pt-3">
-      <h4 class="card-title">
-        會員：
-        <span>{{profile.lastName}}</span>
-        <span>{{profile.firstName}}</span>
-      </h4>
-      {{#ifCond profile.id user.id}}
-      <a href="/orders" class="btn btn-secondary">訂單查詢</a>
-      <a href="/users/{{profile.id}}/edit" class="btn btn-primary">帳號管理</a>
-      <a href="/logout" class="btn btn-warning">登出</a>
-      {{/ifCond}}
+      <small>會員 Insider</small>
+      <h1 class="card-title mt-3 ">        
+        <span>{{user.lastName}}</span>
+        <span>{{user.firstName}}</span>
+      </h1>      
     </div>
   </div>
+  {{#ifCond user.id user.id}}
+  <div class="d-none d-md-flex border-bottom">
+    <ul class="col-12 text-center mb-0 mx-0 row list-unstyled nav nav-pills d-flex justify-content-start"
+      style="line-height: 50px;">
+      <li>
+        <a href="/orders" class="text-dark mx-4">訂單查詢</a>
+      </li>
+      <li>
+        <a href="/users/{{user.id}}/edit" class="text-dark mx-4">帳號管理</a>
+      </li>
+      <li>
+        <a href="/logout" class="text-muted mx-4">登出</a>
+      </li>
+    </ul>
+  </div>
+  {{/ifCond}}
 
 </div>

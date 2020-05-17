@@ -1,21 +1,24 @@
 <section id="product-list" class="py-5 mt-5">
+  {{#if keyword}}
+  <h3 class="ml-4">搜尋結果</h3>
+  {{/if}}
   <section class="container mt-4">
     <div class="row">
     {{#if products}}  
       {{#each products}}
-      <div class="card border-0 col-12 col-lg-3">
+      <div class="card border-0 col-12 col-lg-3 my-4">
         <a href="/products/{{this.id}}" class="text-decoration-none">
-          <img src={{this.image}} alt="Placeholder image" class="w-100 card-img-top mb-0">
+          <img src={{this.image}} alt="Placeholder image" class="w-100 card-img-top my-5">
           <div class="card-body py-1 px-0">
             <a href="/products/?keyword={{this.User.shopName}}">
               <h7 class="card-title text-muted my-0">{{this.User.shopName}}</h7>
             </a>
-            <h6 class="card-text text-dark">{{this.name}}</h6>
-            {{#if this.discount}}
-              <h7 class="card-text text-info mt-5 font-weight-bold">NTD {{this.discount}}</h7>
-            {{else}}
-              <h7 class="card-text text-info mt-5 font-weight-bold">NTD {{this.price}}</h7>
-            {{/if}}            
+            <h6 class="card-text text-dark mb-4">{{this.name}}</h6>
+            {{!-- {{#if this.discount}}
+              <h7 class="card-text text-info mt-4 font-weight-bold">NTD {{this.discount}}</h7>
+            {{else}} --}}
+              <h7 class="card-text text-info mt-4 font-weight-bold">NTD {{this.price}}</h7>
+            {{!-- {{/if}}             --}}
           </div>
         </a>
       </div>
