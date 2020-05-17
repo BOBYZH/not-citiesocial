@@ -2,6 +2,8 @@ const db = require('../models')
 const User = db.User
 const bcrypt = require('bcryptjs')
 
+const inProfile = true
+
 const userController = {
   signInPage: (req, res) => {
     return res.render('signIn')
@@ -60,7 +62,7 @@ const userController = {
       res.redirect(`/users/${req.user.id}`)
     } else {
       return User.findByPk(req.params.id).then(user => {
-        return res.render('profile', JSON.parse(JSON.stringify({ profile: user })))
+        return res.render('profile', JSON.parse(JSON.stringify({ user, inProfile })))
       })
     }
   },
@@ -71,7 +73,7 @@ const userController = {
       res.redirect(`/users/${req.user.id}/edit`)
     } else {
       return User.findByPk(req.params.id).then(user => {
-        return res.render('editProfile', JSON.parse(JSON.stringify({ user })))
+        return res.render('editProfile', JSON.parse(JSON.stringify({ user, inProfile })))
       })
     }
   },

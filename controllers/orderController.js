@@ -115,9 +115,11 @@ function getTradeInfo (Amt, Desc, email) {
 
 const orderController = {
   getOrders: (req, res) => {
+    const inProfile = true
     Order.findAll({ include: [{ model: OrderItem, include: [{ model: Product, include: [User] }] }], where: { UserId: req.user.id } }).then(orders => {
+      orders = orders.sort((a, b) => b.updatedAt - a.updatedAt)
       return res.render('orders', JSON.parse(JSON.stringify({
-        orders
+        orders, inProfile
       })))
     })
   },
@@ -220,7 +222,7 @@ const orderController = {
     console.log(req.params.id)
     console.log('==========')
 
-    return Order.findByPk(req.params.id, {}).then(order => {
+    return Order.findByPk(req.params.id, { include: 'items' }).then(order => {
       const tradeInfo = getTradeInfo(order.amount, '好東西', order.email)
       order.update({
         ...req.body,

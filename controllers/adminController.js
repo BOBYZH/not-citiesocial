@@ -293,6 +293,7 @@ const adminController = {
   getOrderItems: (req, res) => {
     OrderItem.findAll({ include: [Product, Order] }).then(orderItems => {
       orderItems = orderItems.filter(orderItem => orderItem.Product.UserId === req.user.id)
+        .sort((a, b) => b.updatedAt - a.updatedAt)
       return res.render('admin/orderItems', JSON.parse(JSON.stringify({
         orderItems, inAdmin, inOrders, superAdminEmail
       })))
