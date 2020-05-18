@@ -32,10 +32,10 @@ const subscriberController = {
             subject: 'not citiesocial Sales: 您的訂閱已被確認',
             html: `                
                   <div>
-                    <h5>
+                    <h4>
                       您的訂閱需求已被確認，以下註冊資訊供您留存：
-                    </h5>
-                    <h6>Email: ${req.body.email}</h6>
+                    </h4>
+                    <h5>Email: ${req.body.email}</h5>
                     <p>
                       註：因為本站只是示範專案，未來並不會真的寄送電子報！
                     </p>
