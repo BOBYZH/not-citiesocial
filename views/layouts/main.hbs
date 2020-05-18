@@ -185,7 +185,8 @@
         </li>
         <li class="nav-item">
           <a class="nav-link text-dark p-0 mx-2" href="/products">
-            <span class="{{#ifCond '' categoryLv1Id}}text-info{{/ifCond}}">
+            <span class="
+            {{#ifCond categoryLv1Id ''}}{{#ifCond keyword ''}}text-info{{/ifCond}}{{/ifCond}}">
               全部商品
             </span>
           </a>
