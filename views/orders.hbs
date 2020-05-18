@@ -31,14 +31,14 @@
   <div class="container py-5 px-auto bg-white">
   {{#each orders}}
     <div class="row">
-      <div class="col-9">
+      <div class="col-12 col-lg-8">
         <h5 class="mt-3">{{momentLLLL this.createdAt}}({{momentFromNow this.createdAt}})</h5>
         <table class="table">
           <thead>
             <tr>
               <th scope="col">購買商品</th>
-              <th scope="col">購買數量</th>
-              <th scope="col">商品單價</th>
+              <th scope="col">數量</th>
+              <th scope="col">單價</th>
               <th scope="col">運送狀態</th>
               <th scope="col">店家聯絡資訊</th>
             </tr>
@@ -105,7 +105,7 @@
                 <h6>{{this.amount}}</h6>
               </td>
               <td>
-                <h6>付款狀況：</h6>
+                <h6>狀態：</h6>
               </td>
               <td colspan="2">
                 {{#ifCond this.paymentStatus '0'}}
@@ -126,34 +126,36 @@
         </table>
       </div>
 
-      <div class="col-3">
-        <div>
-          <h5 class="mt-3">收件者資訊</h5>
-          <ul class="mt-4">
-            <li>訂單id： {{this.id}}</li>
-            {{#if this.sn}}
-            <li>sn： {{this.sn}}</li>
-            {{/if}}
-            <li>email： {{this.email}}</li>
-            <li>姓名： {{this.name}}</li>
-            <li>地址： {{this.address}}</li>
-            <li>電話： {{this.phone}}</li>
-          </ul>
-        </div>
-        <div>
-          {{#ifCond this.paymentStatus '0'}}
-          <div class="d-flex" style="min-width: 300px;">
-            <form action="/order/{{this.id}}/cancel" method="POST">
-              <button type="submit" class="btn btn-primary my-4"
-                onclick="if(confirm('確認取消？')) return true; else return false">取消訂單</button>
-            </form>
-
-            <a href="/order/{{this.id}}/payment" class="d-flex align-items-center mx-3"><button
-                class="btn btn-primary">立即付款</button></a>
+      <div class="col-12 col-lg-4 d-flex justify-content-center">
+        <div class="row">
+          <div class="ml-3">
+            <h5 class="mt-3">收件者資訊</h5>
+            <ul class="mt-4">
+              <li>訂單id： {{this.id}}</li>
+              {{#if this.sn}}
+              <li>sn： {{this.sn}}</li>
+              {{/if}}
+              <li>email： {{this.email}}</li>
+              <li>姓名： {{this.name}}</li>
+              <li>地址： {{this.address}}</li>
+              <li>電話： {{this.phone}}</li>
+            </ul>
           </div>
-          {{else}}
-          {{!-- display:none --}}
-          {{/ifCond}}
+          <div>
+            {{#ifCond this.paymentStatus '0'}}
+            <div class="d-flex justify-content-center align-items-center" style="min-width: 300px;">
+              <form action="/order/{{this.id}}/cancel" method="POST">
+                <button type="submit" class="btn btn-primary my-4"
+                  onclick="if(confirm('確認取消？')) return true; else return false">取消訂單</button>
+              </form>
+          
+              <a href="/order/{{this.id}}/payment" class="d-flex align-items-center mx-3"><button
+                  class="btn btn-primary">立即付款</button></a>
+            </div>
+            {{else}}
+            {{!-- display:none --}}
+            {{/ifCond}}
+          </div>
         </div>
       </div>
     </div>
