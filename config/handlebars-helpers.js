@@ -1,4 +1,4 @@
-const moment = require('moment')
+const moment = require('moment-timezone')
 moment.locale('zh-tw')
 
 module.exports = {
@@ -21,9 +21,9 @@ module.exports = {
     return options.inverse(this)
   },
   momentLLLL: function (a) {
-    return moment(a).format('LLLL')
+    return moment(a).tz('Asia/Taipei').format('LLLL')
   },
   momentFromNow: function (a) {
-    return moment(a).fromNow()
+    return moment(a).tz('Asia/Taipei').fromNow()
   }
 }
