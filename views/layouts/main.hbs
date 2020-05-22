@@ -4,8 +4,8 @@
 <head>
   <title>not citiesocial |也能找 好東西</title>
   <link rel="icon" href="http://res.freestockphotos.biz/pictures/15/15108-illustration-of-a-green-close-button-pv.png">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
 </head>
 
@@ -33,7 +33,7 @@
     }
   </style>
 
-  <nav class="navbar border-bottom p-0 fixed-top bg-white d-flex align-items-stretch" role="navigation">
+  <nav class="navbar border-bottom p-0 fixed-top bg-white align-items-stretch" role="navigation">
     {{#if inAdmin}}
     {{!-- display: none --}}
     {{else}}
@@ -42,7 +42,7 @@
     </a>
     {{/if}}
     <div id="brand-logo"
-      class="col-12 col-sm-4 col-md-5 border border-left-0 border-right-0 d-flex align-items-center py-2">
+      class="col-12 col-sm-12 col-md-5 border border-left-0 border-right-0 d-flex align-items-center py-2">
       <a class="navbar-item" href="/">
         <h4 id="icon" class="my-auto">
           <span class="h1 font-weight-bolder text-danger">Not </span>
@@ -50,14 +50,14 @@
             <span class="h1 font-weight-bolder text-info">citie</span>
             <span class="h1 font-weight-lighter text-info">social</span>
           </span>
-          <span class="text-dark d-none d-lg-inline">
+          <span class="text-dark d-none d-xl-inline">
             &nbsp;也能找&nbsp;&nbsp;好東西
           </span>
         </h4>
       </a>
     </div>
 
-    <div id="search-bar" class="input-group col-sm-4 col-md-3 border border-right-0 d-flex align-items-center py-2">
+    <div id="search-bar" class="input-group col-sm-3 col-md-3 border border-right-0 d-flex align-items-center py-2">
       {{#if inAdmin}}
       <h4 class="w-100 text-center">
         管理系統
@@ -70,22 +70,22 @@
           <button type="submit" class="input-group-text bg-white p-0 py-1 mx-2 border-0" id="search-button">
             <i class="fas fa-search text-dark h3 m-0"></i>
           </button>
-          <input type="text" name="keyword" class="form-control py-1 mx-2 border-0" placeholder="請輸入關鍵字"
+          <input type="text" name="keyword" class="form-control py-1 mx-2 border-0 px-0" placeholder="請輸入關鍵字"
             aria-label="Keyword of products" value="{{keyword}}" aria-describedby="search-button">
         </div>
       </form>
       {{/if}}
     </div>
 
-    <div id="products-list" class="col-2 border border-right-0 d-flex justify-content-center align-items-center py-2">
+    <div id="products-list" class="col-md-2 border border-right-0 d-flex justify-content-center align-items-center py-2">
       {{#if user.isAdmin}}
       {{#if inAdmin}}
       <a href="/" class="text-center">回到首頁</a>
       {{else}}
-      <a href="/admin/" class="text-center">商店管理</a>
+      <a href="/admin/" class="text-center">商店<br>管理</a>
       {{/if}}
       {{else}}
-      <select class="form-control border-0 bg-white" disabled>
+      <select class="form-control border-0 bg-white px-0" disabled>
         　<option>台灣</option>
         　<option>香港</option>
         　<option>馬來西亞</option>
@@ -224,7 +224,9 @@
       {{error_messages}}
     </div>
     {{/if}}
-    {{{body}}}
+    <div class="pt-5">
+      {{{body}}}
+    </div>
   </div>
 
   {{#if inAdmin}}
@@ -254,7 +256,7 @@
 
       <div class="row pt-4">
 
-        <div class="col-3">
+        <div class="col-6 col-lg-3">
           <h6 class="mb-3 font-weight-bolder">關於我們</h6>
           <ul class="list-unstyled font-weight-light">
             <li class="py-1"><a href="#" class="text-muted">關於 not citiesocial</a></li>
@@ -263,7 +265,7 @@
           </ul>
         </div>
 
-        <div class="col-3">
+        <div class="col-6 col-lg-3">
           <h6 class="mb-3 font-weight-bolder">聯絡我們</h6>
           <ul class="list-unstyled font-weight-light">
             <li class="py-1"><a href="#" class="text-muted">業務合作洽談</a></li>
@@ -271,7 +273,7 @@
           </ul>
         </div>
 
-        <div class="col-3">
+        <div class="col-6 col-lg-3">
           <h6 class="mb-3 font-weight-bolder">自助查詢</h6>
           <ul class="list-unstyled font-weight-light">
             <li class="py-1"><a href="#" class="text-muted">銀行優惠說明</a></li>
@@ -282,7 +284,7 @@
           </ul>
         </div>
 
-        <div class="col-3">
+        <div class="col-6 col-lg-3">
           <h6 class="mb-3 font-weight-bolder">顧客服務</h6>
           <ul class="list-unstyled font-weight-light">
             <li class="py-1"><a href="#" class="text-muted">VIEWS生活誌</a></li>
@@ -408,9 +410,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
     crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
   <script src="https://kit.fontawesome.com/3285f63162.js" crossorigin="anonymous"></script>
   <script>
     // 修改自：https://www.codeply.com/go/7Fab8Thufl
