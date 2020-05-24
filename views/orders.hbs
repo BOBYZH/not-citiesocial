@@ -11,7 +11,7 @@
     </div>
   </div>
   {{#ifCond user.id user.id}}
-  <div class="d-none d-md-flex border-bottom">
+  <div class="d-none d-flex border-bottom">
     <ul class="col-12 text-center mb-0 mx-0 row list-unstyled nav nav-pills d-flex justify-content-start"
       style="line-height: 50px;">
       <li class="nav-item border-success border-bottom">
@@ -28,12 +28,12 @@
   {{/ifCond}}
   
   {{#if orders}}
-  <div class="container py-5 px-auto bg-white">
+  <div class="container py-5 px-auto bg-white mx-0">
   {{#each orders}}
     <div class="row">
       <div class="col-12 col-lg-8">
         <h5 class="mt-3">{{momentLLLL this.createdAt}}({{momentFromNow this.createdAt}})</h5>
-        <table class="table">
+        <table class="table bg-white">
           <thead>
             <tr>
               <th scope="col">購買商品</th>

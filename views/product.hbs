@@ -1,6 +1,6 @@
-<section class="container my-5">
+<section class="mx-0 mx-md-5 my-5">
 
-  <ul class="nav mt-5 pt-5">
+  <ul class="nav mt-5 pt-md-5">
     <li class="nav-item">
       <a class="text-muted">{{product.CategoryLv1.name}}</a>
     </li>
@@ -17,40 +17,56 @@
   <div class="row">
     <div class=" col-12 col-md-7">
       <div class="border-bottom pb-2">
-        <figure class="figure">
-          <img class="figure-img img-fluid w-75 mt-5 ml-5 border" src="{{product.image}}">
+        <figure class="figure d-flex justify-content-center">
+          <img class="figure-img img-fluid mt-5 border" src="{{product.image}}">
         </figure>
       </div>
 
-      <article id="multimedia-contents" class="mt-5 d-none d-md-block">
+      <div class="d-md-none text-center mt-4 pb-4 border-bottom">
+        <h7>
+          <a href="/products/?keyword={{product.User.shopName}}" class="text-black-50 py-5">
+            {{product.User.shopName}}
+          </a>
+        </h7>
+        <h3 class="my-2 font-weight-bold">{{product.name}}</h3>
+        <p id="price" class="mt-4">
+          <span class="font-weight-bold h5">NTD {{product.price}}</span>
+          {{#if product.discount}}
+          <span>{{product.discount}}</span>
+          {{/if}}
+          <span class="ml-3 h7"> (免運費)</span>
+        </p>
+      </div>
+
+      <article id="multimedia-contents" class="mt-4 ml-5 ml-md-0">
         {{#if product.features}}
-        <h6>產品特色</h6>
+        <h6 class="font-weight-bold">產品特色</h6>
         <ul>
           <li>{{product.features}}</li>
         </ul>
         {{/if}}
 
-        <h6>產品介紹</h6>
+        <h6 class="font-weight-bold">產品介紹</h6>
         <p>
           {{product.description}}
         </p>
 
         {{#if product.instruction}}
-        <h6>使用說明</h6>
+        <h6 class="font-weight-bold">使用說明</h6>
         <p>
           {{product.instruction}}
         </p>
         {{/if}}
 
         {{#if product.announcement}}
-        <h6>注意事項</h6>
+        <h6 class="font-weight-bold">注意事項</h6>
         <p>
           {{product.announcement}}
         </p>
         {{/if}}
 
         {{#if product.specification}}
-        <h6>商品規格</h6>
+        <h6 class="font-weight-bold">商品規格</h6>
         <ul class="list-unstyled">
           {{product.specification}}
         </ul>
@@ -60,19 +76,25 @@
     </div>
 
     <div class="col-12 col-md-5 mt-5">
-      <h7><u><a href="/products/?keyword={{product.User.shopName}}" class="text-black-50">
-        {{product.User.shopName}}
-      </a></u></h7>
-      <h3 class="my-2">{{product.name}}</h3>
-      <p id="price" class="mt-4">
-        <span class="font-weight-bold h5">NTD {{product.price}}</span>
-        {{#if product.discount}}
-        <span>{{product.discount}}</span>
-        {{/if}}
-        <span class="ml-3 h7"> (免運費)</span>
-      </p>
+      <div class="d-none d-md-block">
+        <h7>
+          <u>
+            <a href="/products/?keyword={{product.User.shopName}}" class="text-black-50">
+              {{product.User.shopName}}
+            </a>
+          </u>
+        </h7>
+        <h3 class="my-2 font-weight-bold">{{product.name}}</h3>
+        <p id="price" class="mt-4">
+          <span class="font-weight-bold h5">NTD {{product.price}}</span>
+          {{#if product.discount}}
+          <span>{{product.discount}}</span>
+          {{/if}}
+          <span class="ml-3 h7"> (免運費)</span>
+        </p>
+      </div>
 
-      <form action="/cart" method="POST" class="col-12 px-0">
+      <form action="/cart" method="POST" class="d-none d-md-block col-12 px-0">
         <div class="row my-4">
           <div class="col-3 mt-3 pl-1 text-center text-black-50">
             數量
@@ -89,6 +111,16 @@
         <button type="submit" class="btn btn-info py-3 mt-1 col-12" id="add-to-cart">
           加入購物車
         </button>
+      </form>
+
+      <form action="/cart" method="POST" class="d-md-none col-12 px-0">
+        <div class="fixed-bottom p-3 bg-white">
+          <input type="number" name="quantity" class="d-none" id="quantity" value="1" min="1">
+          <input type="hidden" name="productId" value="{{product.id}}">
+          <button type="submit" class="btn btn-info py-2 mt-1 col-12" id="add-to-cart">
+            購買
+          </button>
+        </div>
       </form>
     </div>
   </div>
