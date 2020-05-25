@@ -159,9 +159,7 @@
       class="input-group col-12 d-md-none border border-right-0 d-flex align-items-center py-2">
       {{#if inAdmin}}
       <h4 class="w-100 text-center">
-        管理系統
-        <br>
-        <span class="h5">店家名稱：{{user.shopName}}</span>
+        店家名稱：{{user.shopName}}
       </h4>
       {{else}}
       <form action="/products/" class="w-100">
@@ -189,9 +187,9 @@
         {{#if inOrders}}
         <li class="px-3 bg-warning ml-4">
           {{else}}
-        <li class="px-3"></li>
+        <li class="px-3 ml-3 ml-md-0"></li>
         {{/if}}
-        <a href="/admin/orderItems" class="font-weight-bold ml-3 ml-md-0">訂單管理</a>
+        <a href="/admin/orderItems" class="font-weight-bold">訂單管理</a>
         </li>
       </ul>
       <div class="d-flex justify-content-end align-items-center">
