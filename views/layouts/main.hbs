@@ -189,7 +189,7 @@
           {{else}}
         <li class="px-3 ml-3 ml-md-0"></li>
         {{/if}}
-        <a href="/admin/orderItems" class="font-weight-bold">訂單管理</a>
+        <a href="/admin/orderItems" class="font-weight-bold mx-3 mx-md-0">訂單管理</a>
         </li>
       </ul>
       <div class="d-flex justify-content-end align-items-center">
@@ -245,21 +245,21 @@
   </nav>
 
   {{#if inProfile}}
-  <div class="container-fluid mt-5 pt-5 bg-light">
+  <div class="mt-5 pt-5 bg-light">
   {{else}}
-  <div class="container-fluid mt-5 pt-5">
-  {{/if}}
-    {{#if success_messages}}
-    <div class="alert alert-success my-5 pt-4" role="alert">
-      {{success_messages}}
-    </div>
-    {{/if}}
-    {{#if error_messages}}
-    <div class="alert alert-danger my-5 pt-4" role="alert">
-      {{error_messages}}
-    </div>
-    {{/if}}
-    <div class="pt-5">
+  <div class="mt-5 pt-5">
+  {{/if}}    
+    <div class="mt-5 mt-md-0 pt-5">
+      {{#if success_messages}}
+      <div class="alert alert-success my-5 py-3" role="alert">
+        {{success_messages}}
+      </div>
+      {{/if}}
+      {{#if error_messages}}
+      <div class="alert alert-danger my-5 py-3" role="alert">
+        {{error_messages}}
+      </div>
+      {{/if}}
       {{{body}}}
     </div>
   </div>
