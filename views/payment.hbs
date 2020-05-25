@@ -1,4 +1,40 @@
-<div class="my-5 py-5 row">
+<div class="my-md-5 py-md-5 row">
+  <div class="col-12 d-md-none border-left bg-light px-5">
+    <div class="sidebar-sticky mt-md-3">
+      {{#each order.items}}
+      <div class="row no-gutters">
+        <div class="col-2" style="display: flex;align-items: center;">
+          <img src="{{this.image}}" class="card-img" alt="商品圖片">
+        </div>
+        <div class="col-1">
+          <span class="fa-stack">
+            <span class="fas fa-circle text-secondary fa-stack-2x"></span>
+            <span class="fa-stack-1x text-white">
+              {{this.OrderItem.quantity}}
+            </span>
+          </span>
+        </div>
+        <div class="col-5">
+          <div class="card-body pt-3">
+            <h6 class="card-title font-weight-lighter">
+              {{this.name}}
+            </h6>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="card-body pt-3">
+            <h6 class="font-weight-lighter text-right">${{this.price}} NTD</h6>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+      <hr>
+      <div class="d-flex justify-content-between px-4 py-3">
+        <span>總計</span>
+        <h4 class=" font-weight-bold"><small class="text-muted">TWD</small> ${{order.amount}} NTD</h4>
+      </div>
+    </div>
+  </div>
   <div class="col-md-7 px-5">
     <ul class="nav">
       <li class="nav-item">
@@ -53,7 +89,7 @@
       <a href="#" class="text-info mr-3"><small>服務條款</small></a>
     </div>
   </div>
-  <div class="col-md-5 border-left bg-light px-5">
+  <div class="d-none d-md-block col-md-5 border-left bg-light px-5">
     <div class="sidebar-sticky mt-3">
       {{#each order.items}}
       <div class="row no-gutters">

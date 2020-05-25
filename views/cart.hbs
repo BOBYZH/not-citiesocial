@@ -1,6 +1,5 @@
 <div class="container my-5 pb-5" id="cart">
-
-  <ul class="nav mt-5 pt-5">
+  <ul class="nav mt-5 pt-md-5">
     <li class="nav-item">
       <a class="text-muted" href="/">首頁</a>
     </li>
@@ -120,7 +119,43 @@
   {{/ifCond}}
 </div>
 
-<div class="row my-5 py-5" id="information" style="display: none;">  
+<div class="row my-md-5 py-md-5" id="information" style="display: none;">
+  <div class="col-12 d-md-none border-left bg-light px-5">
+    <div class="sidebar-sticky mt-3">
+      {{#each cart.CartItems}}
+      <div class="row no-gutters">
+        <div class="col-2" style="display: flex;align-items: center;">
+          <img src="{{this.Product.image}}" class="card-img" alt="商品圖片">
+        </div>
+        <div class="col-1">
+          <span class="fa-stack">
+            <span class="fas fa-circle text-secondary fa-stack-2x"></span>
+            <span class="fa-stack-1x text-white">
+              {{this.quantity}}     
+            </span>            
+          </span>
+        </div>
+        <div class="col-5">
+          <div class="card-body pt-3">
+            <h6 class="card-title font-weight-lighter">
+              {{this.Product.name}}
+            </h6>    
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="card-body pt-3">
+            <h6 class="font-weight-lighter text-right">${{this.Product.price}} NTD</h6>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+      <hr>
+      <div class="d-flex justify-content-between px-4 py-3">
+        <span>總計</span>        
+        <h4 class=" font-weight-bold"><small class="text-muted">TWD</small> ${{totalPrice}} NTD</h4>
+      </div>
+    </div>
+  </div>
   <div class="col-md-7 px-5">
     <form action="order" method="POST">
       <div class="form-group">
@@ -203,7 +238,7 @@
       <a href="#" class="text-info mr-3"><small>服務條款</small></a>
     </div>
   </div>
-  <div class="col-md-5 border-left bg-light px-5">
+  <div class="d-none d-md-block col-md-5 border-left bg-light px-5">
     <div class="sidebar-sticky mt-3">
       {{#each cart.CartItems}}
       <div class="row no-gutters">

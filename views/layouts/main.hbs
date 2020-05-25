@@ -43,10 +43,10 @@
     {{!-- display: none --}}
     {{else}}
     <a href="/products" class="bg-info text-white text-center py-1 col-12 navbar-show">
-      慶開幕──全館商品促銷展！
+      慶開幕──全館商品首賣展！
     </a>
     {{/if}}
-    <button class="navbar-toggler border rounded-0 col-1 d-md-none p-1 btn" type="button" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation" data-toggle="modal" data-target="#listModal">
+    <button class="navbar-toggler border rounded-0 col-2 d-flex justify-content-center align-items-center d-md-none btn" type="button" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation" data-toggle="modal" data-target="#listModal">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -67,7 +67,7 @@
     </div>
 
     <div id="brand-logo-mobile"
-      class="col-7 d-md-none border border-left-0 border-right-0 d-flex justify-content-center align-items-center py-2">
+      class="col-6 d-md-none border border-left-0 border-right-0 d-flex justify-content-center align-items-center py-2">
       <a class="navbar-item" href="/">
         <h6 id="icon" class="my-auto">
           <span class="h3 font-weight-bolder text-danger">Not </span>
@@ -184,17 +184,17 @@
       <ul class="text-center mb-0 mx-0 row list-unstyled" style="line-height: 50px;">
         {{#if inProducts}}
         <li class="px-3 bg-warning">
-          {{else}}
-        <li class="px-3"></li>
+        {{else}}
+        <li class="px-3">
         {{/if}}
         <a href="/admin/products" class="font-weight-bold">商品管理</a>
         </li>
         {{#if inOrders}}
-        <li class="px-3 bg-warning ml-4">
-          {{else}}
-        <li class="px-3 ml-3 ml-md-0"></li>
+        <li class="px-3 bg-warning">
+        {{else}}
+        <li class="px-3">
         {{/if}}
-        <a href="/admin/orderItems" class="font-weight-bold mx-3 mx-md-0">訂單管理</a>
+        <a href="/admin/orderItems" class="font-weight-bold">訂單管理</a>
         </li>
       </ul>
       <div class="d-flex justify-content-end align-items-center">
@@ -281,9 +281,9 @@
       <form action="/subscriber" method="POST">
         <div class="input-group-append d-inline-flex">
           <input type="email" class="border border-dark rounded-left pl-3 pr-5" placeholder="YOUR@EMAIL.COM" name="email"
-            style="height: 4vh;" aria-label="Recipient's username" aria-describedby="basic-addon2"
+            style="height: 50px;" aria-label="Recipient's username" aria-describedby="basic-addon2"
             required>
-          <button type="submit" class="btn-secondary px-4 rounded-right float-right">訂閱電子報</button>
+          <button type="submit" class="btn-secondary px-2 px-md-4 rounded-right float-right" style="height: 50px;">訂閱電子報</button>
         </div>
       </form>
     </div>
@@ -296,7 +296,7 @@
 
       <div class="row pt-4">
 
-        <div class="col-6 col-lg-3">
+        <div class="col-12 col-sm-6 col-lg-3">
           <h6 class="mb-3 font-weight-bolder">關於我們</h6>
           <ul class="list-unstyled font-weight-light">
             <li class="py-1"><a href="#" class="text-muted">關於 not citiesocial</a></li>
@@ -305,7 +305,7 @@
           </ul>
         </div>
 
-        <div class="col-6 col-lg-3">
+        <div class="col-12 col-sm-6 col-lg-3">
           <h6 class="mb-3 font-weight-bolder">聯絡我們</h6>
           <ul class="list-unstyled font-weight-light">
             <li class="py-1"><a href="#" class="text-muted">業務合作洽談</a></li>
@@ -313,7 +313,7 @@
           </ul>
         </div>
 
-        <div class="col-6 col-lg-3">
+        <div class="col-12 col-sm-6 col-lg-3">
           <h6 class="mb-3 font-weight-bolder">自助查詢</h6>
           <ul class="list-unstyled font-weight-light">
             <li class="py-1"><a href="#" class="text-muted">銀行優惠說明</a></li>
@@ -324,7 +324,7 @@
           </ul>
         </div>
 
-        <div class="col-6 col-lg-3">
+        <div class="col-12 col-sm-6 col-lg-3">
           <h6 class="mb-3 font-weight-bolder">顧客服務</h6>
           <ul class="list-unstyled font-weight-light">
             <li class="py-1"><a href="#" class="text-muted">VIEWS生活誌</a></li>
@@ -339,7 +339,7 @@
 
     </section>
 
-    <section class="col-12 border-top mt-5 pt-5 pb-3">
+    <section class="col-12 border-top mt-5 pt-5 pb-5 pb-md-3">
       <div class="h1 d-flex justify-content-center">
         <i class="fab fa-cc-visa mx-2 text-muted" ></i>
         <i class="fab fa-cc-mastercard mx-2 text-muted"></i>
