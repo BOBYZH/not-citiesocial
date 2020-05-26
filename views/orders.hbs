@@ -1,4 +1,4 @@
-<div id="card" class="container mt-5 py-5">
+<div id="card" class="container mt-5 py-md-5">
   <div class="row">
     <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/User_Circle.png" alt="avatar"
       style="width: 7.5vw; height: 7.5vw" class="mt-3 ml-3">
@@ -11,7 +11,7 @@
     </div>
   </div>
   {{#ifCond user.id user.id}}
-  <div class="d-none d-flex border-bottom">
+  <div class="d-flex border-bottom">
     <ul class="col-12 text-center mb-0 mx-0 row list-unstyled nav nav-pills d-flex justify-content-start"
       style="line-height: 50px;">
       <li class="nav-item border-success border-bottom">
@@ -29,11 +29,35 @@
   
   {{#if orders}}
   <div class="container py-5 px-auto bg-white mx-0">
+    <div class="col-12 d-flex justify-content-between ml-2 mb-3">
+      <div class="col-2 bg-light text-center text-muted pt-2">
+        訂單({{orderCounts}})
+      </div>
+      <select class="form-control bg-white col-6 mx-2 mx-md-auto" onchange="window.location.href=this.value;">
+        <option value="/orders">最新優先
+        </option>
+        <option
+          value="/orders?sort=updatedAtAsc"
+          {{#ifCond sort "updatedAtAsc"}}selected{{/ifCond}}>最舊優先</option>
+        <option
+          value="/orders?sort=amountDesc"
+          {{#ifCond sort "amountDesc"}}selected{{/ifCond}}>總價由高至低</option>
+        <option
+          value="/orders?sort=amountAsc"
+          {{#ifCond sort "amountAsc"}}selected{{/ifCond}}>總價由低至高</option>
+        <option
+          value="/orders?sort=paymentStatusDesc"
+          {{#ifCond sort "paymentStatusDesc"}}selected{{/ifCond}}>已付款優先</option>
+        <option
+          value="/orders?sort=paymentStatusAsc"
+          {{#ifCond sort "paymentStatusAsc"}}selected{{/ifCond}}>已取消、未付款優先</option>
+      </select>
+    </div>
   {{#each orders}}
-    <div class="row">
-      <div class="col-12 col-md-8 table-responsive p-0">
-        <h5 class="mt-3">{{momentLLLL this.createdAt}}({{momentFromNow this.createdAt}})</h5>
-        <table class="table bg-white">
+    <div class="row mt-5">
+      <div class="col-12 col-md-7 table-responsive p-0">
+        <h5 class="mt-3 ml-1">{{momentLLLL this.createdAt}}({{momentFromNow this.createdAt}})</h5>
+        <table class="table bg-white ml-1">
           <thead>
             <tr>
               <th scope="col">購買商品</th>
@@ -126,7 +150,7 @@
         </table>
       </div>
 
-      <div class="col-12 col-md-4 d-flex justify-content-center">
+      <div class="col-12 col-md-5 d-flex justify-content-center">
         <div class="row">
           <div class="ml-3">
             <h5 class="mt-3">收件者資訊</h5>

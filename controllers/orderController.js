@@ -116,10 +116,32 @@ function getTradeInfo (Amt, Desc, email) {
 const orderController = {
   getOrders: (req, res) => {
     const inProfile = true
+    const sort = req.query.sort
+    let orderCounts = ''
+
     Order.findAll({ include: [{ model: OrderItem, include: [{ model: Product, include: [User] }] }], where: { UserId: req.user.id } }).then(orders => {
-      orders = orders.sort((a, b) => b.updatedAt - a.updatedAt)
+      switch (sort) {
+        case 'amountDesc':
+          orders = orders.sort((a, b) => b.amount - a.amount)
+          break
+        case 'amountAsc':
+          orders = orders.sort((a, b) => a.amount - b.amount)
+          break
+        case 'paymentStatusDesc':
+          orders = orders.sort((a, b) => b.paymentStatus - a.paymentStatus)
+          break
+        case 'paymentStatusAsc':
+          orders = orders.sort((a, b) => a.paymentStatus - b.paymentStatus)
+          break
+        case 'updatedAtAsc':
+          orders = orders.sort((a, b) => a.updatedAt - b.updatedAt)
+          break
+        default:
+          orders = orders.sort((a, b) => b.updatedAt - a.updatedAt)
+      }
+      orderCounts = orders.length
       return res.render('orders', JSON.parse(JSON.stringify({
-        orders, inProfile
+        orders, inProfile, sort, orderCounts
       })))
     })
   },
