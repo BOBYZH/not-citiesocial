@@ -341,11 +341,47 @@ const adminController = {
   },
 
   getOrderItems: (req, res) => {
+    const sort = req.query.sort
+    let orderItemsCounts = ''
+
     OrderItem.findAll({ include: [Product, Order] }).then(orderItems => {
       orderItems = orderItems.filter(orderItem => orderItem.Product.UserId === req.user.id)
-        .sort((a, b) => b.updatedAt - a.updatedAt)
+
+      switch (sort) {
+        case 'priceDesc':
+          orderItems = orderItems.sort((a, b) => b.price - a.price)
+          break
+        case 'priceAsc':
+          orderItems = orderItems.sort((a, b) => a.price - b.price)
+          break
+        case 'subtotalDesc':
+          orderItems = orderItems.sort((a, b) => b.subtotal - a.subtotal)
+          break
+        case 'subtotalAsc':
+          orderItems = orderItems.sort((a, b) => a.subtotal - b.subtotal)
+          break
+        case 'quantityDesc':
+          orderItems = orderItems.sort((a, b) => b.quantity - a.quantity)
+          break
+        case 'quantityAsc':
+          orderItems = orderItems.sort((a, b) => a.quantity - b.quantity)
+          break
+        case 'shippingStatusDesc':
+          orderItems = orderItems.sort((a, b) => b.shippingStatus - a.shippingStatus)
+          break
+        case 'shippingStatusAsc':
+          orderItems = orderItems.sort((a, b) => a.shippingStatus - b.shippingStatus)
+          break
+        case 'updatedAtAsc':
+          orderItems = orderItems.sort((a, b) => a.updatedAt - b.updatedAt)
+          break
+        default:
+          orderItems = orderItems.sort((a, b) => b.updatedAt - a.updatedAt)
+      }
+      orderItemsCounts = orderItems.length
+
       return res.render('admin/orderItems', JSON.parse(JSON.stringify({
-        orderItems, inAdmin, inOrders, superAdminEmail
+        orderItems, inAdmin, inOrders, superAdminEmail, sort, orderItemsCounts
       })))
     })
   },

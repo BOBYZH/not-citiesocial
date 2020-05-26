@@ -1,5 +1,43 @@
 <div class="my-5">
   {{#if orderItems}}
+  <div class="col-12 d-flex justify-content-between ml-2 mb-3">
+    <div class="col-2 bg-light text-center text-muted pt-2">
+      訂單品項({{orderItemsCounts}})
+    </div>
+    <select class="form-control bg-white col-6 mx-2 mx-md-auto" onchange="window.location.href=this.value;">
+      <option value="/admin/orderItems">最新優先
+      </option>
+      <option value="/admin/orderItems?sort=updatedAtAsc" 
+      {{#ifCond sort "updatedAtAsc"}}selected{{/ifCond}}>
+        最舊優先</option>
+      <option value="/admin/orderItems?sort=priceDesc" 
+      {{#ifCond sort "priceDesc"}}selected{{/ifCond}}>
+        單價由高至低</option>
+      <option value="/admin/orderItems?sort=priceAsc" 
+      {{#ifCond sort "priceAsc"}}selected{{/ifCond}}>
+        單價由低至高</option>
+      <option value="/admin/orderItems?sort=subtotalDesc" 
+      {{#ifCond sort "subtotalDesc"}}selected{{/ifCond}}>
+        總價由高至低</option>
+      <option value="/admin/orderItems?sort=subtotalAsc" 
+      {{#ifCond sort "subtotalAsc"}}selected{{/ifCond}}>
+        總價由低至高</option>
+      <option value="/admin/orderItems?sort=quantityDesc"
+      {{#ifCond sort "quantityDesc"}}selected{{/ifCond}}>
+        數量由多至少</option>
+      <option value="/admin/orderItems?sort=quantityAsc" 
+      {{#ifCond sort "quantityAsc"}}selected{{/ifCond}}>
+        數量由少至多</option>
+      <option value="/admin/orderItems?sort=shippingStatusDesc" 
+      {{#ifCond sort "shippingStatusDesc"}}selected{{/ifCond}}>
+        已寄送優先
+      </option>
+      <option value="/admin/orderItems?sort=shippingStatusAsc" 
+      {{#ifCond sort "shippingStatusAsc"}}selected{{/ifCond}}>
+        未寄送優先
+      </option>
+    </select>
+  </div>
   {{#each orderItems}}
   <div class="row mx-0 px-xl-5">
     <div class="col-7 col-md-8 border-top border-bottom table-responsive pl-xl-5">
