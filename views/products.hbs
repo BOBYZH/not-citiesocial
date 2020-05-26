@@ -4,7 +4,23 @@
   {{/if}}
   <section class="mx-0 mx-md-5 mt-4">
     <div class="row">
-    {{#if products}}  
+    {{#if products}}
+      <div class="col-12 d-flex justify-content-between ml-2">
+        <div class="col-2 bg-light text-center text-muted pt-2">
+          商品({{productCounts}})
+        </div>
+        <select class="form-control bg-white col-6 mx-2 mx-md-auto" onchange="window.location.href=this.value;">
+          <option value="/products?keyword={{keyword}}{{#if categoryLv1Id}}&categoryLv1Id={{categoryLv1Id}}{{/if}}">最相關</option>
+          <option value="/products?sort=latest&keyword={{keyword}}{{#if categoryLv1Id}}&categoryLv1Id={{categoryLv1Id}}{{/if}}"
+            {{#ifCond sort "latest"}}selected{{/ifCond}}>最新上架</option>
+          <option
+            value="/products?sort=priceDesc&keyword={{keyword}}{{#if categoryLv1Id}}&categoryLv1Id={{categoryLv1Id}}{{/if}}"
+            {{#ifCond sort "priceDesc"}}selected{{/ifCond}}>價格由高至低</option>
+          <option
+            value="/products?sort=priceAsc&keyword={{keyword}}{{#if categoryLv1Id}}&categoryLv1Id={{categoryLv1Id}}{{/if}}"
+            {{#ifCond sort "priceAsc"}}selected{{/ifCond}}>價格由低至高</option>
+        </select>
+      </div>
       {{#each products}}
       <div class="card border-0 col-12 col-lg-3 my-4 px-4">
         <a href="/products/{{this.id}}" class="text-decoration-none">

@@ -58,6 +58,9 @@ const productController = {
         ))
       CategoryLv1.findAll().then(categoryLv1s => {
         const keyword = req.query.keyword || ''
+        const sort = req.query.sort
+        let productCounts = ''
+
         if (req.query) {
           console.log('req.query:', req.query)
           Products = Products.filter(product => {
@@ -73,11 +76,23 @@ const productController = {
               product.User.shopName.toLowerCase().includes(keyword.toLowerCase()) ||
               product.price.toString().includes(keyword.toLowerCase())
           })
+          switch (sort) {
+            case 'priceDesc':
+              Products = Products.sort((a, b) => b.price - a.price)
+              break
+            case 'priceAsc':
+              Products = Products.sort((a, b) => a.price - b.price)
+              break
+            case 'latest':
+              Products = Products.sort((a, b) => b.updatedAt - a.updatedAt)
+              break
+          }
         } else {
           console.log('req.categoryLv1Id:', req.categoryLv1Id)
         }
+        productCounts = Products.length
         return res.render('products', JSON.parse(JSON.stringify({
-          products: Products, categoryLv1s, categoryLv1Id, keyword
+          products: Products, categoryLv1s, categoryLv1Id, keyword, sort, productCounts
         })))
       })
     })
