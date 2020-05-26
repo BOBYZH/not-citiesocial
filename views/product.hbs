@@ -117,7 +117,7 @@
         <div class="fixed-bottom p-3 bg-white">
           <input type="number" name="quantity" class="d-none" id="quantity" value="1" min="1">
           <input type="hidden" name="productId" value="{{product.id}}">
-          <button type="submit" class="btn btn-info py-2 mt-1 col-12" id="add-to-cart">
+          <button type="button" class="btn btn-info py-2 mt-1 col-12" id="purchase" data-toggle="modal" data-target="#purchaseModal">
             購買
           </button>
         </div>
@@ -125,6 +125,50 @@
     </div>
   </div>
 </section>
+
+<!-- Modal -->
+{{!-- Purchase --}}
+<div class="modal fade p-0" id="purchaseModal" tabindex="-1" role="dialog" aria-labelledby="purchaseModalLabel"
+  aria-hidden="true" onclick="window.location.reload()">
+
+  <div role="document"
+  style="position:fixed; bottom:0; width:100%;" style="z-index: 10;" onclick="event.stopPropagation()">
+    <div class="modal-content rounded-0">
+      <div class="modal-header py-0 d-flex justify-content-end align-items-center">
+        <span class="col-1 my-0 ml-3">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="window.location.reload()">
+            <span class="h1 text-dark">×</span>
+          </button>
+        </span>
+      </div>
+
+      <div class="modal-body p-0">
+        <form action="/cart" method="POST" class="d-md-block col-12 px-0">
+          <div class="row my-4">
+            <div class="col-7 mt-3 pl-5 text-black-50">
+              數量
+            </div>
+            <button class="col-1 btn btn-light border-0 text-muted bg-white" id="minus-mobile">
+              <h2>-</h2>
+            </button>
+            <input type="number" name="quantity" class="col-2 mx-2 text-center" id="quantity-mobile" value="1" min="1">
+            <button class="col-1 btn btn-light border-0 text-info bg-white" id="plus-mobile">
+              <h2>+</h2>
+            </button>
+          </div>
+          <input type="hidden" name="productId" value="{{product.id}}">
+          <div class="p-3">
+            <button type="submit" class="btn btn-info d-flex justify-content-center w-100" id="add-to-cart-mobile">
+              <span class="py-2">加入購物車</span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+</div>
 
 <script>
   const minus = document.querySelector('#minus')
@@ -158,5 +202,40 @@
 
   addToCart.addEventListener('click', (event) => {
     addToCart.textContent = '加入中…'
+  })  
+</script>
+
+<script>
+  const minusMobile = document.querySelector('#minus-mobile')
+  const plusMobile = document.querySelector('#plus-mobile')
+  const quantityMobile = document.querySelector('#quantity-mobile')
+  const addToCartMobile = document.querySelector('#add-to-cart-mobile')
+
+  minusMobile.addEventListener('click', (event) => {
+    event.preventDefault()
+    let number = Number(quantityMobile.value) // 寫在callback裡面才能轉表單數字屬性
+
+    if (number > 1) {
+      quantityMobile.value = number - 1 // 修改原本的值
+      number-- // 對應的轉換值也要減掉，否則quantity.value與number大小不一致
+    }
+    // 不用else連結，才能在數量顯示為1時，直接讓減號變成灰色
+    if (number === 1) {
+      minusMobile.classList.remove('text-info')
+      minusMobile.classList.add('text-muted')
+    }
+  })
+
+  plusMobile.addEventListener('click', (event) => {
+    event.preventDefault()
+    const number = Number(quantityMobile.value) // 寫在callback裡面才能轉表單數字屬性
+
+    minusMobile.classList.remove('text-muted')
+    minusMobile.classList.add('text-info')
+    quantityMobile.value = number + 1 // 修改原本的值
+  })
+
+  addToCartMobile.addEventListener('click', (event) => {
+    addToCartMobile.textContent = '加入中…'
   })  
 </script>
