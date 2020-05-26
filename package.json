@@ -1,6 +1,6 @@
 {
   "name": "not-citiesocial",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
@@ -14,14 +14,14 @@
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
-    "express-handlebars": "^4.0.3",
+    "express-handlebars": "^4.0.4",
     "express-session": "^1.17.1",
     "faker": "^4.1.0",
     "hbs": "^4.1.1",
     "http-errors": "~1.6.3",
     "imgur-node-api": "^0.1.0",
     "method-override": "^3.0.0",
-    "moment": "^2.25.3",
+    "moment": "^2.26.0",
     "moment-timezone": "^0.5.31",
     "morgan": "~1.9.1",
     "multer": "^1.4.2",
@@ -30,8 +30,8 @@
     "passport": "^0.4.1",
     "passport-facebook": "^3.0.0",
     "passport-local": "^1.0.0",
-    "pg": "^8.0.3",
-    "sequelize": "^5.21.6",
+    "pg": "^8.2.1",
+    "sequelize": "^5.21.10",
     "sequelize-cli": "^5.5.1"
   }
 }
