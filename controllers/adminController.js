@@ -30,12 +30,34 @@ const transporter = nodemailer.createTransport({
 const adminController = {
   // 後台管理
   getProducts: (req, res) => {
+    const sort = req.query.sort
+    let productCounts = ''
     Product.findAndCountAll({
       where: { UserId: req.user.id },
       include: [CategoryLv1, CategoryLv2, CategoryLv3]
     }).then(products => {
+      switch (sort) {
+        case 'priceDesc':
+          products.rows = products.rows.sort((a, b) => b.price - a.price)
+          break
+        case 'priceAsc':
+          products.rows = products.rows.sort((a, b) => a.price - b.price)
+          break
+        case 'latest':
+          products.rows = products.rows.sort((a, b) => b.updatedAt - a.updatedAt)
+          break
+        case 'notForSale':
+          products.rows = products.rows.sort((a, b) => a.forSale - b.forSale)
+          break
+        case 'categoryLv1':
+          products.rows = products.rows.sort((a, b) => a.CategoryLv1Id - b.CategoryLv1Id)
+          break
+        default:
+          products.rows = products.rows.sort((a, b) => b.forSale - a.forSale)
+      }
+      productCounts = products.rows.length
       return res.render('admin/products', JSON.parse(JSON.stringify({
-        products, inAdmin, inProducts, superAdminEmail
+        products, inAdmin, inProducts, superAdminEmail, sort, productCounts
       })))
     })
   },
@@ -227,13 +249,21 @@ const adminController = {
           req.flash('error_messages', '只能上架自己的商品！')
           res.redirect('/admin/products')
         } else {
-          product.update({
-            forSale: true
+          const sellResult = []
+          sellResult.push(
+            // 用async ... await包裝到陣列，以使用Promise.all
+            (async function () {
+              await product.update({
+                forSale: true
+              })
+            })()
+          )
+          const productName = product.name // 將變數傳到Promise.all後使用
+          // 用Promise.all避免資料庫寫入未完成時，顯示改到一半的資訊
+          return Promise.all(sellResult).then((product) => {
+            req.flash('success_messages', `已成功上架商品：${productName}`)
+            return res.redirect('back')
           })
-            .then((product) => {
-              req.flash('success_messages', `已成功上架商品：${product.name}`)
-              return res.redirect('back')
-            })
         }
       })
   },
@@ -245,13 +275,21 @@ const adminController = {
           req.flash('error_messages', '只能下架自己的商品！')
           res.redirect('/admin/products')
         } else {
-          product.update({
-            forSale: false
+          const sellResult = []
+          sellResult.push(
+            // 用async ... await包裝到陣列，以使用Promise.all
+            (async function () {
+              await product.update({
+                forSale: false
+              })
+            })()
+          )
+          const productName = product.name // 將變數傳到Promise.all後使用
+          // 用Promise.all避免資料庫寫入未完成時，顯示改到一半的資訊
+          return Promise.all(sellResult).then((product) => {
+            req.flash('success_messages', `已成功下架商品：${productName}`)
+            return res.redirect('back')
           })
-            .then((product) => {
-              req.flash('success_messages', `已成功下架商品：${product.name}`)
-              return res.redirect('back')
-            })
         }
       })
   },
@@ -260,13 +298,19 @@ const adminController = {
     Product.findAll({ where: { UserId: req.user.id } })
       .then((products) => {
         // 包裝到陣列，以使用Promise.all
-        const sellAllResults = products.map(product => {
-          product.update({
-            forSale: true
-          })
+        const sellResult = []
+        products.map(product => {
+          sellResult.push(
+            // 用async ... await包裝到陣列，以使用Promise.all
+            (async function () {
+              await product.update({
+                forSale: true
+              })
+            })()
+          )
         })
         // 用Promise.all避免資料庫寫入未完成時，顯示改到一半的資訊
-        return Promise.all(sellAllResults).then((products) => {
+        return Promise.all(sellResult).then((products) => {
           req.flash('success_messages', '已成功上架所有商品')
           return res.redirect('/admin/products') // 用'back'容易顯示寫入未完成的資訊
         })
@@ -277,13 +321,19 @@ const adminController = {
     Product.findAll({ where: { UserId: req.user.id } })
       .then((products) => {
         // 包裝到陣列，以使用Promise.all
-        const cancelAllResults = products.map(product => {
-          product.update({
-            forSale: false
-          })
+        const sellResult = []
+        products.map(product => {
+          sellResult.push(
+            // 用async ... await包裝到陣列，以使用Promise.all
+            (async function () {
+              await product.update({
+                forSale: false
+              })
+            })()
+          )
         })
         // 用Promise.all避免資料庫寫入未完成時，顯示改到一半的資訊
-        return Promise.all(cancelAllResults).then((products) => {
+        return Promise.all(sellResult).then((products) => {
           req.flash('success_messages', '已成功下架所有商品')
           return res.redirect('/admin/products') // 用'back'容易顯示寫入未完成的資訊
         })
