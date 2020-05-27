@@ -148,24 +148,16 @@ const orderController = {
 
   postOrder: (req, res) => {
     return Cart.findByPk(req.body.cartId, { include: 'items' }).then(cart => {
-      const createResults = []
-      createResults.push(
-      // 用async ... await包裝到陣列，以使用Promise.all
-        (async function () {
-          await Order.create({
-            UserId: req.user.id || null,
-            name: req.body.lastName + ' ' + req.body.firstName,
-            address: req.body.address,
-            phone: req.body.phone,
-            email: req.body.email,
-            shippingStatus: req.body.shippingStatus,
-            paymentStatus: req.body.paymentStatus,
-            amount: req.body.amount
-          })
-        })()
-      )
-      // 用Promise.all避免資料庫寫入未完成時，顯示改到一半的資訊
-      return Promise.all(createResults).then(order => {
+      return Order.create({
+        UserId: req.user.id || null,
+        name: req.body.lastName + ' ' + req.body.firstName,
+        address: req.body.address,
+        phone: req.body.phone,
+        email: req.body.email,
+        shippingStatus: req.body.shippingStatus,
+        paymentStatus: req.body.paymentStatus,
+        amount: req.body.amount
+      }).then(order => {
         // 插入購買商品清單
         const results = []
         for (let i = 0; i < cart.items.length; i++) {
