@@ -104,3 +104,5 @@ npm run start
 終端機無出現錯誤訊息，且登入後該筆交易有成功寫入，可能是登入狀態的session失效(只在錄製操作影片時出現過)？
 2. Facebook登入有時出現錯誤訊息：
 畫面出現伺服器錯誤或已經登入的字樣，但遇到的機會極低，回上一頁後登入狀態正常，也許與passport有關？
+3. 建立訂單後轉到orders頁面，有低機率會因為「建立訂單的非同步動作」比後續流程晚結束，而無法再轉址後立即顯示新一筆訂單：
+[有緊急嘗試用Promise.all有修復](https://github.com/BOBYZH/not-citiesocial/commit/e6513d170392830f2f9cc480e45e635dfab444e0#diff-4d0a40551e917abb6db52b1bfebb3371)，但會使order.id無法寫入到orderItem，使訂單中無法顯示orderItems，只好撤銷該次commit
