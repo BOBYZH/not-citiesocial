@@ -80,9 +80,10 @@
             <td class="text-center pl-5" colspan="2">
               <h6>總計：{{this.subtotal}}</h6>
             </td>
-            <td class="text-left" colspan="2">
-              <h6>
-                <span>付款狀況：</span>
+            <td>
+              <h6>狀態：</h6>
+            </td>
+            <td class="text-left">
               {{#ifCond this.Order.paymentStatus '0'}}
               <span class="text-warning">未付款
               {{/ifCond}}
@@ -96,7 +97,6 @@
               {{/ifCond}}
               ({{momentLLLL this.Order.updatedAt}}，{{momentFromNow this.Order.updatedAt}})
               </span>
-              </h6>
             </td>
           </tr>
         </tbody>

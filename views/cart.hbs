@@ -178,13 +178,13 @@
         </ul>
       {{#if user}}
         <h5 class="my-4">會員結帳 | 收件人資料</h5>
-        <h6>
+        <p>
           <i class="fas fa-user-circle h1"></i>
           <span>{{user.lastName}}</span>
           <span>{{user.firstName}}</span>
           <a class="text-info ml-2" href="/logout">登入其他帳戶</a>
-        </h6>
-        <h6 class="text-muted my-4">送貨範圍限台灣本島</h6>
+        </p>
+        <p class="text-muted my-4">送貨範圍限台灣本島</p>
         <label for="email" class="mb-0 ml-3">Email</label>
         <input type="email" class="form-control border-top-0 border-left-0 border-right-0" id="email" name="email" value="{{user.email}}" required>
       {{else}}
@@ -195,7 +195,7 @@
             快速結帳 或  
             <a class="text-success" href="/signup">立即註冊</a>
             享有完整會員功能
-            <h5 class="text-warning">請於登入後回到購物車繼續交易！</h5>
+            <p class="text-warning h5">請於登入後回到購物車繼續交易！</p>
           </p>
         </div>
       {{/if}}
@@ -262,7 +262,7 @@
         </div>
         <div class="col-md-4">
           <div class="card-body pt-3">
-            <h6 class="font-weight-lighter text-right">${{this.Product.price}} NTD</h6>
+            <p class="font-weight-lighter text-right">${{this.Product.price}} NTD</p>
           </div>
         </div>
       </div>
@@ -270,7 +270,7 @@
       <hr>
       <div class="d-flex justify-content-between px-4 py-3">
         <span>總計</span>        
-        <h4 class=" font-weight-bold"><small class="text-muted">TWD</small> ${{totalPrice}} NTD</h4>
+        <p class=" font-weight-bold h4"><small class="text-muted">TWD</small> ${{totalPrice}} NTD</p>
       </div>
     </div>
   </div>

@@ -23,18 +23,18 @@
       </div>
 
       <div class="d-md-none text-center mt-4 pb-4 border-bottom">
-        <h7>
+        <h6>
           <a href="/products/?keyword={{product.User.shopName}}" class="text-black-50 py-5">
             {{product.User.shopName}}
           </a>
-        </h7>
+        </h6>
         <h3 class="my-2 font-weight-bold">{{product.name}}</h3>
         <p id="price" class="mt-4">
           <span class="font-weight-bold h5">NTD {{product.price}}</span>
           {{#if product.discount}}
           <span>{{product.discount}}</span>
           {{/if}}
-          <span class="ml-3 h7"> (免運費)</span>
+          <span class="ml-3"> (免運費)</span>
         </p>
       </div>
 
@@ -77,20 +77,18 @@
 
     <div class="col-12 col-md-5 mt-5">
       <div class="d-none d-md-block">
-        <h7>
-          <u>
-            <a href="/products/?keyword={{product.User.shopName}}" class="text-black-50">
-              {{product.User.shopName}}
-            </a>
-          </u>
-        </h7>
+        <h6>
+          <a href="/products/?keyword={{product.User.shopName}}" class="text-black-50 border-bottom">
+            {{product.User.shopName}}
+          </a>
+        </h6>
         <h3 class="my-2 font-weight-bold">{{product.name}}</h3>
         <p id="price" class="mt-4">
           <span class="font-weight-bold h5">NTD {{product.price}}</span>
           {{#if product.discount}}
           <span>{{product.discount}}</span>
           {{/if}}
-          <span class="ml-3 h7"> (免運費)</span>
+          <span class="ml-3"> (免運費)</span>
         </p>
       </div>
 
@@ -100,11 +98,11 @@
             數量
           </div>
           <button class="col-3 btn btn-light border-0 text-muted bg-white" id="minus">
-            <h2>-</h2>
+            <span class="h2">-</span>
           </button>
           <input type="number" name="quantity" class="col-3 pl-4 text-center" id="quantity" value="1" min="1">
           <button class="col-2 btn btn-light border-0 text-info bg-white" id="plus">
-            <h2>+</h2>
+            <span class="h2">+</span>
           </button>
         </div>
         <input type="hidden" name="productId" value="{{product.id}}">
@@ -149,11 +147,11 @@
               數量
             </div>
             <button class="col-1 btn btn-light border-0 text-muted bg-white" id="minus-mobile">
-              <h2>-</h2>
+              <span class="h2">-</span>
             </button>
             <input type="number" name="quantity" class="col-2 mx-2 text-center" id="quantity-mobile" value="1" min="1">
             <button class="col-1 btn btn-light border-0 text-info bg-white" id="plus-mobile">
-              <h2>+</h2>
+              <span class="h2">+</span>
             </button>
           </div>
           <input type="hidden" name="productId" value="{{product.id}}">
