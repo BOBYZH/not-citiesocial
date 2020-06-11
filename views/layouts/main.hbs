@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,32 +11,10 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 
 <body>
-  <style>
-    .btn-round {
-      width: 40px;
-      height: 40px;
-      padding: 7px 10px;
-      border-radius: 25px;
-      background-color: white;
-      font-size: 10px;
-      text-align: center;
-    }
-
-    .navbar-show {
-      transition: top 0.5s ease;
-    }
-
-    .navbar-hide {
-      top: -56px;
-      height: 0;
-      padding: 0;
-      margin: 0;
-    }
-  </style>
-
   <nav class="navbar navbar-light border-bottom p-0 fixed-top bg-white align-items-stretch" role="navigation">
     {{#if inAdmin}}
     {{!-- display: none --}}
@@ -520,58 +497,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
     integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
   <script src="https://kit.fontawesome.com/3285f63162.js" crossorigin="anonymous"></script>
-  <script>
-    // 修改自：https://www.codeply.com/go/7Fab8Thufl
-    // document ready
-    (function hideSaleNavbar($) {
-      let previousScroll = 20
-      // scroll functions
-      $(window).scroll(function (e) {
-        // add/remove classes to navbar when scrolling to hide/show
-        let scroll = $(window).scrollTop()
-        if (scroll >= previousScroll) {
-          $('.navbar-show').addClass("navbar-hide")
-          $('.navbar-show').addClass("d-none")
-        } else {
-          $('.navbar-show').removeClass("navbar-hide")
-          $('.navbar-show').removeClass("d-none")
-        }
-        previousScroll = scroll
-      })
-
-    })(jQuery)
-  </script>
-
-  <script>
-    const searchButton = document.querySelector('#search-button')
-    const searchInput = document.querySelector('#search-input')
-    const searchButtonMobile = document.querySelector('#search-button-mobile')
-    const searchInputMobile = document.querySelector('#search-input-mobile')
-
-    searchInput.onchange = () => {
-      if (searchInput.value !== '') {
-        searchButton.disabled = false
-      } else {
-        searchButton.disabled = true
-      }
-    }
-    searchInputMobile.onchange = () => {
-      if (searchInputMobile.value !== '') {
-        searchButtonMobile.disabled = false
-      } else {
-        searchButtonMobile.disabled = true
-      }
-    }
-  </script>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      // 因為後端有在網址加hashtag，加入購物車或登入導回頁面後會顯示購物車的modal
-      if (window.location.hash == "#cart") {
-        $('#cartModal').modal()
-      }
-    })
-  </script>
+  <script src="/javascripts/main.js"></script>
 </body>
 
 </html>
