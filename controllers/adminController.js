@@ -12,20 +12,8 @@ const inProducts = true
 const inOrders = true
 const superAdminEmail = process.env.ADDRESS
 
-// 設定nodemailer，與寄件者服務、帳密
-const nodemailer = require('nodemailer')
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  secure: true,
-  auth: {
-    type: 'OAuth2',
-    user: process.env.ACCOUNT,
-    clientId: process.env.CLINENTID,
-    clientSecret: process.env.CLINENTSECRET,
-    refreshToken: process.env.REFRESHTOKEN
-  }
-})
-// console.log('processTest', process.env.GMAIL_ACCOUNT, process.env.GMAIL_PASSWORD)
+// 載入寄送郵件相關設定
+const emailService = require('../config/email.js')()
 
 const adminController = {
   // 後台管理
@@ -401,39 +389,20 @@ const adminController = {
       const OrderItem = orderItem // 將變數傳到Promise.all後使用
       // 用Promise.all避免資料庫寫入未完成時，顯示改到一半的資訊
       return Promise.all(confirmedResults).then(orderItem => {
-        // 信件資訊
-        const mailOptions = {
-          from: process.env.ADDRESS,
-          to: OrderItem.Order.email, // 提醒購買該筆orderItem的顧客
-          // 提醒負責撥款給店家的管理人員，在店家配送後將代收的金錢轉給店家，密件副本
-          bcc: process.env.ADDRESS,
-          subject: `${OrderItem.Order.name}，您訂單（id：${OrderItem.Order.id}）中的${OrderItem.Product.name}已寄送`,
-          html: `    
-                <div style="display: inline-block; min-width: 300px; background-color: white;">
-                  <h1>您在Not citiesocial的訂單</h1>
-                  <a href="${process.env.WEBSITE_URL}/orders" 
-                  style="margin-top: 5px;">
-                    <h3>訂單id：${OrderItem.Order.id}，請至訂單頁面確認</h3>
-                  </a>
-                  <h3>購買商品：${OrderItem.Product.name}</h3>
-                  <h3>購買數量：${OrderItem.quantity}</h3>
-                  <h3>商品單價：${OrderItem.price}</h3>
-                  <h3>總計：${OrderItem.subtotal}</h3>
-                  <p>
-                    上述商品店家回報已經寄送，將於近期送至訂單指定地址，如有疑義請與店家保持聯繫；
-                    <br>
-                    如店家未確實送出商品，或顧客與店家有其他關於該筆訂單之糾紛，請提供證據並回覆此信，將由專員盡快為您處理。
-                  </p>
-                </div>
-                `
-        }
-        console.log('Mail, from ', process.env.ADDRESS, ' to ', OrderItem.Order.email)
-        transporter.sendMail(mailOptions, function (error, info) {
-          if (error) {
-            console.log(error)
-          } else {
-            console.log('Email sent: ' + info.response)
+        // 使用模板發信
+        res.render('emails/shipOrderItem', JSON.parse(JSON.stringify({
+          layout: null,
+          url: process.env.WEBSITE_URL,
+          OrderItem
+        })), function (err, html) {
+          if (err) {
+            console.log('Error in email template!')
           }
+          emailService.send(OrderItem.Order.email, // 提醒購買該筆orderItem的顧客
+            `${OrderItem.Order.name}，您訂單（id：${OrderItem.Order.id}）中的${OrderItem.Product.name}已寄送`,
+            html,
+            process.env.ADDRESS // 提醒負責撥款給店家的管理人員，在店家配送後將代收的金錢轉給店家，密件副本
+          )
         })
 
         return res.redirect('back')

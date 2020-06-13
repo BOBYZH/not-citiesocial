@@ -1,19 +1,8 @@
 const db = require('../models')
 const Subscriber = db.Subscriber
 
-// 設定nodemailer，與寄件者服務、帳密
-const nodemailer = require('nodemailer')
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  secure: true,
-  auth: {
-    type: 'OAuth2',
-    user: process.env.ACCOUNT,
-    clientId: process.env.CLINENTID,
-    clientSecret: process.env.CLINENTSECRET,
-    refreshToken: process.env.REFRESHTOKEN
-  }
-})
+// 載入寄送郵件相關設定
+const emailService = require('../config/email.js')()
 
 const subscriberController = {
   subscribe: (req, res) => {
@@ -25,33 +14,18 @@ const subscriberController = {
         Subscriber.create({
           email: req.body.email
         }).then(subscriber => {
-          // 信件資訊
-          const mailOptions = {
-            from: process.env.GMAIL_ADDRESS,
-            to: req.body.email,
-            subject: 'not citiesocial Sales: 您的訂閱已被確認',
-            html: `                
-                  <div>
-                    <h4>
-                      您的訂閱需求已被確認，以下註冊資訊供您留存：
-                    </h4>
-                    <h5>Email: ${req.body.email}</h5>
-                    <p>
-                      註：因為本站只是示範專案，未來並不會真的寄送電子報！
-                    </p>
-                    <br/>
-                    <p>若您希望停止接收我們的電子郵件，您可以:</p>                    
-                    <a href="${process.env.WEBSITE_URL}/unsubscribe?email=${req.body.email}">請按這裡取消訂閱</a>
-                  </div>
-                `
-          }
-          console.log('Mail, from ', process.env.ADDRESS, ' to ', req.body.email)
-          transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-              console.log(error)
-            } else {
-              console.log('Email sent: ' + info.response)
+          // 使用模板發信
+          res.render('emails/confirmSubscription', JSON.parse(JSON.stringify({
+            layout: null,
+            url: process.env.WEBSITE_URL,
+            email: req.body.email
+          })), function (err, html) {
+            if (err) {
+              console.log('Error in email template!')
             }
+            emailService.send(req.body.email,
+              'not citiesocial Sales: 您的訂閱已被確認',
+              html)
           })
 
           req.flash('success_messages', '您的訂閱已被確認，謝謝您的訂閱')

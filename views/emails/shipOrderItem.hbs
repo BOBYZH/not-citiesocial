@@ -1,0 +1,15 @@
+<div style="display: inline-block; min-width: 300px; background-color: white;">
+  <h1>您在Not citiesocial的訂單</h1>
+  <a href="{{url}}/orders" style="margin-top: 5px;">
+    <h3>訂單id：{{OrderItem.Order.id}}，請至訂單頁面確認</h3>
+  </a>
+  <h3>購買商品：{{OrderItem.Product.name}}</h3>
+  <h3>購買數量：{{OrderItem.quantity}}</h3>
+  <h3>商品單價：{{OrderItem.price}}</h3>
+  <h3>總計：{{OrderItem.subtotal}}</h3>
+  <p>
+    上述商品店家回報已經寄送，將於近期送至訂單指定地址，如有疑義請與店家保持聯繫；
+    <br>
+    如店家未確實送出商品，或顧客與店家有其他關於該筆訂單之糾紛，請提供證據並回覆此信，將由專員盡快為您處理。
+  </p>
+</div>

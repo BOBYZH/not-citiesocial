@@ -6,20 +6,8 @@ const CartItem = db.CartItem
 const Product = db.Product
 const User = db.User
 
-// 設定nodemailer，與寄件者服務、帳密
-const nodemailer = require('nodemailer')
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  secure: true,
-  auth: {
-    type: 'OAuth2',
-    user: process.env.ACCOUNT,
-    clientId: process.env.CLINENTID,
-    clientSecret: process.env.CLINENTSECRET,
-    refreshToken: process.env.REFRESHTOKEN
-  }
-})
-// console.log('processTest', process.env.GMAIL_ACCOUNT, process.env.GMAIL_PASSWORD)
+// 載入寄送郵件相關設定
+const emailService = require('../config/email.js')()
 
 // 設定交易資料的加密與雜湊
 const crypto = require('crypto')
@@ -173,32 +161,20 @@ const orderController = {
           )
         }
 
-        // 信件資訊
-        const mailOptions = {
-          from: process.env.ADDRESS,
-          to: req.body.email,
-          subject: `${order.name}，您的訂單（id：${order.id}）已成立，請盡快付款`,
-          html: `    
-                <div style="display: inline-block; min-width: 300px; background-color: white;">
-                  <h1>您在Not citiesocial的訂單</h1>
-                  <a href="${process.env.WEBSITE_URL}/orders" 
-                  style="margin-top: 5px;">
-                    <h3>訂單id：${order.id}，請至訂單頁面確認</h3>
-                  </a>
-                  <h3>總金額：${order.amount}</h3>
-                </div>
-                `
-        }
-        console.log('Mail, from ', process.env.ADDRESS, ' to ', order.email)
-
         // 確認所有商品加入訂單後才轉址
         return Promise.all(results).then(() => {
-          transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-              console.log(error)
-            } else {
-              console.log('Email sent: ' + info.response)
+          // 使用模板發信
+          res.render('emails/buildOrder', JSON.parse(JSON.stringify({
+            layout: null,
+            url: process.env.WEBSITE_URL,
+            order
+          })), function (err, html) {
+            if (err) {
+              console.log('Error in email template!')
             }
+            emailService.send(req.body.email,
+              `${order.name}，您的訂單（id：${order.id}）已成立，請盡快付款`,
+              html)
           })
           // 刪除已經下訂單的購物車項目與購物車本身
           CartItem.findAll({ where: { CartId: cart.id } }).then(cartItems => {
@@ -280,34 +256,19 @@ const orderController = {
         paymentStatus: 1
       }).then(order => {
         order.OrderItems.forEach(OrderItem => {
-          // 信件資訊
-          const mailOptions = {
-            from: process.env.ADDRESS,
-            to: OrderItem.Product.User.email,
-            subject: `${OrderItem.Product.User.shopName}，${order.name}的訂單（id：${order.id}）已付款，請盡快配送商品`,
-            html: `    
-                <div style="display: inline-block; min-width: 300px; background-color: white;">
-                  <h1>您在Not citiesocial的訂單</h1>
-                  <a href="${process.env.WEBSITE_URL}/admin/orders" 
-                  style="margin-top: 5px;">
-                    <h3>訂單id：${order.id}，請至訂單頁面確認</h3>
-                  </a>
-                  <h3>購買商品：${OrderItem.Product.name}</h3>
-                  <h3>購買數量：${OrderItem.quantity}</h3>
-                  <h3>商品單價：${OrderItem.price}</h3>
-                  <h3>總計：${OrderItem.subtotal}</h3>
-                </div>
-                `
-          }
-
-          console.log('Mail, from ', process.env.ADDRESS, ' to ', OrderItem.Product.User.email)
-
-          transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-              console.log(error)
-            } else {
-              console.log('Email sent: ' + info.response)
+          // 使用模板發信
+          res.render('emails/payOrder', JSON.parse(JSON.stringify({
+            layout: null,
+            url: process.env.WEBSITE_URL,
+            order,
+            OrderItem
+          })), function (err, html) {
+            if (err) {
+              console.log('Error in email template!')
             }
+            emailService.send(OrderItem.Product.User.email,
+              `${OrderItem.Product.User.shopName}，${order.name}的訂單（id：${order.id}）已付款，請盡快配送商品`,
+              html)
           })
         })
         res.sendStatus(200) // 向藍新回報已經確認交易，否則商家會收到「API 串接 Notify URL 觸發失敗通知信」
