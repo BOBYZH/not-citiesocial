@@ -29,7 +29,7 @@
 
     <div id="brand-logo"
       class="d-none col-md-5 border border-left-0 border-right-0 d-md-flex align-items-center py-2">
-      <a class="navbar-item" href="/">
+      <a class="navbar-item" href="/" style="text-decoration: none;">
         <h4 id="icon" class="my-auto">
           <span class="h1 font-weight-bolder text-danger">Not </span>
           <span class="d-inline-flex justify-content-center">
@@ -254,13 +254,13 @@
   {{else}}
   <section id="subscription" class="bg-light text-center">
     <h5 class="text-center pt-4 font-weight-bolder">訂閱電子報</h5>
-    <div class="input-group mb-3 pt-4 pb-5 d-flex justify-content-center">
+    <div class="input-group mb-3 pt-4 pb-5 d-flex justify-content-center ">
       <form action="/subscriber" method="POST">
-        <div class="input-group-append d-inline-flex">
-          <input type="email" class="border border-dark rounded-left pl-3 pr-5" placeholder="YOUR@EMAIL.COM" name="email"
+        <div class="input-group-append d-inline-flex" style="width: 350px;">
+          <input type="email" class="border border-dark rounded-left px-3 col-7" placeholder="YOUR@EMAIL.COM" name="email"
             style="height: 50px;" aria-label="Recipient's username" aria-describedby="basic-addon2"
             required>
-          <button type="submit" class="btn-secondary px-2 px-md-4 rounded-right float-right" style="height: 50px;">訂閱電子報</button>
+          <button type="submit" class="btn-secondary px-2 px-md-4 rounded-right float-right col-5" style="height: 50px;">訂閱電子報</button>
         </div>
       </form>
     </div>
