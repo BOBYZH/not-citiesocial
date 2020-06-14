@@ -7,6 +7,18 @@
     註：因為本站只是示範專案，未來並不會真的寄送電子報！
   </p>
   <br />
-  <p>若您希望停止接收我們的電子郵件，您可以:</p>
-  <a href="{{url}}/unsubscribe?email={{email}}">請按這裡取消訂閱</a>
+  <form action="{{url}}/subscriber?_method=DELETE" method="POST" style="display: flex;">
+    <input type="email" name="email" id="email" style="display: none;" aria-label="Recipient's username" aria-describedby="basic-addon2" value={{email}} required>
+    <p>若希望停止接收我們的電子郵件，您可以</p>
+    <button type="submit" style="
+        background: none;
+        color: blue;
+        border: none;
+        padding: 0;
+        font: inherit;
+        cursor: pointer;
+        outline: inherit;">
+      <u>按這裡取消訂閱</u>
+    </button>
+  </form>
 </div>
