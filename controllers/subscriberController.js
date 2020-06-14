@@ -35,11 +35,6 @@ const subscriberController = {
     })
   },
 
-  unsubscribePage: (req, res) => {
-    const inUnsubscribePage = true
-    return res.render('unsubscribe', JSON.parse(JSON.stringify({ inUnsubscribePage })))
-  },
-
   unsubscribe: (req, res) => {
     Subscriber.findOne({ where: { email: req.body.email } }).then(subscriber => {
       if (!subscriber) {

@@ -44,8 +44,6 @@ module.exports = (app, passport) => {
   // 訂閱電子報
   app.post('/subscriber', subscriberController.subscribe)
   // 退訂電子報
-  app.get('/unsubscribe', subscriberController.unsubscribePage)
-  // 退訂電子報
   app.delete('/subscriber', subscriberController.unsubscribe)
 
   // 購物車
