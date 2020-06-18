@@ -7,11 +7,11 @@
     "dialect": "mysql"
   },
   "test": {
-    "username": "travis",
+    "username": "root",
+    "password": "password",
     "database": "not_citiesocial",
     "host": "127.0.0.1",
-    "dialect": "mysql",
-    "operatorsAliases": false
+    "dialect": "mysql"
   },
   "production": {
     "use_env_variable": "CLEARDB_DATABASE_URL"
