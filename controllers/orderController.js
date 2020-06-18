@@ -142,7 +142,6 @@ const orderController = {
         address: req.body.address,
         phone: req.body.phone,
         email: req.body.email,
-        shippingStatus: req.body.shippingStatus,
         paymentStatus: req.body.paymentStatus,
         amount: req.body.amount
       }).then(order => {
@@ -202,7 +201,6 @@ const orderController = {
         (async function () {
           await order.update({
             ...req.body,
-            shippingStatus: '-1',
             paymentStatus: '-1'
           })
         })()
