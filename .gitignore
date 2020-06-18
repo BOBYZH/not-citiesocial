@@ -7,8 +7,6 @@ ngrok.exe
 .DS_Store
 *.DS_Store
 
-.nyc_output/
-
 # Logs
 logs
 *.log
