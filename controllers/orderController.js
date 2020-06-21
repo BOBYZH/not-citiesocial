@@ -5,6 +5,7 @@ const Cart = db.Cart
 const CartItem = db.CartItem
 const Product = db.Product
 const User = db.User
+const helpers = require('../helpers')
 
 // 載入寄送郵件相關設定
 const emailService = require('../config/email.js')()
@@ -107,7 +108,7 @@ const orderController = {
     const sort = req.query.sort
     let orderCounts = ''
 
-    Order.findAll({ include: [{ model: OrderItem, include: [{ model: Product, include: [User] }] }], where: { UserId: req.user.id } }).then(orders => {
+    Order.findAll({ include: [{ model: OrderItem, include: [{ model: Product, include: [User] }] }], where: { UserId: helpers.getUser(req).id } }).then(orders => {
       switch (sort) {
         case 'amountDesc':
           orders = orders.sort((a, b) => b.amount - a.amount)
@@ -135,9 +136,9 @@ const orderController = {
   },
 
   postOrder: (req, res) => {
-    return Cart.findByPk(req.body.cartId, { include: 'items' }).then(cart => {
+    return Cart.findByPk(helpers.cartId(req), { include: 'items' }).then(cart => {
       return Order.create({
-        UserId: req.user.id || null,
+        UserId: helpers.getUser(req).id || null,
         name: req.body.lastName + ' ' + req.body.firstName,
         address: req.body.address,
         phone: req.body.phone,
@@ -194,7 +195,7 @@ const orderController = {
   },
 
   cancelOrder: (req, res) => {
-    return Order.findByPk(req.params.id, {}).then(order => {
+    return Order.findByPk(helpers.paramsId(req), {}).then(order => {
       const canceledResults = []
       canceledResults.push(
         // 用async ... await包裝到陣列，以使用Promise.all
@@ -215,10 +216,10 @@ const orderController = {
   // 付款前
   getPayment: (req, res) => {
     console.log('===== getPayment =====')
-    console.log(req.params.id)
+    console.log(helpers.paramsId(req))
     console.log('==========')
 
-    return Order.findByPk(req.params.id, { include: 'items' }).then(order => {
+    return Order.findByPk(helpers.paramsId(req), { include: 'items' }).then(order => {
       const tradeInfo = getTradeInfo(order.amount, '好東西', order.email)
       order.update({
         ...req.body,

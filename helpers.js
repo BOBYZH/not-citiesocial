@@ -8,7 +8,17 @@ function getUser (req) {
   return req.user
 }
 
+function cartId (req) {
+  return req.body.cartId
+}
+
+function paramsId (req) {
+  return req.params.id
+}
+
 module.exports = {
   ensureAuthenticated,
-  getUser
+  getUser,
+  cartId,
+  paramsId
 }
