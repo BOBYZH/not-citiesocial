@@ -34,6 +34,7 @@ describe('# Order Model', () => {
       'phone',
       'email',
       'paymentStatus',
+      'sn',
       'amount'
     ].forEach(checkPropertyExists(order))
   })
@@ -74,7 +75,8 @@ describe('# Order Model', () => {
         phone: '0987654321',
         email: 'test@example.com',
         paymentStatus: 0,
-        amount: 9876
+        amount: 9876,
+        sn: '0123456789012'
       }).then((order) => {
         data = order
         done()
