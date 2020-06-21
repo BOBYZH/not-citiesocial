@@ -124,7 +124,7 @@ describe('# Order Request', () => {
           })
           db.OrderItem.findAll({ where: { OrderId: 1 } }).then((orderItems) => {
             console.log(orderItems)
-            orderItems = orderItems.sort((a, b) => a.id - b.id)
+            orderItems = orderItems.sort((a, b) => a.ProductId - b.ProductId)
             orderItems[0].ProductId.should.be.equal(1)
             orderItems[0].price.should.be.equal(250)
             orderItems[0].quantity.should.be.equal(4)
