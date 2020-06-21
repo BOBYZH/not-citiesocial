@@ -5,33 +5,34 @@ const cartController = require('../controllers/cartController.js')
 const orderController = require('../controllers/orderController.js')
 const subscriberController = require('../controllers/subscriberController.js')
 
+const helpers = require('../helpers')
 const multer = require('multer')
 const upload = multer({ dest: 'temp/' })
 
-const unAuthenticated = (req, res, next) => {
-  if (!req.isAuthenticated()) {
-    return next()
-  }
-  res.redirect('/')
-  return req.flash('error_messages', '已登入')
-}
-
-const authenticated = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next()
-  }
-  res.redirect('/signin')
-}
-
-const authenticatedAdmin = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    if (req.user.isAdmin) { return next() }
-    return res.redirect('/')
-  }
-  res.redirect('/signin')
-}
-
 module.exports = (app, passport) => {
+  const unAuthenticated = (req, res, next) => {
+    if (!helpers.ensureAuthenticated(req)) {
+      return next()
+    }
+    res.redirect('/')
+    return req.flash('error_messages', '已登入')
+  }
+
+  const authenticated = (req, res, next) => {
+    if (helpers.ensureAuthenticated(req)) {
+      return next()
+    }
+    res.redirect('/signin')
+  }
+
+  const authenticatedAdmin = (req, res, next) => {
+    if (helpers.ensureAuthenticated(req)) {
+      if (helpers.getUser(req).isAdmin) { return next() }
+      return res.redirect('/')
+    }
+    res.redirect('/signin')
+  }
+
   // 訪客
   // 首頁
   app.get('/', productController.getIndex)
