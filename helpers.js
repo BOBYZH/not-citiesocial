@@ -12,13 +12,23 @@ function cartId (req) {
   return req.body.cartId
 }
 
+function productId (req) {
+  return req.body.productId
+}
+
 function paramsId (req) {
   return req.params.id
+}
+
+function setQuantity (req) {
+  return req.body.quantity
 }
 
 module.exports = {
   ensureAuthenticated,
   getUser,
   cartId,
-  paramsId
+  productId,
+  paramsId,
+  setQuantity
 }

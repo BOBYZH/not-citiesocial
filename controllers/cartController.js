@@ -3,10 +3,11 @@ const Cart = db.Cart
 const CartItem = db.CartItem
 const Product = db.Product
 const User = db.User
+const helpers = require('../helpers')
 
 const cartController = {
   getCart: (req, res) => {
-    return Cart.findByPk(req.session.cartId, { include: ['items', { model: CartItem, include: [{ model: Product, include: [User] }] }] }).then(cart => {
+    return Cart.findByPk(helpers.cartId(req), { include: ['items', { model: CartItem, include: [{ model: Product, include: [User] }] }] }).then(cart => {
       cart = cart || { items: [] } // 找不到購物車的話，回傳空的內容
       const totalPrice = cart.items.length > 0 ? cart.items.map(d => d.price * d.CartItem.quantity).reduce((a, b) => a + b) : 0
       const inCartPage = true
@@ -19,17 +20,17 @@ const cartController = {
   postCart: (req, res) => {
     return Cart.findOrCreate({ // 找尋對應的購物車id，有的話使用，沒有的話新增一個來用
       where: {
-        id: req.session.cartId || 0
+        id: helpers.cartId(req) || 0
       }
     }).spread(function (cart, created) {
       return CartItem.findOrCreate({ // 找尋對應的商品id，有的話使用，沒有的話新增一個來用
         where: {
           CartId: cart.id,
-          ProductId: req.body.productId
+          ProductId: helpers.productId(req)
         },
         default: {
           CartId: cart.id,
-          ProductId: req.body.productId
+          ProductId: helpers.productId(req)
         }
       }).spread(function (cartItem, created) {
         const postResults = []
@@ -37,15 +38,15 @@ const cartController = {
         // 用async ... await包裝到陣列，以使用Promise.all
           (async function () {
             await cartItem.update({
-              quantity: (cartItem.quantity || 0) + Number(req.body.quantity) // html表單回傳的數字會被JS當字串，須轉換否則變文字相加
+              quantity: (cartItem.quantity || 0) + Number(helpers.setQuantity(req)) // html表單回傳的數字會被JS當字串，須轉換否則變文字相加
             })
           })()
         )
         // 用Promise.all避免資料庫寫入未完成時，顯示改到一半的資訊
         return Promise.all(postResults).then((cartItem) => {
-          req.session.cartId = cart.id
+          req.body.cartId = cart.id
           return req.session.save(() => {
-            return res.redirect(`/products/${req.body.productId}#cart`)
+            return res.redirect(`/products/${helpers.productId(req)}#cart`)
           })
         })
       })
