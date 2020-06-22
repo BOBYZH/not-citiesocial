@@ -35,8 +35,6 @@ describe('# Product Model', () => {
       'specification',
       'price',
       'image',
-      'discount',
-      'deadlineOfSale',
       'UserId',
       'forSale'
     ].forEach(checkPropertyExists(product))
