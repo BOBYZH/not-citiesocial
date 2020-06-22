@@ -112,7 +112,7 @@ module.exports = (app, passport) => {
 
   // 店家
   // 管理首頁（指向商品管理）
-  app.get('/admin', (req, res) => {
+  app.get('/admin', authenticatedAdmin, (req, res) => {
     res.redirect('/admin/products')
   })
 
