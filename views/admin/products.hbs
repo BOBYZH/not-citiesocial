@@ -59,9 +59,9 @@
                 </form>
                 {{/ifTrue}}
                 <div class="mx-1">
-                  <a href="/admin/products/{{this.id}}/edit" class="btn btn-sm btn-outline-secondary p-2 mr-3">編輯</a>
+                  <a href="/admin/products/{{this.id}}/edit" class="btn btn-sm btn-outline-secondary p-2 mr-1 mb-1">編輯</a>
                   <form action="/admin/products/{{this.id}}?_method=DELETE" method="POST" style="display: inline;">
-                    <button type="submit" class="btn btn-sm btn-outline-danger p-2 mr-3"
+                    <button type="submit" class="btn btn-sm btn-outline-danger p-2 mr-1 mb-1"
                       onclick="if(confirm('確認刪除？')) return true; else return false">刪除</button>
                   </form>
                 </div>
