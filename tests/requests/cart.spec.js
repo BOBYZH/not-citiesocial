@@ -2,7 +2,6 @@
 
 const chai = require('chai')
 chai.use(require('sinon-chai'))
-const should = chai.should()
 
 const sinon = require('sinon')
 const request = require('supertest')
@@ -83,75 +82,138 @@ describe('# Cart Request', () => {
 
   context('# POST /cartItem/:id/add', () => {
     before(async () => {
+      this.cartId = sinon.stub(
+        helpers, 'cartId'
+      ).returns(1)
       await db.Cart.destroy({ where: {}, truncate: true })
       await db.CartItem.destroy({ where: {}, truncate: true })
       await db.Cart.create({})
+      await db.Cart.create({})
       await db.CartItem.create({
+        id: 1,
         CartId: 1,
         ProductId: 1,
         quantity: 1
       })
+      await db.CartItem.create({
+        id: 2,
+        CartId: 2,
+        ProductId: 1,
+        quantity: 1
+      })
+    })
 
-      it('Increase the quantity of cartItem', (done) => {
-        request(app)
-          .post('/cartItem/1/add')
-          .set('Accept', 'application/json')
-          .expect(302)
-          .end((err, res) => {
-            if (err) return done(err)
-            db.CartItem.findByPk(1).then((cartItem) => {
-              cartItem.quantity.should.be.equal(2)
-            })
-            done()
+    it('Increase the quantity of cartItem', (done) => {
+      request(app)
+        .post('/cartItem/1/add')
+        .set('Accept', 'application/json')
+        .expect(302)
+        .end((err, res) => {
+          if (err) return done(err)
+          db.CartItem.findByPk(1).then((cartItem) => {
+            cartItem.quantity.should.be.equal(2)
           })
-      })
+          done()
+        })
+    })
 
-      after(async () => {
-        await db.Cart.destroy({ where: {}, truncate: true })
-        await db.CartItem.destroy({ where: {}, truncate: true })
-      })
+    it('Redirect when attempting to manipulate other cart', (done) => {
+      request(app)
+        .post('/cartItem/2/add')
+        .set('Accept', 'application/json')
+        .expect(302)
+        .end((err, res) => {
+          if (err) return done(err)
+          db.CartItem.findByPk(2).then((cartItem) => {
+            cartItem.quantity.should.not.be.equal(2)
+          })
+          done()
+        })
+    })
+
+    after(async () => {
+      this.cartId.restore()
+      await db.Cart.destroy({ where: {}, truncate: true })
+      await db.CartItem.destroy({ where: {}, truncate: true })
     })
   })
 
   context('# POST /cartItem/:id/sub', () => {
     before(async () => {
+      this.cartId = sinon.stub(
+        helpers, 'cartId'
+      ).returns(1)
       await db.Cart.destroy({ where: {}, truncate: true })
       await db.CartItem.destroy({ where: {}, truncate: true })
       await db.Cart.create({})
+      await db.Cart.create({})
       await db.CartItem.create({
+        id: 1,
         CartId: 1,
         ProductId: 1,
         quantity: 2
       })
+      await db.CartItem.create({
+        id: 2,
+        CartId: 2,
+        ProductId: 1,
+        quantity: 2
+      })
+    })
 
-      it('Increase the quantity of cartItem', (done) => {
-        request(app)
-          .post('/cartItem/1/sub')
-          .set('Accept', 'application/json')
-          .expect(302)
-          .end((err, res) => {
-            if (err) return done(err)
-            db.CartItem.findByPk(1).then((cartItem) => {
-              cartItem.quantity.should.be.equal(1)
-            })
-            done()
+    it('Increase the quantity of cartItem', (done) => {
+      request(app)
+        .post('/cartItem/1/sub')
+        .set('Accept', 'application/json')
+        .expect(302)
+        .end((err, res) => {
+          if (err) return done(err)
+          db.CartItem.findByPk(1).then((cartItem) => {
+            cartItem.quantity.should.be.equal(1)
           })
-      })
+          done()
+        })
+    })
 
-      after(async () => {
-        await db.Cart.destroy({ where: {}, truncate: true })
-        await db.CartItem.destroy({ where: {}, truncate: true })
-      })
+    it('Redirect when attempting to manipulate other cart', (done) => {
+      request(app)
+        .post('/cartItem/2/sub')
+        .set('Accept', 'application/json')
+        .expect(302)
+        .end((err, res) => {
+          if (err) return done(err)
+          db.CartItem.findByPk(2).then((cartItem) => {
+            cartItem.quantity.should.not.be.equal(1)
+          })
+          done()
+        })
+    })
+
+    after(async () => {
+      this.cartId.restore()
+      await db.Cart.destroy({ where: {}, truncate: true })
+      await db.CartItem.destroy({ where: {}, truncate: true })
     })
   })
 
   context('# DELETE /cartItem/:id', () => {
     before(async () => {
+      this.cartId = sinon.stub(
+        helpers, 'cartId'
+      ).returns(1)
       await db.Cart.destroy({ where: {}, truncate: true })
       await db.CartItem.destroy({ where: {}, truncate: true })
       await db.Cart.create({})
+      await db.Cart.create({})
       await db.CartItem.create({
+        id: 1,
         CartId: 1,
+        ProductId: 1,
+        quantity: 2
+      })
+      await db.CartItem.create({
+        id: 2,
+        CartId: 2,
         ProductId: 1,
         quantity: 2
       })
@@ -164,7 +226,7 @@ describe('# Cart Request', () => {
         .expect(302)
         .end((err, res) => {
           if (err) return done(err)
-          db.CartItem.findAll().then((cartItems) => {
+          db.CartItem.findAll({ where: { CartId: 1 } }).then((cartItems) => {
             // cartItems因cartItem被刪除內容為空，新插入的內容必然在陣列的第一個
             cartItems.push('none')
             cartItems[0].should.be.equal('none')
@@ -173,7 +235,22 @@ describe('# Cart Request', () => {
         })
     })
 
+    it('Redirect when attempting to manipulate other cart', (done) => {
+      request(app)
+        .delete('/cartItem/2')
+        .set('Accept', 'application/json')
+        .expect(302)
+        .end((err, res) => {
+          if (err) return done(err)
+          db.CartItem.findByPk(2).then((cartItem) => {
+            cartItem.quantity.should.be.equal(2) // 代表沒被刪掉
+          })
+          done()
+        })
+    })
+
     after(async () => {
+      this.cartId.restore()
       await db.Cart.destroy({ where: {}, truncate: true })
       await db.CartItem.destroy({ where: {}, truncate: true })
     })

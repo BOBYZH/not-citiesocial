@@ -2,7 +2,6 @@
 
 const chai = require('chai')
 chai.use(require('sinon-chai'))
-const should = chai.should()
 
 const request = require('supertest')
 
@@ -25,6 +24,11 @@ describe('# Product Request', () => {
 
   context('# GET / and /products', () => {
     before(async () => {
+      await db.Product.destroy({ where: {}, truncate: true })
+      await db.CategoryLv1.destroy({ where: {}, truncate: true })
+      await db.CategoryLv2.destroy({ where: {}, truncate: true })
+      await db.CategoryLv3.destroy({ where: {}, truncate: true })
+      await db.User.destroy({ where: {}, truncate: true })
       await db.User.create({
         firstName: 'Test1',
         lastName: 'Admin',
@@ -164,6 +168,11 @@ describe('# Product Request', () => {
 
   context('# GET /products/:id', () => {
     before(async () => {
+      await db.Product.destroy({ where: {}, truncate: true })
+      await db.CategoryLv1.destroy({ where: {}, truncate: true })
+      await db.CategoryLv2.destroy({ where: {}, truncate: true })
+      await db.CategoryLv3.destroy({ where: {}, truncate: true })
+      await db.User.destroy({ where: {}, truncate: true })
       await db.User.create({
         firstName: 'Test1',
         lastName: 'Admin',

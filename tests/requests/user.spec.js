@@ -2,7 +2,6 @@
 
 const chai = require('chai')
 chai.use(require('sinon-chai'))
-const should = chai.should()
 
 const sinon = require('sinon')
 const request = require('supertest')

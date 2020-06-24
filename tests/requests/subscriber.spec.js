@@ -2,7 +2,6 @@
 
 const chai = require('chai')
 chai.use(require('sinon-chai'))
-const should = chai.should()
 
 const request = require('supertest')
 
@@ -93,7 +92,6 @@ describe('# Cart Request', () => {
           if (err) return done(err)
           db.Subscriber.findAll().then((subscribers) => {
             // subscribers因subscriber被刪除內容為空，新插入的內容必然在陣列的第一個
-            console.log('test', subscribers, subscribers[0])
             subscribers.push('none')
             subscribers[0].should.be.equal('none')
           })
