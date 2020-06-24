@@ -195,21 +195,26 @@ const orderController = {
   },
 
   cancelOrder: (req, res) => {
-    return Order.findByPk(helpers.paramsId(req), {}).then(order => {
-      const canceledResults = []
-      canceledResults.push(
-        // 用async ... await包裝到陣列，以使用Promise.all
-        (async function () {
-          await order.update({
-            ...req.body,
-            paymentStatus: '-1'
-          })
-        })()
-      )
-      // 用Promise.all避免資料庫寫入未完成時，顯示改到一半的資訊
-      return Promise.all(canceledResults).then(order => {
-        return res.redirect('back')
-      })
+    return Order.findByPk(req.params.id).then(order => {
+      if (order.UserId !== helpers.getUser(req).id) { // 防止對他人的訂單擅自操作
+        req.flash('error_messages', '只能取消自己的訂單！')
+        res.redirect('/orders')
+      } else {
+        const canceledResults = []
+        canceledResults.push(
+          // 用async ... await包裝到陣列，以使用Promise.all
+          (async function () {
+            await order.update({
+              ...req.body,
+              paymentStatus: '-1'
+            })
+          })()
+        )
+        // 用Promise.all避免資料庫寫入未完成時，顯示改到一半的資訊
+        return Promise.all(canceledResults).then(order => {
+          return res.redirect('back')
+        })
+      }
     })
   },
 
@@ -219,14 +224,19 @@ const orderController = {
     console.log(helpers.paramsId(req))
     console.log('==========')
 
-    return Order.findByPk(helpers.paramsId(req), { include: 'items' }).then(order => {
-      const tradeInfo = getTradeInfo(order.amount, '好東西', order.email)
-      order.update({
-        ...req.body,
-        sn: tradeInfo.MerchantOrderNo
-      }).then(order => {
-        res.render('payment', JSON.parse(JSON.stringify({ order, tradeInfo })))
-      })
+    return Order.findByPk(req.params.id, { include: 'items' }).then(order => {
+      if (order.UserId !== helpers.getUser(req).id) { // 防止對他人的訂單擅自操作
+        req.flash('error_messages', '只能替自己的訂單付款！')
+        res.redirect('/orders')
+      } else {
+        const tradeInfo = getTradeInfo(order.amount, '好東西', order.email)
+        order.update({
+          ...req.body,
+          sn: tradeInfo.MerchantOrderNo
+        }).then(order => {
+          res.render('payment', JSON.parse(JSON.stringify({ order, tradeInfo })))
+        })
+      }
     })
   },
 

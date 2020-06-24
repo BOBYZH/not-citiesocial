@@ -11,6 +11,7 @@ const inAdmin = true
 const inProducts = true
 const inOrders = true
 const superAdminEmail = process.env.ADDRESS
+const helpers = require('../helpers')
 
 // 載入寄送郵件相關設定
 const emailService = require('../config/email.js')()
@@ -21,7 +22,7 @@ const adminController = {
     const sort = req.query.sort
     let productCounts = ''
     Product.findAndCountAll({
-      where: { UserId: req.user.id },
+      where: { UserId: helpers.getUser(req).id },
       include: [CategoryLv1, CategoryLv2, CategoryLv3]
     }).then(products => {
       switch (sort) {
@@ -84,12 +85,13 @@ const adminController = {
           CategoryLv1Id: req.body.categoryLv1Id,
           CategoryLv2Id: req.body.categoryLv2Id,
           CategoryLv3Id: req.body.categoryLv3Id,
-          UserId: req.user.id
+          UserId: helpers.getUser(req).id
         }).then((product) => {
           req.flash('success_messages', `已成功新增商品：${product.name}`)
           return res.redirect('/admin/products')
         }).catch((product) => {
           req.flash('error_messages', '發生錯誤，請稍後再試……')
+          return res.redirect('back')
         })
       })
     } else {
@@ -105,12 +107,13 @@ const adminController = {
         CategoryLv1Id: req.body.categoryLv1Id,
         CategoryLv2Id: req.body.categoryLv2Id,
         CategoryLv3Id: req.body.categoryLv3Id,
-        UserId: req.user.id
+        UserId: helpers.getUser(req).id
       }).then((product) => {
         req.flash('success_messages', `已成功新增商品：${product.name}`)
         return res.redirect('/admin/products')
       }).catch((product) => {
         req.flash('error_messages', '發生錯誤，請稍後再試……')
+        return res.redirect('back')
       })
     }
   },
@@ -120,7 +123,7 @@ const adminController = {
       CategoryLv1.findAll().then(CategoryLv1s => {
         CategoryLv2.findAll().then(CategoryLv2s => {
           CategoryLv3.findAll().then(CategoryLv3s => {
-            if (product.UserId !== req.user.id) { // 防止進入非自己店家商品頁面偷改資料
+            if (product.UserId !== helpers.getUser(req).id) { // 防止進入非自己店家商品頁面偷改資料
               req.flash('error_messages', '只能改自己的商品！')
               res.redirect('/admin/products')
             } else {
@@ -134,7 +137,7 @@ const adminController = {
 
   putProduct: (req, res) => {
     Product.findByPk(req.params.id).then(product => {
-      if (product.UserId !== req.user.id) { // 防止進入非自己店家商品頁面偷改資料
+      if (product.UserId !== helpers.getUser(req).id) { // 防止進入非自己店家商品頁面偷改資料
         req.flash('error_messages', '只能改自己的商品！')
         res.redirect('/admin/products')
       } else if (!req.body.name) {
@@ -163,7 +166,7 @@ const adminController = {
                       CategoryLv1Id: req.body.categoryLv1Id,
                       CategoryLv2Id: req.body.categoryLv2Id,
                       CategoryLv3Id: req.body.categoryLv3Id,
-                      UserId: req.user.id
+                      UserId: helpers.getUser(req).id
                     })
                   })()
                 )
@@ -174,6 +177,7 @@ const adminController = {
                   return res.redirect('/admin/products')
                 }).catch((product) => {
                   req.flash('error_messages', '發生錯誤，請稍後再試……')
+                  return res.redirect('back')
                 })
               })
           })
@@ -196,7 +200,7 @@ const adminController = {
                     CategoryLv1Id: req.body.categoryLv1Id,
                     CategoryLv2Id: req.body.categoryLv2Id,
                     CategoryLv3Id: req.body.categoryLv3Id,
-                    UserId: req.user.id
+                    UserId: helpers.getUser(req).id
                   })
                 })()
               )
@@ -207,6 +211,7 @@ const adminController = {
                 return res.redirect('/admin/products')
               }).catch((product) => {
                 req.flash('error_messages', '發生錯誤，請稍後再試……')
+                return res.redirect('back')
               })
             })
         }
@@ -217,7 +222,7 @@ const adminController = {
   deleteProduct: (req, res) => {
     return Product.findByPk(req.params.id)
       .then((product) => {
-        if (product.UserId !== req.user.id) { // 防止偷刪非自己店家商品資料
+        if (product.UserId !== helpers.getUser(req).id) { // 防止偷刪非自己店家商品資料
           req.flash('error_messages', '只能刪除自己的商品！')
           res.redirect('/admin/products')
         } else {
@@ -233,7 +238,7 @@ const adminController = {
   sellProduct: (req, res) => {
     return Product.findByPk(req.params.id)
       .then((product) => {
-        if (product.UserId !== req.user.id) { // 防止偷刪非自己店家商品資料
+        if (product.UserId !== helpers.getUser(req).id) { // 防止偷刪非自己店家商品資料
           req.flash('error_messages', '只能上架自己的商品！')
           res.redirect('/admin/products')
         } else {
@@ -259,7 +264,7 @@ const adminController = {
   cancelProduct: (req, res) => {
     return Product.findByPk(req.params.id)
       .then((product) => {
-        if (product.UserId !== req.user.id) { // 防止偷刪非自己店家商品資料
+        if (product.UserId !== helpers.getUser(req).id) { // 防止偷刪非自己店家商品資料
           req.flash('error_messages', '只能下架自己的商品！')
           res.redirect('/admin/products')
         } else {
@@ -283,7 +288,7 @@ const adminController = {
   },
 
   sellAllProducts: (req, res) => {
-    Product.findAll({ where: { UserId: req.user.id } })
+    Product.findAll({ where: { UserId: helpers.getUser(req).id } })
       .then((products) => {
         // 包裝到陣列，以使用Promise.all
         const sellResult = []
@@ -306,7 +311,7 @@ const adminController = {
   },
 
   cancelAllProducts: (req, res) => {
-    Product.findAll({ where: { UserId: req.user.id } })
+    Product.findAll({ where: { UserId: helpers.getUser(req).id } })
       .then((products) => {
         // 包裝到陣列，以使用Promise.all
         const sellResult = []
@@ -333,7 +338,7 @@ const adminController = {
     let orderItemsCounts = ''
 
     OrderItem.findAll({ include: [Product, Order] }).then(orderItems => {
-      orderItems = orderItems.filter(orderItem => orderItem.Product.UserId === req.user.id)
+      orderItems = orderItems.filter(orderItem => orderItem.Product.UserId === helpers.getUser(req).id)
 
       switch (sort) {
         case 'priceDesc':
@@ -375,38 +380,43 @@ const adminController = {
   },
 
   confirmOrderItem: (req, res) => {
-    return OrderItem.findByPk(req.params.id, { include: [Order, Product] }).then(orderItem => {
-      const confirmedResults = []
-      confirmedResults.push(
-        // 用async ... await包裝到陣列，以使用Promise.all
-        (async function () {
-          await orderItem.update({
-            ...req.body,
-            shippingStatus: '1'
+    return OrderItem.findByPk(helpers.paramsId(req), { include: [Order, Product] }).then(orderItem => {
+      if (orderItem.Product.UserId !== helpers.getUser(req).id) { // 防止對非自家店面訂單項目擅自確認
+        req.flash('error_messages', '只能確認自家店面的訂單項目！')
+        res.redirect('/admin/orderItems')
+      } else {
+        const confirmedResults = []
+        confirmedResults.push(
+          // 用async ... await包裝到陣列，以使用Promise.all
+          (async function () {
+            await orderItem.update({
+              ...req.body,
+              shippingStatus: 1
+            })
+          })()
+        )
+        const OrderItem = orderItem // 將變數傳到Promise.all後使用
+        // 用Promise.all避免資料庫寫入未完成時，顯示改到一半的資訊
+        return Promise.all(confirmedResults).then(orderItem => {
+          // 使用模板發信
+          res.render('emails/shipOrderItem', JSON.parse(JSON.stringify({
+            layout: null,
+            url: process.env.WEBSITE_URL,
+            OrderItem
+          })), function (err, html) {
+            if (err) {
+              console.log('Error in email template!')
+            }
+            emailService.send(OrderItem.Order.email, // 提醒購買該筆orderItem的顧客
+              `${OrderItem.Order.name}，您訂單（id：${OrderItem.Order.id}）中的${OrderItem.Product.name}已寄送`,
+              html,
+              process.env.ADDRESS // 提醒負責撥款給店家的管理人員，在店家配送後將代收的金錢轉給店家，密件副本
+            )
           })
-        })()
-      )
-      const OrderItem = orderItem // 將變數傳到Promise.all後使用
-      // 用Promise.all避免資料庫寫入未完成時，顯示改到一半的資訊
-      return Promise.all(confirmedResults).then(orderItem => {
-        // 使用模板發信
-        res.render('emails/shipOrderItem', JSON.parse(JSON.stringify({
-          layout: null,
-          url: process.env.WEBSITE_URL,
-          OrderItem
-        })), function (err, html) {
-          if (err) {
-            console.log('Error in email template!')
-          }
-          emailService.send(OrderItem.Order.email, // 提醒購買該筆orderItem的顧客
-            `${OrderItem.Order.name}，您訂單（id：${OrderItem.Order.id}）中的${OrderItem.Product.name}已寄送`,
-            html,
-            process.env.ADDRESS // 提醒負責撥款給店家的管理人員，在店家配送後將代收的金錢轉給店家，密件副本
-          )
-        })
 
-        return res.redirect('back')
-      })
+          return res.redirect('back')
+        })
+      }
     })
   }
 }
