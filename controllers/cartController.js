@@ -55,7 +55,7 @@ const cartController = {
 
   addCartItem: (req, res) => {
     CartItem.findByPk(req.params.id).then(cartItem => {
-      if (cartItem.CartId !== helpers.cartId(req)) { // 防止對其他人購物車非法操作
+      if (Number(cartItem.CartId) !== Number(req.session.cartId)) { // 防止對其他人的購物車非法操作
         req.flash('error_messages', '只能操作目前的購物車！')
         res.redirect('/cart')
       } else {
@@ -70,7 +70,7 @@ const cartController = {
   },
   subCartItem: (req, res) => {
     CartItem.findByPk(req.params.id).then(cartItem => {
-      if (cartItem.CartId !== helpers.cartId(req)) { // 防止對其他人購物車非法操作
+      if (Number(cartItem.CartId) !== Number(req.session.cartId)) { // 防止對其他人的購物車非法操作
         req.flash('error_messages', '只能操作目前的購物車！')
         res.redirect('/cart')
       } else {
@@ -85,7 +85,7 @@ const cartController = {
   },
   deleteCartItem: (req, res) => {
     CartItem.findByPk(req.params.id).then(cartItem => {
-      if (cartItem.CartId !== helpers.cartId(req)) { // 防止對其他人購物車非法操作
+      if (Number(cartItem.CartId) !== Number(req.session.cartId)) { // 防止對其他人的購物車非法操作
         req.flash('error_messages', '只能操作目前的購物車！')
         res.redirect('/cart')
       } else {
