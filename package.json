@@ -1,11 +1,11 @@
 {
   "name": "not-citiesocial",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www",
-    "test": "set \"NODE_ENV=test\" && mocha tests --recursive --exit --timeout 5000",
+    "test": "set \"NODE_ENV=test\" && npx mocha tests --recursive --exit --timeout 5000",
     "cover": "npx nyc npm run test"
   },
   "dependencies": {
