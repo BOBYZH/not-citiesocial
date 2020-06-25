@@ -1,10 +1,12 @@
-# Not citiesocial v1.0.0 (這不是citiesocial，第一版)
+# Not citiesocial v2.0.0 (這不是citiesocial，第二版)
 
 ## ALPHA Camp 全端網路開發課程，學期四期末畢業專案
-這是模仿citiesocial復刻的電商網站，採handlebars + node.js全端整合技術開發，
+這是模仿[citiesocial](https://www.citiesocial.com/)復刻的電商網站，採handlebars + node.js全端整合技術開發，
 所有的訪客能瀏覽與搜尋商品、訂閱電子報和加入商品到購物車，但下訂單付款只開放給註冊的顧客會員；
 會員除了還能看訂單進度，也可以登記為店家，管理出售的商品與來自其他顧客的訂貨。
 - 免安裝預覽連結：[https://not-citiesocial.herokuapp.com/](https://not-citiesocial.herokuapp.com/)
+
+(因heroku服務免費版限制，開啟網站時需待主機從休眠狀態恢復，須稍待片刻)
 
 ## 開發者：
 Bob Yu-Zhen Huang[(BOBYZH)](https://github.com/BOBYZH)，[開發簡介](https://medium.com/@writtenByBobYZHuang/%E6%9C%9F%E6%9C%AB%E5%80%8B%E4%BA%BA%E5%B0%88%E6%A1%88%E9%A9%97%E6%94%B6-not-citiesocial%E5%BA%97%E5%95%86%E7%B6%B2%E7%AB%99%E9%96%8B%E7%99%BC-ed5c23dce621)
@@ -65,8 +67,26 @@ npm run start
 - 若是在本機操作，於瀏覽器網址列輸入[http://localhost:3000](http://localhost:3000)（終端機也會有提示）；
 - 若使用虛擬主機，則須配合主機服務設定另用網址
 
+10. 執行單元測試
+- 若需要檢視程式碼的自動化測試結果，須將[./config/config.json](https://github.com/BOBYZH/not-citiesocial/blob/master/config/config.json)的試的帳號與密碼設定，改為與開發的一樣
+```
+ "test": {
+    "username": "root",
+    "password": "password",
+    "database": "not_citiesocial",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+```
+並在終端機執行：
+```
+npm run test
+
+# 若也要檢視單元測試的覆蓋率，可改用以下指令，執行結果會追加統計表格(也會在./coverage產生網頁版報告)：
+npm run cover
+```
+
 ## 主要功能說明：
-未特別註明即已"完成"("complete") 
 
 1. 店家(admin)：
 - 登記為店家帳號，且可執行訪客與顧客權限
@@ -99,10 +119,10 @@ npm run start
 ## 版本歷程：
 - 2020.05.20：第一版，完成所有核心與部分進階功能，並優化桌面板UI/UX
 
-## 已知問題：
-1. Heroku佈署版本有時付款後回網站會跳到登入畫面：
-終端機無出現錯誤訊息，且登入後該筆交易有成功寫入，可能是登入狀態的session失效(只在錄製操作影片時出現過)？
-2. Facebook登入有時出現錯誤訊息：
-畫面出現伺服器錯誤或已經登入的字樣，但遇到的機會極低，回上一頁後登入狀態正常，也許與passport有關？
-3. 建立訂單後轉到orders頁面，有低機率會因為「建立訂單的非同步動作」比後續流程晚結束，而無法再轉址後立即顯示新一筆訂單：
-[有緊急嘗試用Promise.all有修復](https://github.com/BOBYZH/not-citiesocial/commit/e6513d170392830f2f9cc480e45e635dfab444e0#diff-4d0a40551e917abb6db52b1bfebb3371)，但會使order.id無法寫入到orderItem，使訂單中無法顯示orderItems，只好撤銷該次commit
+(2020.05.27專案口試)
+- 2020.06.25：第二版，功能與版面微調，對已知錯誤修復與重新檢查，並增加自動化測試，其中較大更新如下：
+1. [搜尋商品](https://github.com/BOBYZH/not-citiesocial/commit/b84b3f0144bf31df74a7e9d41208be04f109ee67)、[使用者訂單](https://github.com/BOBYZH/not-citiesocial/commit/cddd4b059cdacf77f2f0b930ea973223760120a6)、[商店商品](https://github.com/BOBYZH/not-citiesocial/commit/050da3b2644713572ae2a54f027de54fbe19f722)與[訂單項目](https://github.com/BOBYZH/not-citiesocial/commit/e0d0c4ad1f2bd860267076e634bbae97caa9d31a)：增加顯示的排序選項與項目計數
+2. [將電子郵件寄送的相關代碼重構，重複的部分移到設定(/config)](https://github.com/BOBYZH/not-citiesocial/commit/1fc116ea5ce21c4ddfe9f606738165d6543805eb)：縮減代碼行數與複雜度，並方便後續檢閱與維護
+3. 將取消訂閱的功能連結從[網站](https://github.com/BOBYZH/not-citiesocial/commit/0b274d17db8a4ecd99c6a3c0bb24641a8c6225cb)移到確認[信件](https://github.com/BOBYZH/not-citiesocial/commit/f49d3feaea1d407c684fb563cd4049777a9bef49)：避免使用者透過表單取消他人的訂閱紀錄
+4. 整合[Travis CI](https://travis-ci.org/github/BOBYZH/not-citiesocial)：進度推送到GitHub通過測試後，即自動佈署到Heroku
+5. 使用mocha、chai、sinon、supertest、nyc等套件，加入單元測試(unit test)與計算覆蓋率(coverage)：以[models](https://github.com/BOBYZH/not-citiesocial/commit/862ac371f884c53578350a98c427c89986fd31c0)、controllers(如[adminController](https://github.com/BOBYZH/not-citiesocial/commit/56351d8a18b99081dca5ed6885b442902c979fd3))為主，設計169項測試
