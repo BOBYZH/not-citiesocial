@@ -124,5 +124,7 @@ npm run cover
 1. [搜尋商品](https://github.com/BOBYZH/not-citiesocial/commit/b84b3f0144bf31df74a7e9d41208be04f109ee67)、[使用者訂單](https://github.com/BOBYZH/not-citiesocial/commit/cddd4b059cdacf77f2f0b930ea973223760120a6)、[商店商品](https://github.com/BOBYZH/not-citiesocial/commit/050da3b2644713572ae2a54f027de54fbe19f722)與[訂單項目](https://github.com/BOBYZH/not-citiesocial/commit/e0d0c4ad1f2bd860267076e634bbae97caa9d31a)：增加顯示的排序選項與項目計數
 2. [將電子郵件寄送的相關代碼重構，重複的部分移到設定(/config)](https://github.com/BOBYZH/not-citiesocial/commit/1fc116ea5ce21c4ddfe9f606738165d6543805eb)：縮減代碼行數與複雜度，並方便後續檢閱與維護
 3. 將取消訂閱的功能連結從[網站](https://github.com/BOBYZH/not-citiesocial/commit/0b274d17db8a4ecd99c6a3c0bb24641a8c6225cb)移到確認[信件](https://github.com/BOBYZH/not-citiesocial/commit/f49d3feaea1d407c684fb563cd4049777a9bef49)：避免使用者透過表單取消他人的訂閱紀錄
-4. 整合[Travis CI](https://travis-ci.org/github/BOBYZH/not-citiesocial)：進度推送到GitHub通過測試後，即自動佈署到Heroku
+4. 整合Travis CI：進度推送到GitHub通過測試後，即自動佈署到Heroku
 5. 使用mocha、chai、sinon、supertest、nyc等套件，加入單元測試(unit test)與計算覆蓋率(coverage)：以[models](https://github.com/BOBYZH/not-citiesocial/commit/862ac371f884c53578350a98c427c89986fd31c0)、controllers(如[adminController](https://github.com/BOBYZH/not-citiesocial/commit/56351d8a18b99081dca5ed6885b442902c979fd3))為主，設計169項測試
+
+- 2022.07.13：更新套件版本、[Travis CI](https://app.travis-ci.com/github/BOBYZH/not-citiesocial)環境與Heroku部署設定
