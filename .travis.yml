@@ -10,11 +10,12 @@ before_install:
   collate utf8mb4_unicode_ci;'
 - npm install sequelize-cli -g
 - npm install mocha -g
+- gem install travis
 before_script:
 - sequelize db:migrate
 deploy:
   provider: heroku
   edge: true
   api_key:
-    secure: ${{ env.HEROKU_API_KEY }}
+    secure: ${{ travis encrypt env.HEROKU_API_KEY --add deploy.api_key --pro }}
   app: not-citiesocial
