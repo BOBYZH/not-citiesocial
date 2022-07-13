@@ -11,11 +11,10 @@ before_install:
 - npm install sequelize-cli -g
 - npm install mocha -g
 - gem install travis
+- travis encrypt ${{ env.HEROKU_API_KEY }} --add deploy.api_key --pro
 before_script:
 - sequelize db:migrate
 deploy:
   provider: heroku
   edge: true
-  api_key:
-    secure: ${{ travis encrypt env.HEROKU_API_KEY --add deploy.api_key --pro }}
   app: not-citiesocial
